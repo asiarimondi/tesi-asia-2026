@@ -1,8 +1,14 @@
 \documentclass[12pt,a4paper,twoside]{article}
 \usepackage[provide=*,italian]{babel}
 \usepackage{fontspec}
-% Arial (installato con Windows): conforme alle indicazioni dell'ateneo.
-\setmainfont{Arial}[BoldFont=Arial Bold,ItalicFont=Arial Italic,BoldItalicFont=Arial Bold Italic]
+% Arial è usato nella versione locale; sul runner Linux si adotta Liberation
+% Sans, il suo equivalente metrico, così che la compilazione automatica resti
+% riproducibile anche in assenza dei font Microsoft.
+\IfFontExistsTF{Arial}{%
+  \setmainfont{Arial}[BoldFont=Arial Bold,ItalicFont=Arial Italic,BoldItalicFont=Arial Bold Italic]%
+}{%
+  \setmainfont{Liberation Sans}[BoldFont=Liberation Sans Bold,ItalicFont=Liberation Sans Italic,BoldItalicFont=Liberation Sans Bold Italic]%
+}
 \usepackage[a4paper,margin=2.5cm,headheight=15pt,footskip=1.5cm]{geometry}
 \usepackage{setspace}
 \setstretch{1.5}
