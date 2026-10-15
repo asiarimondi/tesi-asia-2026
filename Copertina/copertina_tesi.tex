@@ -1,0 +1,43 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage[a4paper,margin=0mm]{geometry}
+\usepackage{fontspec}
+\setmainfont{Carlito}
+\usepackage{graphicx}
+\usepackage{tikz}
+\pagestyle{empty}
+\begin{document}
+\begin{tikzpicture}[remember picture,overlay,x=1mm,y=1mm]
+  % Coordinate system: origin at top-left of A4, y increases downward.
+    % Official UNIBO mark extracted from the supplied front page.
+    \node[anchor=north,inner sep=0pt] at ([xshift=105mm,yshift=-12.50mm]current page.north west) {\includegraphics[width=64.70mm]{logo_unibo.png}};
+
+    \node[anchor=center,inner sep=0pt,font=\bfseries\fontsize{12}{12.8}\selectfont] at ([xshift=105mm,yshift=-78.33mm]current page.north west)
+      {DIPARTIMENTO DI SCIENZE MEDICHE E CHIRURGICHE (DIMEC)};
+
+    \node[anchor=center,inner sep=0pt,font=\bfseries\fontsize{14}{14.93}\selectfont] at ([xshift=105mm,yshift=-95.40mm]current page.north west)
+      {CORSO DI LAUREA IN};
+    \node[anchor=center,inner sep=0pt,font=\bfseries\fontsize{14}{14.93}\selectfont] at ([xshift=105mm,yshift=-104.70mm]current page.north west)
+      {TECNICHE DI RADIOLOGIA MEDICA, PER IMMAGINI E RADIOTERAPIA};
+
+    \node[anchor=center,align=center,inner sep=0pt,font=\bfseries\fontsize{24}{24}\selectfont] at ([xshift=105mm,yshift=-145.20mm]current page.north west) {%
+      UTILIZZO DEL FUSION IMAGING\\[1.90mm]
+      ECOCARDIOGRAFICO-FLUOROSCOPICO NELLE\\[1.90mm]
+      PROCEDURE TRANSCATETERE SULLE VALVOLE\\[1.90mm]
+      ATRIOVENTRICOLARI: UNA REVISIONE\\[1.90mm]
+      SISTEMATICA};
+
+    \node[anchor=west,inner sep=0pt,font=\bfseries\fontsize{12}{14.4}\selectfont] at ([xshift=22.60mm,yshift=-204.40mm]current page.north west) {Relatore:};
+    \node[anchor=west,inner sep=0pt,font=\bfseries\fontsize{12}{14.4}\selectfont] at ([xshift=22.60mm,yshift=-213.55mm]current page.north west) {Prof. Michele Gregori};
+    \node[anchor=west,inner sep=0pt,font=\bfseries\fontsize{12}{14.4}\selectfont] at ([xshift=22.60mm,yshift=-229.65mm]current page.north west) {Correlatrice:};
+    \node[anchor=west,inner sep=0pt,font=\bfseries\fontsize{12}{14.4}\selectfont] at ([xshift=22.60mm,yshift=-238.80mm]current page.north west) {Dott. Giulia Carpanelli};
+
+    \node[anchor=west,inner sep=0pt,font=\bfseries\fontsize{12}{14.4}\selectfont] at ([xshift=126.50mm,yshift=-204.40mm]current page.north west) {Presentata da:};
+    \node[anchor=west,inner sep=0pt,font=\bfseries\fontsize{12}{14.4}\selectfont] at ([xshift=126.50mm,yshift=-213.55mm]current page.north west) {Asia Rimondi};
+
+    \draw[line width=0.55pt] ([xshift=22.70mm,yshift=-248.85mm]current page.north west) -- ([xshift=189.80mm,yshift=-248.85mm]current page.north west);
+
+    \node[anchor=center,inner sep=0pt,font=\bfseries\fontsize{12}{14.4}\selectfont] at ([xshift=105mm,yshift=-255.95mm]current page.north west) {I Sessione, Ottobre 2026};
+    \node[anchor=center,inner sep=0pt,font=\bfseries\fontsize{12}{14.4}\selectfont] at ([xshift=105mm,yshift=-265.00mm]current page.north west) {Anno Accademico 2025/2026};
+\end{tikzpicture}
+\null
+\end{document}
