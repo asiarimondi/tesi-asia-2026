@@ -38,6 +38,16 @@
 \makeatother
 \setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
 \urlstyle{same}
+% Stile uniforme per le tabelle: griglia, celle dati centrate e intestazioni a sinistra.
+\newcommand{\ThesisTableSetup}{%
+  \setlength{\arrayrulewidth}{0.4pt}%
+  \renewcommand{\arraystretch}{1.2}%
+  \let\ThesisTableRaggedRight\raggedright
+  \let\ThesisTableTextbf\textbf
+  \renewcommand{\raggedright}{\centering}%
+  \renewcommand{\textbf}[1]{\ThesisTableRaggedRight\ThesisTableTextbf{##1}}%
+}
+\AtBeginEnvironment{longtable}{\ThesisTableSetup}
 % Le intestazioni senza numero entrano nell'indice; i capitoli principali
 % iniziano sempre su pagina dispari (destra).
 \makeatletter
@@ -66,7 +76,7 @@
 \begin{center}
 \setstretch{1}
 \vspace*{-0.7cm}
-\includegraphics[width=5.0cm]{immagini/image1.png}\\[.65cm]
+\includegraphics[width=5.6cm]{immagini/image1.png}\\[.65cm]
 {\bfseries\fontsize{12}{15}\selectfont DIPARTIMENTO DI SCIENZE MEDICHE E CHIRURGICHE - DIMEC\par}
 \vspace{.9cm}
 {\bfseries\fontsize{14}{18}\selectfont CORSO DI LAUREA IN\\
@@ -241,7 +251,7 @@ Le corde tendinee ancorano sia i margini liberi sia la superficie ventricolare d
 \includegraphics[width=2.57362in,height=2.56262in]{immagini/image3.jpg}
 \end{center}
 
-\textbf{Figura 1. Schema anatomico della valvola mitrale vista dall'atrio sinistro, con i segmenti A1--A3 del lembo anteriore e P1--P3 del lembo posteriore. Riprodotta da Salcedo et al. {[}31{]}, fig. 5. © 2009 American Society of Echocardiography, con autorizzazione tramite Elsevier.}\footnote{Reprinted from Journal of the American Society of Echocardiography, Vol. 22, Salcedo EE, Quaife RA, Seres T, Carroll JD, ``A framework for systematic characterization of the mitral valve by real-time three-dimensional transesophageal echocardiography'', pp. 1087--1099, Copyright (2009), with permission from the American Society of Echocardiography.}
+{\fontsize{10}{12}\selectfont\textbf{Figura 1. Schema anatomico della valvola mitrale vista dall'atrio sinistro, con i segmenti A1--A3 del lembo anteriore e P1--P3 del lembo posteriore. Riprodotta da Salcedo et al. {[}31{]}, fig. 5. © 2009 American Society of Echocardiography, con autorizzazione tramite Elsevier.}\footnote{Reprinted from Journal of the American Society of Echocardiography, Vol. 22, Salcedo EE, Quaife RA, Seres T, Carroll JD, ``A framework for systematic characterization of the mitral valve by real-time three-dimensional transesophageal echocardiography'', pp. 1087--1099, Copyright (2009), with permission from the American Society of Echocardiography.}}
 
 \hypertarget{insufficienza-mitralica}{%
 \subsection*{1.2 Insufficienza mitralica}\label{insufficienza-mitralica}}
@@ -363,14 +373,14 @@ Nei pazienti con insufficienza mitralica o tricuspidale severa e sintomatica, la
 Nel 2024, nei centri italiani di cardiologia interventistica partecipanti alla rilevazione GISE, sono state eseguite 1.934 riparazioni transcatetere della valvola mitrale e 481 procedure transcatetere della tricuspide. {[}33{]}
 
 \hypertarget{sistema-mitraclip-e-pascal-per-la-riparazione-transcatetere-edge-to-edge-della-valvola-mitrale}{%
-\subsubsection*{\texorpdfstring{\textbf{1.5.1 Sistema MitraClip e PASCAL per la riparazione transcatetere edge-to-edge della valvola mitrale}}{1.5.1 Sistema MitraClip e PASCAL per la riparazione transcatetere edge-to-edge della valvola mitrale}}\label{sistema-mitraclip-e-pascal-per-la-riparazione-transcatetere-edge-to-edge-della-valvola-mitrale}}
+\subsubsection*{\texorpdfstring{1.5.1 Sistema MitraClip e PASCAL per la riparazione transcatetere edge-to-edge della valvola mitrale}{1.5.1 Sistema MitraClip e PASCAL per la riparazione transcatetere edge-to-edge della valvola mitrale}}\label{sistema-mitraclip-e-pascal-per-la-riparazione-transcatetere-edge-to-edge-della-valvola-mitrale}}
 
 MitraClip (Abbott) e PASCAL (Edwards Lifesciences) sono due dispositivi utilizzati nella riparazione transcatetere edge-to-edge dell'insufficienza mitralica. Pur presentando caratteristiche costruttive e modalità di impiego differenti, entrambi consentono di avvicinare e stabilizzare i lembi valvolari per ridurre il rigurgito. {[}14, 15{]}
 
 La procedura viene eseguita mediante accesso venoso femorale e puntura transettale, attraverso cui il sistema raggiunge l'atrio sinistro. Sotto guida ecocardiografica e fluoroscopica, il dispositivo viene posizionato in corrispondenza della zona da trattare e utilizzato per la cattura dei lembi. Prima del rilascio definitivo vengono verificati la stabilità del dispositivo, l'adeguato inserimento dei lembi e il risultato emodinamico, valutando la riduzione del rigurgito e l'eventuale comparsa di un'ostruzione al flusso transmitralico. {[}14, 15, 16{]}
 
 \hypertarget{sistema-triclip-e-pascal-per-la-riparazione-transcatetere-edge-to-edge-della-valvola-tricuspide}{%
-\subsubsection*{\texorpdfstring{\textbf{1.5.2 Sistema TriClip e PASCAL per la riparazione transcatetere edge-to-edge della valvola tricuspide}}{1.5.2 Sistema TriClip e PASCAL per la riparazione transcatetere edge-to-edge della valvola tricuspide}}\label{sistema-triclip-e-pascal-per-la-riparazione-transcatetere-edge-to-edge-della-valvola-tricuspide}}
+\subsubsection*{\texorpdfstring{1.5.2 Sistema TriClip e PASCAL per la riparazione transcatetere edge-to-edge della valvola tricuspide}{1.5.2 Sistema TriClip e PASCAL per la riparazione transcatetere edge-to-edge della valvola tricuspide}}\label{sistema-triclip-e-pascal-per-la-riparazione-transcatetere-edge-to-edge-della-valvola-tricuspide}}
 
 Nel trattamento dell'insufficienza tricuspidale possono essere impiegati i sistemi TriClip e PASCAL, entrambi basati sulla tecnica transcatetere edge-to-edge. {[}10, 13{]}
 
@@ -379,7 +389,7 @@ La procedura inizia mediante accesso venoso femorale. Nel caso del dispositivo T
 Dopo la cattura dei lembi e prima del rilascio del dispositivo, mediante ecocardiografia bidimensionale si verifica il loro corretto inserimento, mentre con il color Doppler si valuta la riduzione del rigurgito. Viene misurato anche il gradiente transvalvolare tricuspidale medio, che dovrebbe rimanere inferiore a 5 mmHg. Dopo il rilascio della clip vengono nuovamente valutate la sede e l'entità del rigurgito residuo; qualora questo risulti ancora significativo e il gradiente transvalvolare lo consenta, può essere impiantata un'ulteriore clip. {[}13{]}
 
 \hypertarget{sistema-evoque-per-la-sostituzione-transcatetere-della-valvola-tricuspide-e-mitrale}{%
-\subsubsection*{\texorpdfstring{\textbf{1.5.3 Sistema EVOQUE per la sostituzione transcatetere della valvola tricuspide e mitrale}}{1.5.3 Sistema EVOQUE per la sostituzione transcatetere della valvola tricuspide e mitrale}}\label{sistema-evoque-per-la-sostituzione-transcatetere-della-valvola-tricuspide-e-mitrale}}
+\subsubsection*{\texorpdfstring{1.5.3 Sistema EVOQUE per la sostituzione transcatetere della valvola tricuspide e mitrale}{1.5.3 Sistema EVOQUE per la sostituzione transcatetere della valvola tricuspide e mitrale}}\label{sistema-evoque-per-la-sostituzione-transcatetere-della-valvola-tricuspide-e-mitrale}}
 
 Il sistema EVOQUE autoespandibile (Edwards Lifesciences), viene utilizzato per la sostituzione transcatetere della valvola tricuspide e mitrale. È costituito da una bioprotesi con lembi in tessuto pericardico bovino. {[}6, 17, 18{]}
 
@@ -392,7 +402,7 @@ Nel trattamento dell'insufficienza mitralica, si esegue la puntura transettale p
 Questa bioprotesi è di recente introduzione nella pratica clinica e rappresenta quindi un'assoluta innovazione nel trattamento della patologia tricuspidale, per questo al momento non vi è ancora un numero elevato di impianti e non tutti i pazienti sono candidabili.
 
 \hypertarget{sistema-intrepid-per-la-sostituzione-transcatetere-della-valvola-mitrale}{%
-\subsubsection*{\texorpdfstring{\textbf{1.5.4 Sistema Intrepid per la sostituzione transcatetere della valvola mitrale}}{1.5.4 Sistema Intrepid per la sostituzione transcatetere della valvola mitrale}}\label{sistema-intrepid-per-la-sostituzione-transcatetere-della-valvola-mitrale}}
+\subsubsection*{\texorpdfstring{1.5.4 Sistema Intrepid per la sostituzione transcatetere della valvola mitrale}{1.5.4 Sistema Intrepid per la sostituzione transcatetere della valvola mitrale}}\label{sistema-intrepid-per-la-sostituzione-transcatetere-della-valvola-mitrale}}
 
 Il sistema Intrepid (Medtronic) è una bioprotesi impiegata per la sostituzione transcatetere della valvola mitrale, costituita da una valvola a tre lembi in pericardio bovino inserita in una struttura autoespandibile in nitinol.\\
 La protesi presenta una configurazione a doppio stent: la componente interna circolare sostiene i lembi valvolari, mentre la struttura esterna conformabile è progettata per adattarsi all'anello mitralico nativo, favorendo l'ancoraggio e la stabilità del dispositivo. {[}19{]}
@@ -429,7 +439,7 @@ Questi marker aiutano a individuare punti anatomici utili alla navigazione dei d
 \includegraphics[width=6.30221in,height=2.25in]{immagini/image5.jpg}
 \end{center}
 
-\textbf{Figura 2. Co-registrazione eco-fluoroscopica: modello tridimensionale della sonda TEE (A), allineamento nelle proiezioni fluoroscopiche (B-C) e settore di acquisizione ecocardiografica (D). Riprodotta da Clegg et al. {[}22{]}, fig. 1. © 2015 American College of Cardiology Foundation, con autorizzazione tramite Elsevier.}\footnote{Reprinted from JACC: Cardiovascular Imaging, Vol. 8, Clegg SD, Chen SJ, Nijhof N, Kim MS, Salcedo EE, Quaife RA, Messenger JC, Bracken J, Carroll JD, ``Integrated 3D Echo-X Ray to Optimize Image Guidance for Structural Heart Intervention'', pp. 371--374, Copyright (2015), with permission from the American College of Cardiology Foundation.}
+{\fontsize{10}{12}\selectfont\textbf{Figura 2. Co-registrazione eco-fluoroscopica: modello tridimensionale della sonda TEE (A), allineamento nelle proiezioni fluoroscopiche (B-C) e settore di acquisizione ecocardiografica (D). Riprodotta da Clegg et al. {[}22{]}, fig. 1. © 2015 American College of Cardiology Foundation, con autorizzazione tramite Elsevier.}\footnote{Reprinted from JACC: Cardiovascular Imaging, Vol. 8, Clegg SD, Chen SJ, Nijhof N, Kim MS, Salcedo EE, Quaife RA, Messenger JC, Bracken J, Carroll JD, ``Integrated 3D Echo-X Ray to Optimize Image Guidance for Structural Heart Intervention'', pp. 371--374, Copyright (2015), with permission from the American College of Cardiology Foundation.}}
 
 \hypertarget{riparazione-transcatetere-edge-to-edge-della-valvola-mitrale}{%
 \subsection*{2.2 Riparazione transcatetere edge-to-edge della valvola mitrale}\label{riparazione-transcatetere-edge-to-edge-della-valvola-mitrale}}
@@ -441,7 +451,7 @@ Poiché tutti gli studi inclusi nella presente revisione comprendevano pazienti 
 Nei sottoparagrafi successivi vengono pertanto descritte le viste ecocardiografiche e le proiezioni fluoroscopiche utilizzate durante la guida convenzionale. Queste costituiscono la base anche per l'impiego del fusion imaging, che ne consente la co-registrazione e la visualizzazione integrata. {[}1, 23{]}
 
 \hypertarget{puntura-transettale-e-marker}{%
-\subsubsection*{\texorpdfstring{\textbf{2.2.1 Puntura transettale e marker} }{2.2.1 Puntura transettale e marker }}\label{puntura-transettale-e-marker}}
+\subsubsection*{\texorpdfstring{2.2.1 Puntura transettale e marker }{2.2.1 Puntura transettale e marker }}\label{puntura-transettale-e-marker}}
 
 La puntura transettale rappresenta una fase fondamentale nelle procedure mitraliche eseguite mediante accesso transvenoso, poiché permette il passaggio dall'atrio destro all'atrio sinistro attraverso il setto interatriale. {[}16, 23{]}
 
@@ -458,7 +468,7 @@ Infine, la vista quattro camere mostra entrambi gli atri e i ventricoli e permet
 Durante questa fase possono essere utilizzate le proiezioni fluoroscopiche antero-posteriore (AP) e obliqua anteriore sinistra (LAO). In quest'ultima, il fusion imaging consente di sovrapporre la corrispondente vista TEE bicavale. {[}2, 23{]}
 
 \hypertarget{navigazione-dei-cateteri-e-dei-sistemi-di-rilascio}{%
-\subsubsection*{\texorpdfstring{\textbf{2.2.2 Navigazione dei cateteri e dei sistemi di rilascio}}{2.2.2 Navigazione dei cateteri e dei sistemi di rilascio}}\label{navigazione-dei-cateteri-e-dei-sistemi-di-rilascio}}
+\subsubsection*{\texorpdfstring{2.2.2 Navigazione dei cateteri e dei sistemi di rilascio}{2.2.2 Navigazione dei cateteri e dei sistemi di rilascio}}\label{navigazione-dei-cateteri-e-dei-sistemi-di-rilascio}}
 
 Durante l'introduzione e l'avanzamento del catetere guida orientabile nell'atrio sinistro, la fluoroscopia viene generalmente acquisita nelle proiezioni antero-posteriore (AP) e RAO craniale. {[}2, 23{]}
 
@@ -467,7 +477,7 @@ Contemporaneamente, la TEE utilizza le viste medio-esofagee in asse corto, in as
 Sulle immagini ecocardiografiche possono essere posizionati tre marker anatomici che, una volta trasferiti sull'immagine fluoroscopica, delimitano un triangolo virtuale utile alla navigazione del sistema. I marker identificano il sito ideale della puntura transettale, la cresta dell'atrio sinistro (\emph{left atrial ridge}), che separa l'auricola sinistra dalla vena polmonare superiore sinistra, e il centro della valvola mitrale. In questo modo, durante la navigazione nell'atrio sinistro, l'operatore dispone di riferimenti anatomici direttamente visibili sull'immagine fluoroscopica. {[}21{]}
 
 \hypertarget{allineamento-e-posizionamento-del-dispositivo}{%
-\subsubsection*{\texorpdfstring{\textbf{2.2.3 Allineamento e posizionamento del dispositivo}}{2.2.3 Allineamento e posizionamento del dispositivo}}\label{allineamento-e-posizionamento-del-dispositivo}}
+\subsubsection*{\texorpdfstring{2.2.3 Allineamento e posizionamento del dispositivo}{2.2.3 Allineamento e posizionamento del dispositivo}}\label{allineamento-e-posizionamento-del-dispositivo}}
 
 Durante la navigazione verso la valvola mitrale, il sistema di rilascio viene posizionato al di sopra della sede del rigurgito. Le immagini fluoroscopiche vengono acquisite in proiezione obliqua anteriore destra (RAO) con angolazione craniale, mentre la TEE utilizza
 
@@ -476,7 +486,7 @@ la ricostruzione tridimensionale dell'atrio sinistro per seguire gli spostamenti
 Prima dell'avanzamento nel ventricolo sinistro, il sistema di rilascio deve essere allineato perpendicolarmente al piano della valvola mitrale. Successivamente, i bracci della clip vengono orientati perpendicolarmente alla linea di coaptazione mediante la vista tridimensionale \emph{en face} e l'acquisizione biplanare. Nel posizionamento centrale, il corretto orientamento è confermato quando i bracci non sono visibili nella vista intercommissurale e nella proiezione RAO craniale, mentre risultano evidenti nella loro completa estensione nella vista in asse lungo del tratto di efflusso del ventricolo sinistro (\emph{left ventricular outflow tract}, LVOT). {[}23{]}
 
 \hypertarget{cattura-dei-lembi-rilascio-e-controllo-finale}{%
-\subsubsection*{\texorpdfstring{\textbf{2.2.4 Cattura dei lembi, rilascio e controllo finale}}{2.2.4 Cattura dei lembi, rilascio e controllo finale}}\label{cattura-dei-lembi-rilascio-e-controllo-finale}}
+\subsubsection*{\texorpdfstring{2.2.4 Cattura dei lembi, rilascio e controllo finale}{2.2.4 Cattura dei lembi, rilascio e controllo finale}}\label{cattura-dei-lembi-rilascio-e-controllo-finale}}
 
 Il \emph{grasping} viene controllato in tempo reale mediante acquisizione TEE biplanare e fluoroscopia in proiezione RAO craniale. {[}23{]}
 
@@ -487,10 +497,12 @@ Prima del rilascio definitivo, il risultato viene valutato attraverso la stima d
 Dopo il rilascio vengono nuovamente valutati la stabilità del dispositivo e il risultato complessivo della riparazione. {[}23{]}
 
 \begin{center}
-\includegraphics[width=4.59281in,height=3.58304in]{immagini/image4.jpg}
+\begin{minipage}{\linewidth}
+\centering
+\includegraphics[width=4.59281in,height=3.58304in]{immagini/image4.jpg}\par\smallskip
+{\fontsize{10}{12}\selectfont\raggedright\textbf{Figura 3. Sovrapposizione delle immagini ecocardiografiche e fluoroscopiche durante il cateterismo transettale (A) e il posizionamento della MitraClip (B). Riprodotta da Clegg et al. {[}22{]}, fig. 3. © 2015 American College of Cardiology Foundation, con autorizzazione tramite Elsevier.}\footnote{Reprinted from JACC: Cardiovascular Imaging, Vol. 8, Clegg SD, Chen SJ, Nijhof N, Kim MS, Salcedo EE, Quaife RA, Messenger JC, Bracken J, Carroll JD, ``Integrated 3D Echo-X Ray to Optimize Image Guidance for Structural Heart Intervention'', pp. 371--374, Copyright (2015), with permission from the American College of Cardiology Foundation.}}
+\end{minipage}
 \end{center}
-
-\textbf{Figura 3. Sovrapposizione delle immagini ecocardiografiche e fluoroscopiche durante il cateterismo transettale (A) e il posizionamento della MitraClip (B). Riprodotta da Clegg et al. {[}22{]}, fig. 3. © 2015 American College of Cardiology Foundation, con autorizzazione tramite Elsevier.}\footnote{Reprinted from JACC: Cardiovascular Imaging, Vol. 8, Clegg SD, Chen SJ, Nijhof N, Kim MS, Salcedo EE, Quaife RA, Messenger JC, Bracken J, Carroll JD, ``Integrated 3D Echo-X Ray to Optimize Image Guidance for Structural Heart Intervention'', pp. 371--374, Copyright (2015), with permission from the American College of Cardiology Foundation.}
 
 \hypertarget{ruolo-del-tsrm}{%
 \subsection*{2.3 Ruolo del TSRM}\label{ruolo-del-tsrm}}
@@ -514,9 +526,10 @@ La presente revisione sistematica è stata condotta secondo le raccomandazioni P
 Per definire in modo strutturato la domanda di ricerca è stato utilizzato il modello PICO. \hl{}
 
 {\fontsize{10}{12}\selectfont\setlength{\tabcolsep}{3pt}
-\begin{longtable}[]{@{}
-  >{\raggedright\arraybackslash}p{(\columnwidth - 2\tabcolsep) * \real{0.1882}}
-  >{\raggedright\arraybackslash}p{(\columnwidth - 2\tabcolsep) * \real{0.8118}}@{}}
+\addtolength{\columnwidth}{-2\tabcolsep-3\arrayrulewidth}
+\begin{longtable}[]{@{}|
+  >{\raggedright\arraybackslash}m{(\columnwidth - 2\tabcolsep) * \real{0.1882}}|
+  >{\raggedright\arraybackslash}m{(\columnwidth - 2\tabcolsep) * \real{0.8118}}|@{}}
 \toprule\noalign{}
 \begin{minipage}[b]{\linewidth}\raggedright
 \textbf{Popolazione}
@@ -562,9 +575,10 @@ Per ognuna delle banche dati è stata inserita la medesima stringa: ("Fusion Ima
 Al fine di procedere a una prima selezione dei risultati ottenuti, sono stati applicati specifici filtri bibliografici, differenziati in relazione alle caratteristiche delle singole banche dati.
 
 {\fontsize{10}{12}\selectfont\setlength{\tabcolsep}{3pt}
-\begin{longtable}[]{@{}
-  >{\raggedright\arraybackslash}p{(\columnwidth - 2\tabcolsep) * \real{0.3250}}
-  >{\raggedright\arraybackslash}p{(\columnwidth - 2\tabcolsep) * \real{0.6750}}@{}}
+\addtolength{\columnwidth}{-2\tabcolsep-3\arrayrulewidth}
+\begin{longtable}[]{@{}|
+  >{\raggedright\arraybackslash}m{(\columnwidth - 2\tabcolsep) * \real{0.3250}}|
+  >{\raggedright\arraybackslash}m{(\columnwidth - 2\tabcolsep) * \real{0.6750}}|@{}}
 \toprule\noalign{}
 \begin{minipage}[b]{\linewidth}\raggedright
 \textbf{Banca dati}
@@ -601,7 +615,7 @@ Anni 2016-2026; disponibilità del testo completo.
 \textbf{Tabella 2. Applicazione dei filtri al momento della ricerca bibliografica.}
 
 \hypertarget{criteri-di-eleggibilituxe0-inclusione-ed-esclusione}{%
-\subsubsection*{\texorpdfstring{\textbf{3.2.1 Criteri di eleggibilità, inclusione ed esclusione} }{3.2.1 Criteri di eleggibilità, inclusione ed esclusione }}\label{criteri-di-eleggibilituxe0-inclusione-ed-esclusione}}
+\subsubsection*{\texorpdfstring{3.2.1 Criteri di eleggibilità, inclusione ed esclusione }{3.2.1 Criteri di eleggibilità, inclusione ed esclusione }}\label{criteri-di-eleggibilituxe0-inclusione-ed-esclusione}}
 
 Per la selezione degli studi sono stati stabiliti specifici criteri di eleggibilità, definiti in coerenza con la domanda di ricerca e con il modello PICO.
 
@@ -622,10 +636,11 @@ Per quanto riguarda la tipologia di procedura, non sono stati considerati eleggi
 Infine, in relazione alla modalità di imaging, sono stati esclusi gli studi nei quali non fosse impiegato il fusion imaging ecocardiografico-fluoroscopico. Non sono state pertanto considerate pertinenti le pubblicazioni riguardanti tecniche di fusione tra modalità di imaging differenti, quali CT-fluoroscopia, CBCT-fluoroscopia o MRI-fluoroscopia, né quelle basate esclusivamente sull'impiego di roadmap tridimensionali, in assenza di un'integrazione dinamica e in tempo reale tra immagini ecocardiografiche e fluoroscopiche.
 
 {\fontsize{10}{12}\selectfont\setlength{\tabcolsep}{3pt}
-\begin{longtable}[]{@{}
-  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.2126}}
-  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.3953}}
-  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.3920}}@{}}
+\addtolength{\columnwidth}{-2\tabcolsep-4\arrayrulewidth}
+\begin{longtable}[]{@{}|
+  >{\raggedright\arraybackslash}m{(\columnwidth - 4\tabcolsep) * \real{0.2126}}|
+  >{\raggedright\arraybackslash}m{(\columnwidth - 4\tabcolsep) * \real{0.3953}}|
+  >{\raggedright\arraybackslash}m{(\columnwidth - 4\tabcolsep) * \real{0.3920}}|@{}}
 \toprule\noalign{}
 \begin{minipage}[b]{\linewidth}\raggedright
 \end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
@@ -671,7 +686,7 @@ Fusion imaging CT-fluoroscopia, CBCT-fluoroscopia o MRI-fluoroscopia. Impiego es
 \textbf{Tabella 3. Criteri di inclusione e di esclusione adottati per la selezione degli studi.}
 
 \hypertarget{estrazione-dati}{%
-\subsubsection*{\texorpdfstring{\textbf{3.2.2 Estrazione dati}}{3.2.2 Estrazione dati}}\label{estrazione-dati}}
+\subsubsection*{\texorpdfstring{3.2.2 Estrazione dati}{3.2.2 Estrazione dati}}\label{estrazione-dati}}
 
 Durante la lettura dei testi completi, i dati di interesse sono stati raccolti mediante Fogli Google. Per ciascuno studio sono stati estratti gli autori, il Paese, il disegno dello studio e le informazioni relative agli elementi del PICO, tra cui la procedura adottata, la numerosità e le caratteristiche del campione, l'intervento e il gruppo di controllo. Sono stati inoltre raccolti i principali outcome: il tempo procedurale, il tempo di fluoroscopia, l'esposizione alle radiazioni ionizzanti, il successo procedurale e le complicanze.
 
@@ -701,10 +716,11 @@ In seguito alla lettura del testo completo dei quattro articoli rimasti, uno è 
 Al termine del processo di selezione sono stati inclusi tre studi, successivamente sottoposti all'estrazione e all'analisi dei dati. {[}24, 25, 26{]}
 
 {\fontsize{10}{12}\selectfont\setlength{\tabcolsep}{3pt}
-\begin{longtable}[]{@{}
-  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.2027}}
-  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.3467}}
-  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.4506}}@{}}
+\addtolength{\columnwidth}{-2\tabcolsep-4\arrayrulewidth}
+\begin{longtable}[]{@{}|
+  >{\raggedright\arraybackslash}m{(\columnwidth - 4\tabcolsep) * \real{0.2027}}|
+  >{\raggedright\arraybackslash}m{(\columnwidth - 4\tabcolsep) * \real{0.3467}}|
+  >{\raggedright\arraybackslash}m{(\columnwidth - 4\tabcolsep) * \real{0.4506}}|@{}}
 \toprule\noalign{}
 \begin{minipage}[b]{\linewidth}\raggedright
 \textbf{Record totali ricerca}
@@ -730,10 +746,11 @@ Al termine del processo di selezione sono stati inclusi tre studi, successivamen
 \textbf{Tabella 4. Numero di record identificati e rimasti dopo l'eliminazione dei duplicati.}
 
 {\fontsize{10}{12}\selectfont\setlength{\tabcolsep}{3pt}
-\begin{longtable}[]{@{}
-  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.2140}}
-  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.3729}}
-  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.4130}}@{}}
+\addtolength{\columnwidth}{-2\tabcolsep-4\arrayrulewidth}
+\begin{longtable}[]{@{}|
+  >{\raggedright\arraybackslash}m{(\columnwidth - 4\tabcolsep) * \real{0.2140}}|
+  >{\raggedright\arraybackslash}m{(\columnwidth - 4\tabcolsep) * \real{0.3729}}|
+  >{\raggedright\arraybackslash}m{(\columnwidth - 4\tabcolsep) * \real{0.4130}}|@{}}
 \toprule\noalign{}
 \begin{minipage}[b]{\linewidth}\raggedright
 \end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
@@ -786,7 +803,7 @@ Al termine del processo di selezione sono stati inclusi tre studi, successivamen
 \includegraphics[width=\linewidth,height=.83\textheight,keepaspectratio]{immagini/image2.png}
 \end{center}
 
-\textbf{Figura 4. Diagramma di flusso PRISMA 2020 relativo al processo di selezione degli studi. Tradotto e adattato da Page et al. (2021), licenza CC BY 4.0. {[}29{]}}
+{\fontsize{10}{12}\selectfont\textbf{Figura 4. Diagramma di flusso PRISMA 2020 relativo al processo di selezione degli studi. Tradotto e adattato da Page et al. (2021), licenza CC BY 4.0. {[}29{]}}}
 
 \hypertarget{studi-inclusi}{%
 \subsection*{4.2 Studi inclusi}\label{studi-inclusi}}
@@ -831,13 +848,14 @@ Inoltre, il maggior successo procedurale riscontrato nel gruppo con fusion imagi
 Il KAP registrato nei due gruppi non ha mostrato differenze statisticamente significative. Analogamente, non sono emerse differenze statisticamente significative nell'incidenza delle complicanze tra i due gruppi. {[}26{]}
 
 {\fontsize{10}{12}\selectfont\setlength{\tabcolsep}{3pt}
-\begin{longtable}[]{@{}
-  >{\raggedright\arraybackslash}p{(\columnwidth - 10\tabcolsep) * \real{0.1120}}
-  >{\raggedright\arraybackslash}p{(\columnwidth - 10\tabcolsep) * \real{0.1656}}
-  >{\raggedright\arraybackslash}p{(\columnwidth - 10\tabcolsep) * \real{0.1957}}
-  >{\raggedright\arraybackslash}p{(\columnwidth - 10\tabcolsep) * \real{0.1773}}
-  >{\raggedright\arraybackslash}p{(\columnwidth - 10\tabcolsep) * \real{0.1672}}
-  >{\raggedright\arraybackslash}p{(\columnwidth - 10\tabcolsep) * \real{0.1823}}@{}}
+\addtolength{\columnwidth}{-2\tabcolsep-7\arrayrulewidth}
+\begin{longtable}[]{@{}|
+  >{\raggedright\arraybackslash}m{(\columnwidth - 10\tabcolsep) * \real{0.1120}}|
+  >{\raggedright\arraybackslash}m{(\columnwidth - 10\tabcolsep) * \real{0.1656}}|
+  >{\raggedright\arraybackslash}m{(\columnwidth - 10\tabcolsep) * \real{0.1957}}|
+  >{\raggedright\arraybackslash}m{(\columnwidth - 10\tabcolsep) * \real{0.1773}}|
+  >{\raggedright\arraybackslash}m{(\columnwidth - 10\tabcolsep) * \real{0.1672}}|
+  >{\raggedright\arraybackslash}m{(\columnwidth - 10\tabcolsep) * \real{0.1823}}|@{}}
 \toprule\noalign{}
 \begin{minipage}[b]{\linewidth}\raggedright
 \textbf{Studio}
@@ -911,13 +929,14 @@ Tempo di fluoroscopia; kerma-area product (KAP); tempo procedurale totale; succe
 \textbf{Tabella 6. Sintesi delle principali caratteristiche metodologiche e cliniche degli studi inclusi secondo il modello PICO. {[}24, 25, 26{]}}
 
 {\fontsize{10}{12}\selectfont\setlength{\tabcolsep}{3pt}
-\begin{longtable}[]{@{}
-  >{\raggedright\arraybackslash}p{(\columnwidth - 10\tabcolsep) * \real{0.1080}}
-  >{\raggedright\arraybackslash}p{(\columnwidth - 10\tabcolsep) * \real{0.2292}}
-  >{\raggedright\arraybackslash}p{(\columnwidth - 10\tabcolsep) * \real{0.1561}}
-  >{\raggedright\arraybackslash}p{(\columnwidth - 10\tabcolsep) * \real{0.1495}}
-  >{\raggedright\arraybackslash}p{(\columnwidth - 10\tabcolsep) * \real{0.1578}}
-  >{\raggedright\arraybackslash}p{(\columnwidth - 10\tabcolsep) * \real{0.1993}}@{}}
+\addtolength{\columnwidth}{-2\tabcolsep-7\arrayrulewidth}
+\begin{longtable}[]{@{}|
+  >{\raggedright\arraybackslash}m{(\columnwidth - 10\tabcolsep) * \real{0.1080}}|
+  >{\raggedright\arraybackslash}m{(\columnwidth - 10\tabcolsep) * \real{0.2292}}|
+  >{\raggedright\arraybackslash}m{(\columnwidth - 10\tabcolsep) * \real{0.1561}}|
+  >{\raggedright\arraybackslash}m{(\columnwidth - 10\tabcolsep) * \real{0.1495}}|
+  >{\raggedright\arraybackslash}m{(\columnwidth - 10\tabcolsep) * \real{0.1578}}|
+  >{\raggedright\arraybackslash}m{(\columnwidth - 10\tabcolsep) * \real{0.1993}}|@{}}
 \toprule\noalign{}
 \begin{minipage}[b]{\linewidth}\raggedright
 \textbf{Studio}
@@ -1104,19 +1123,25 @@ Infine, la valutazione complessiva del rischio di bias è risultata moderata per
 Il giudizio complessivo corrisponde al livello di rischio più elevato riscontrato tra i sette domini. Un rischio moderato indica che lo studio può essere considerato adeguato per un disegno non randomizzato, ma non paragonabile a un trial randomizzato ben condotto.
 
 \clearpage
+% pdflscape ruota di 90 gradi in senso orario; collocando la tabella su
+% una pagina dispari, il lato superiore risulta verso il margine esterno.
+\ifodd\value{page}\else
+  \null\thispagestyle{empty}\clearpage
+\fi
 \begin{landscape}
 \begingroup
 \fontsize{9}{11}\selectfont
-\begin{longtable}[]{@{}
-  >{\raggedright\arraybackslash}p{(\columnwidth - 16\tabcolsep) * \real{0.0708}}
-  >{\raggedright\arraybackslash}p{(\columnwidth - 16\tabcolsep) * \real{0.1318}}
-  >{\raggedright\arraybackslash}p{(\columnwidth - 16\tabcolsep) * \real{0.0948}}
-  >{\raggedright\arraybackslash}p{(\columnwidth - 16\tabcolsep) * \real{0.1166}}
-  >{\raggedright\arraybackslash}p{(\columnwidth - 16\tabcolsep) * \real{0.1416}}
-  >{\raggedright\arraybackslash}p{(\columnwidth - 16\tabcolsep) * \real{0.1231}}
-  >{\raggedright\arraybackslash}p{(\columnwidth - 16\tabcolsep) * \real{0.1133}}
-  >{\raggedright\arraybackslash}p{(\columnwidth - 16\tabcolsep) * \real{0.1122}}
-  >{\raggedright\arraybackslash}p{(\columnwidth - 16\tabcolsep) * \real{0.0959}}@{}}
+\addtolength{\columnwidth}{-2\tabcolsep-10\arrayrulewidth}
+\begin{longtable}[]{@{}|
+  >{\raggedright\arraybackslash}m{(\columnwidth - 16\tabcolsep) * \real{0.0708}}|
+  >{\raggedright\arraybackslash}m{(\columnwidth - 16\tabcolsep) * \real{0.1318}}|
+  >{\raggedright\arraybackslash}m{(\columnwidth - 16\tabcolsep) * \real{0.0948}}|
+  >{\raggedright\arraybackslash}m{(\columnwidth - 16\tabcolsep) * \real{0.1166}}|
+  >{\raggedright\arraybackslash}m{(\columnwidth - 16\tabcolsep) * \real{0.1416}}|
+  >{\raggedright\arraybackslash}m{(\columnwidth - 16\tabcolsep) * \real{0.1231}}|
+  >{\raggedright\arraybackslash}m{(\columnwidth - 16\tabcolsep) * \real{0.1133}}|
+  >{\raggedright\arraybackslash}m{(\columnwidth - 16\tabcolsep) * \real{0.1122}}|
+  >{\raggedright\arraybackslash}m{(\columnwidth - 16\tabcolsep) * \real{0.0959}}|@{}}
 \toprule\noalign{}
 \begin{minipage}[b]{\linewidth}\raggedright
 \textbf{Articolo}
