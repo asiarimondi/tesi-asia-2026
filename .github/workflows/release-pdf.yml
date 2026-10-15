@@ -21,7 +21,7 @@ jobs:
       - name: Installa XeLaTeX e le dipendenze
         run: |
           sudo apt-get update
-          sudo apt-get install --yes latexmk texlive-xetex texlive-lang-italian texlive-latex-extra texlive-fonts-recommended fonts-liberation poppler-utils
+          sudo apt-get install --yes latexmk texlive-xetex texlive-lang-italian texlive-latex-extra texlive-fonts-recommended fonts-liberation fonts-crosextra-carlito poppler-utils
 
       - name: Compila la copertina
         working-directory: Copertina
