@@ -21,27 +21,43 @@ jobs:
       - name: Installa XeLaTeX e le dipendenze
         run: |
           sudo apt-get update
-          sudo apt-get install --yes latexmk texlive-xetex texlive-lang-italian texlive-latex-extra texlive-fonts-recommended fonts-liberation
+          sudo apt-get install --yes latexmk texlive-xetex texlive-lang-italian texlive-latex-extra texlive-fonts-recommended fonts-liberation poppler-utils
 
-      - name: Compila il PDF
+      - name: Compila la copertina
+        working-directory: Copertina
+        run: latexmk -xelatex -interaction=nonstopmode -halt-on-error -file-line-error -outdir="$GITHUB_WORKSPACE/out" copertina_tesi.tex
+
+      - name: Compila la tesi
         run: latexmk -xelatex -interaction=nonstopmode -halt-on-error -file-line-error -outdir=out tesi.tex
 
-      - name: Conserva il PDF come artefatto
+      - name: Unisce copertina e tesi
+        run: pdfunite out/copertina_tesi.pdf out/tesi.pdf out/copertina-e-tesi.pdf
+
+      - name: Rinomina il PDF della copertina
+        run: mv out/copertina_tesi.pdf out/copertina.pdf
+
+      - name: Conserva i PDF come artefatto
         uses: actions/upload-artifact@v4
         with:
           name: tesi-pdf
-          path: out/tesi.pdf
+          path: |
+            out/copertina.pdf
+            out/tesi.pdf
+            out/copertina-e-tesi.pdf
           if-no-files-found: error
 
       - name: Genera il tag della release
         id: version
         run: echo "tag=tesi-${{ github.run_number }}-${{ github.run_attempt }}" >> "$GITHUB_OUTPUT"
 
-      - name: Crea la release e allega il PDF
+      - name: Crea la release e allega i PDF
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          gh release create "${{ steps.version.outputs.tag }}" out/tesi.pdf \
+          gh release create "${{ steps.version.outputs.tag }}" \
+            out/copertina.pdf \
+            out/tesi.pdf \
+            out/copertina-e-tesi.pdf \
             --target "${{ github.sha }}" \
             --title "Tesi PDF – build ${{ github.run_number }}" \
-            --notes "PDF compilato automaticamente dal commit ${{ github.sha }}."
+            --notes "PDF compilati automaticamente dal commit ${{ github.sha }}."
