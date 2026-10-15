@@ -3,7 +3,7 @@
 \usepackage{fontspec}
 % Arial (installato con Windows): conforme alle indicazioni dell'ateneo.
 \setmainfont{Arial}[BoldFont=Arial Bold,ItalicFont=Arial Italic,BoldItalicFont=Arial Bold Italic]
-\usepackage[a4paper,margin=2.5cm,headheight=15pt]{geometry}
+\usepackage[a4paper,margin=2.5cm,headheight=15pt,footskip=1.5cm]{geometry}
 \usepackage{setspace}
 \setstretch{1.5}
 \setlength{\parindent}{0pt}
@@ -40,14 +40,42 @@
 \urlstyle{same}
 % Stile uniforme per le tabelle: griglia, celle dati centrate e intestazioni a sinistra.
 \newcommand{\ThesisTableSetup}{%
+  \setstretch{1.1}%
+  \fontsize{10}{12}\selectfont%
   \setlength{\arrayrulewidth}{0.4pt}%
-  \renewcommand{\arraystretch}{1.2}%
+  \renewcommand{\arraystretch}{1.05}%
+  \setlength{\extrarowheight}{1.5pt}%
   \let\ThesisTableRaggedRight\raggedright
-  \let\ThesisTableTextbf\textbf
-  \renewcommand{\raggedright}{\centering}%
-  \renewcommand{\textbf}[1]{\ThesisTableRaggedRight\ThesisTableTextbf{##1}}%
+  \let\ThesisTableHeader\ThesisTableRaggedRight
 }
 \AtBeginEnvironment{longtable}{\ThesisTableSetup}
+\newcommand{\ThesisTableData}{\centering}
+\newcommand{\ThesisTableCell}{\setstretch{1.1}\fontsize{10}{12}\selectfont\sloppy}
+\newcommand{\TableCaption}[1]{\par\noindent{\fontsize{10}{12}\selectfont\textbf{#1}\par}}
+\newcommand{\TableNote}[1]{\noindent{\fontsize{10}{12}\selectfont\textit{Nota.} #1\par}}
+% Le didascalie delle figure sono in minipage per non separarle
+% dall'immagine. Queste macro consentono però alle note di copyright di
+% usare il normale piè di pagina della pagina, anziché quello della minipage.
+\newcommand{\ThesisFigureFootnoteMark}{%
+  \footnotemark[\numexpr\value{footnote}+1\relax]%
+}
+\newcommand{\ThesisFigureFootnoteText}[1]{%
+  \stepcounter{footnote}%
+  \footnotetext[\value{footnote}]{#1}%
+}
+% Le didascalie delle longtable fanno parte del piede della tabella: LaTeX
+% riserva loro spazio e non può quindi separarle dall'ultima parte dei dati.
+\newcommand{\ThesisTableFooter}[2]{%
+  \multicolumn{#1}{@{}p{\dimexpr\linewidth-2\tabcolsep\relax}@{}}{%
+    \fontsize{10}{12}\selectfont\textbf{#2}\par}%
+  \\
+}
+\newcommand{\ThesisTableFooterWithNote}[3]{%
+  \multicolumn{#1}{@{}p{\dimexpr\linewidth-2\tabcolsep\relax}@{}}{%
+    \fontsize{10}{12}\selectfont\textbf{#2}\par
+    \textit{Nota.} #3\par}%
+  \\
+}
 % Le intestazioni senza numero entrano nell'indice; i capitoli principali
 % iniziano sempre su pagina dispari (destra).
 \makeatletter
@@ -76,7 +104,7 @@
 \begin{center}
 \setstretch{1}
 \vspace*{-0.7cm}
-\includegraphics[width=5.6cm]{immagini/image1.png}\\[.65cm]
+\includegraphics[width=6.5cm]{immagini/image1.png}\\[.65cm]
 {\bfseries\fontsize{12}{15}\selectfont DIPARTIMENTO DI SCIENZE MEDICHE E CHIRURGICHE - DIMEC\par}
 \vspace{.9cm}
 {\bfseries\fontsize{14}{18}\selectfont CORSO DI LAUREA IN\\
@@ -100,7 +128,7 @@ I Sessione, Ottobre 2026\\Anno Accademico 2025/2026
 \end{center}
 \end{titlepage}
 \setcounter{page}{2}
-\clearpage
+\cleardoublepage
 \begingroup\setstretch{1}\small
 \let\section\ThesisOriginalSection
 \tableofcontents
@@ -218,11 +246,11 @@ Il numero limitato di studi, il disegno osservazionale retrospettivo e i risulta
 \hypertarget{introduzione}{%
 \section*{\texorpdfstring{Introduzione }{Introduzione }}\label{introduzione}}
 
-Le procedure transcatetere sulle valvole atrioventricolari vengono eseguite mediante la guida combinata dell'ecocardiografia e della fluoroscopia, due metodiche che forniscono informazioni complementari durante le diverse fasi dell'intervento. L'ecocardiografia permette di visualizzare l'anatomia cardiaca e i tessuti molli, mentre la fluoroscopia consente di seguire la navigazione e il posizionamento dei cateteri e dei dispositivi. {[}1{]}
+Le procedure transcatetere sulle valvole atrioventricolari vengono eseguite mediante la guida combinata dell'ecocardiografia e della fluoroscopia, due metodiche che forniscono informazioni complementari durante le diverse fasi dell'intervento. L'ecocardiografia permette di visualizzare l'anatomia cardiaca e i tessuti molli, mentre la fluoroscopia consente di seguire la navigazione e il posizionamento dei cateteri e dei dispositivi. \cite{ref1}
 
 L'impiego della fluoroscopia comporta tuttavia l'esposizione del paziente e degli operatori alle radiazioni ionizzanti e rende quindi rilevante la valutazione di strategie volte a modulare i parametri esposimetrici. Questo aspetto assume particolare interesse per il tecnico sanitario di radiologia medica (TSRM), che contribuisce all'ottimizzazione dell'impiego dell'imaging radiologico durante la procedura.
 
-Nella guida convenzionale, le immagini ecocardiografiche e fluoroscopiche vengono visualizzate separatamente. Questa modalità richiede agli operatori di integrare mentalmente le informazioni fornite dalle due metodiche durante la navigazione e il posizionamento dei dispositivi. Per facilitare l'integrazione di queste informazioni, negli ultimi anni sono stati introdotti nella pratica clinica sistemi di fusion imaging ecocardiografico-fluoroscopico, in grado di co-registrare le due metodiche e di sovrapporre le informazioni ecocardiografiche sulle immagini fluoroscopiche. {[}1, 2{]}
+Nella guida convenzionale, le immagini ecocardiografiche e fluoroscopiche vengono visualizzate separatamente. Questa modalità richiede agli operatori di integrare mentalmente le informazioni fornite dalle due metodiche durante la navigazione e il posizionamento dei dispositivi. Per facilitare l'integrazione di queste informazioni, negli ultimi anni sono stati introdotti nella pratica clinica sistemi di fusion imaging ecocardiografico-fluoroscopico, in grado di co-registrare le due metodiche e di sovrapporre le informazioni ecocardiografiche sulle immagini fluoroscopiche. \cite{ref1,ref2}
 
 Da questo presupposto nasce il quesito della presente revisione sistematica, finalizzata a valutare i potenziali benefici del fusion imaging ecocardiografico-fluoroscopico nelle procedure transcatetere sulle valvole mitrale e tricuspide. In particolare, sono stati analizzati i possibili effetti della tecnologia sul tempo procedurale, sul tempo di fluoroscopia, sull'esposizione alle radiazioni ionizzanti, sul successo procedurale e sulla sicurezza.
 
@@ -235,42 +263,45 @@ Durante la revisione linguistica, la riformulazione e l'impostazione della strut
 \hypertarget{anatomia-della-valvola-mitrale-e-dellapparato-sottovalvolare}{%
 \subsection*{1.1 Anatomia della valvola mitrale e dell'apparato sottovalvolare}\label{anatomia-della-valvola-mitrale-e-dellapparato-sottovalvolare}}
 
-La valvola mitrale (o atrioventricolare sinistra) è una struttura cardiaca di tessuto connettivo situata tra l'atrio e il ventricolo sinistro. Essa fa parte di un complesso apparato anatomico le cui componenti interagiscono in modo armonico per evitare il reflusso sanguigno in atrio durante la sistole ventricolare. {[}3, 4{]}
+La valvola mitrale (o atrioventricolare sinistra) è una struttura cardiaca di tessuto connettivo situata tra l'atrio e il ventricolo sinistro. Essa fa parte di un complesso apparato anatomico le cui componenti interagiscono in modo armonico per evitare il reflusso sanguigno in atrio durante la sistole ventricolare. \cite{ref3,ref4}
 
 L'apparato mitralico è composto da quattro elementi principali: l'anulus fibroso, i due lembi valvolari, le corde tendinee e i muscoli papillari.
 
-L'anulus fibroso presenta una conformazione a sella e costituisce una porzione dello scheletro fibroso cardiaco, offrendo supporto strutturale e conferendo stabilità all'intero complesso valvolare. {[}5{]}
+L'anulus fibroso presenta una conformazione a sella e costituisce una porzione dello scheletro fibroso cardiaco, offrendo supporto strutturale e conferendo stabilità all'intero complesso valvolare. \cite{ref5}
 
-I due lembi (o cuspidi) valvolari si distinguono in anteriore, rivolto verso l'orifizio aortico e posizionato tra due trigoni fibrosi {[}5{]}, e posteriore. Si aprono durante la diastole e si chiudono in sistole. Entrambi i lembi sono suddivisi in tre settori o scallop, numerati da 1 a 3 in senso latero-mediale, assumendo l'auricola sinistra come punto di riferimento per il lato laterale (A1, A2, A3 per il lembo anteriore e P1, P2, P3 per il lembo posteriore). I punti di giunzione tra i due lembi prendono il nome di commissure valvolari (antero-laterale e postero-mediale).
+I due lembi (o cuspidi) valvolari si distinguono in anteriore, rivolto verso l'orifizio aortico e posizionato tra due trigoni fibrosi \cite{ref5}, e posteriore. Si aprono durante la diastole e si chiudono in sistole. Entrambi i lembi sono suddivisi in tre settori o scallop, numerati da 1 a 3 in senso latero-mediale, assumendo l'auricola sinistra come punto di riferimento per il lato laterale (A1, A2, A3 per il lembo anteriore e P1, P2, P3 per il lembo posteriore). I punti di giunzione tra i due lembi prendono il nome di commissure valvolari (antero-laterale e postero-mediale).
 
-L'apparato sottovalvolare è formato dalle corde tendinee e dai muscoli papillari (supero-posteriore o anteriore e inferiore o posteriore). {[}3{]}
+L'apparato sottovalvolare è formato dalle corde tendinee e dai muscoli papillari (supero-posteriore o anteriore e inferiore o posteriore). \cite{ref3}
 
-Le corde tendinee ancorano sia i margini liberi sia la superficie ventricolare delle cuspidi all'apice dei muscoli papillari. Durante la sistole ventricolare, la contrazione sincrona dei muscoli papillari mette in tensione le corde tendinee, bilanciando la spinta della pressione intraventricolare; questo meccanismo previene il prolasso dei lembi in atrio e favorisce una corretta coaptazione valvolare. {[}4{]}
+Le corde tendinee ancorano sia i margini liberi sia la superficie ventricolare delle cuspidi all'apice dei muscoli papillari. Durante la sistole ventricolare, la contrazione sincrona dei muscoli papillari mette in tensione le corde tendinee, bilanciando la spinta della pressione intraventricolare; questo meccanismo previene il prolasso dei lembi in atrio e favorisce una corretta coaptazione valvolare. \cite{ref4}
 
 \begin{center}
-\includegraphics[width=2.57362in,height=2.56262in]{immagini/image3.jpg}
+\begin{minipage}{\linewidth}
+\centering
+\includegraphics[width=2.57362in,height=2.56262in]{immagini/image3.jpg}\par\smallskip
+{\fontsize{10}{12}\selectfont\raggedright\textbf{Figura 1. Schema anatomico della valvola mitrale vista dall'atrio sinistro, con i segmenti A1--A3 del lembo anteriore e P1--P3 del lembo posteriore. Riprodotta da Salcedo et al. \cite{ref31}, fig. 5. © 2009 American Society of Echocardiography, con autorizzazione tramite Elsevier.}\ThesisFigureFootnoteMark}
+\end{minipage}
 \end{center}
-
-{\fontsize{10}{12}\selectfont\textbf{Figura 1. Schema anatomico della valvola mitrale vista dall'atrio sinistro, con i segmenti A1--A3 del lembo anteriore e P1--P3 del lembo posteriore. Riprodotta da Salcedo et al. {[}31{]}, fig. 5. © 2009 American Society of Echocardiography, con autorizzazione tramite Elsevier.}\footnote{Reprinted from Journal of the American Society of Echocardiography, Vol. 22, Salcedo EE, Quaife RA, Seres T, Carroll JD, ``A framework for systematic characterization of the mitral valve by real-time three-dimensional transesophageal echocardiography'', pp. 1087--1099, Copyright (2009), with permission from the American Society of Echocardiography.}}
+\ThesisFigureFootnoteText{Reprinted from Journal of the American Society of Echocardiography, Vol. 22, Salcedo EE, Quaife RA, Seres T, Carroll JD, ``A framework for systematic characterization of the mitral valve by real-time three-dimensional transesophageal echocardiography'', pp. 1087--1099, Copyright (2009), with permission from the American Society of Echocardiography.}
 
 \hypertarget{insufficienza-mitralica}{%
 \subsection*{1.2 Insufficienza mitralica}\label{insufficienza-mitralica}}
 
-L'insufficienza mitralica è una patologia valvolare caratterizzata dall\textquotesingle incompleta chiusura della valvola mitrale durante la sistole ventricolare. Tale alterazione provoca il rigurgito di sangue dal ventricolo sinistro all'atrio sinistro, determinando un sovraccarico di volume delle cavità cardiache sinistre che può portare progressivamente a rimodellamento ventricolare, riduzione della gittata cardiaca, aritmie, endocarditi, insufficienza cardiaca, edema polmonare acuto e, nei casi più avanzati, morte. {[}6, 7{]}
+L'insufficienza mitralica è una patologia valvolare caratterizzata dall\textquotesingle incompleta chiusura della valvola mitrale durante la sistole ventricolare. Tale alterazione provoca il rigurgito di sangue dal ventricolo sinistro all'atrio sinistro, determinando un sovraccarico di volume delle cavità cardiache sinistre che può portare progressivamente a rimodellamento ventricolare, riduzione della gittata cardiaca, aritmie, endocarditi, insufficienza cardiaca, edema polmonare acuto e, nei casi più avanzati, morte. \cite{ref6,ref7}
 
-In Europa, l'insufficienza mitralica (IM) rappresenta la seconda valvulopatia più frequente e per cui si richiede un trattamento. Una recente revisione sistematica con meta-analisi ha stimato una prevalenza di IM moderata-grave nella popolazione generale pari allo 0,60\% (IC 95\% 0,34--0,92), corrispondente a circa 6 persone ogni 1000. {[}32{]}
+In Europa, l'insufficienza mitralica (IM) rappresenta la seconda valvulopatia più frequente e per cui si richiede un trattamento. Una recente revisione sistematica con meta-analisi ha stimato una prevalenza di IM moderata-grave nella popolazione generale pari allo 0,60\% (IC 95\% 0,34--0,92), corrispondente a circa 6 persone ogni 1000. \cite{ref32}
 
-Una corretta classificazione è fondamentale, poiché l'approccio terapeutico varia in funzione del meccanismo sottostante, distinguendo tra forme primarie e secondarie. {[}8{]}
+Una corretta classificazione è fondamentale, poiché l'approccio terapeutico varia in funzione del meccanismo sottostante, distinguendo tra forme primarie e secondarie. \cite{ref8}
 
-L'IM si può classificare secondo diversi criteri che possono riguardare la modalità di insorgenza (acuta o cronica), l'eziologia (primaria o secondaria), il grado di severità e il movimento dei lembi valvolari, secondo la classificazione funzionale di Carpentier. {[}6, 9{]}
+L'IM si può classificare secondo diversi criteri che possono riguardare la modalità di insorgenza (acuta o cronica), l'eziologia (primaria o secondaria), il grado di severità e il movimento dei lembi valvolari, secondo la classificazione funzionale di Carpentier. \cite{ref6,ref9}
 
-L'IM acuta rappresenta un'emergenza cardiovascolare, associata a un'elevata mortalità e alla frequente necessità di un trattamento chirurgico urgente. Le principali cause comprendono l'endocardite infettiva, la rottura delle corde tendinee, la disfunzione o la rottura del muscolo papillare in seguito a infarto miocardico acuto e i traumi toracici. Dal punto di vista fisiopatologico, il rigurgito improvviso determina un rapido incremento della pressione nell'atrio sinistro, con conseguente congestione ed edema polmonare. Il trattamento iniziale prevede la stabilizzazione emodinamica mediante diuretici e vasodilatatori per ridurre il postcarico; nei pazienti instabili come terapia supportiva può essere utilizzato il contropulsatore aortico (Intra-Aortic Balloon Pump, IABP) in attesa del trattamento definitivo, generalmente chirurgico. {[}6{]}
+L'IM acuta rappresenta un'emergenza cardiovascolare, associata a un'elevata mortalità e alla frequente necessità di un trattamento chirurgico urgente. Le principali cause comprendono l'endocardite infettiva, la rottura delle corde tendinee, la disfunzione o la rottura del muscolo papillare in seguito a infarto miocardico acuto e i traumi toracici. Dal punto di vista fisiopatologico, il rigurgito improvviso determina un rapido incremento della pressione nell'atrio sinistro, con conseguente congestione ed edema polmonare. Il trattamento iniziale prevede la stabilizzazione emodinamica mediante diuretici e vasodilatatori per ridurre il postcarico; nei pazienti instabili come terapia supportiva può essere utilizzato il contropulsatore aortico (Intra-Aortic Balloon Pump, IABP) in attesa del trattamento definitivo, generalmente chirurgico. \cite{ref6}
 
 L'IM cronica è inizialmente asintomatica e si suddivide a sua volta in primaria (o organica) e secondaria (o funzionale).
 
-L'IM primaria può derivare da patologie degenerative o reumatiche ed è conseguente al danneggiamento di una o più componenti del complesso valvolare mitralico e, in questo caso, rappresenta l'evento iniziale che precede il rimodellamento del ventricolo sinistro. Tra le eziologie emergenti è stata descritta anche la cardiopatia da esposizione a radiazioni ionizzanti; inoltre, è frequente riscontrare pazienti con calcificazione dell'anulus mitralico. Quando indicato, il trattamento è preferibilmente rappresentato dalla riparazione della valvola mitrale; la sostituzione valvolare viene riservata ai casi in cui la riparazione non sia possibile. {[}6{]}
+L'IM primaria può derivare da patologie degenerative o reumatiche ed è conseguente al danneggiamento di una o più componenti del complesso valvolare mitralico e, in questo caso, rappresenta l'evento iniziale che precede il rimodellamento del ventricolo sinistro. Tra le eziologie emergenti è stata descritta anche la cardiopatia da esposizione a radiazioni ionizzanti; inoltre, è frequente riscontrare pazienti con calcificazione dell'anulus mitralico. Quando indicato, il trattamento è preferibilmente rappresentato dalla riparazione della valvola mitrale; la sostituzione valvolare viene riservata ai casi in cui la riparazione non sia possibile. \cite{ref6}
 
-L'IM secondaria origina da una disfunzione ventricolare causata dal rimodellamento e dalla dilatazione del ventricolo sinistro. Sebbene la valvola mitrale e le sue componenti siano strutturalmente integre, tali alterazioni determinano una coaptazione incompleta dei lembi valvolari e, di conseguenza, il rigurgito. Alcuni pazienti possono inoltre presentare una dilatazione dell'atrio sinistro, spesso conseguente a una fibrillazione atriale cronica, che provoca la dilatazione dell'anulus mitralico e contribuisce all'insufficienza mitralica. {[}6{]}
+L'IM secondaria origina da una disfunzione ventricolare causata dal rimodellamento e dalla dilatazione del ventricolo sinistro. Sebbene la valvola mitrale e le sue componenti siano strutturalmente integre, tali alterazioni determinano una coaptazione incompleta dei lembi valvolari e, di conseguenza, il rigurgito. Alcuni pazienti possono inoltre presentare una dilatazione dell'atrio sinistro, spesso conseguente a una fibrillazione atriale cronica, che provoca la dilatazione dell'anulus mitralico e contribuisce all'insufficienza mitralica. \cite{ref6}
 
 La classificazione di Carpentier distingue l'IM in tre principali tipologie sulla base della funzionalità valvolare.
 
@@ -292,112 +323,112 @@ La classificazione di Carpentier distingue l'IM in tre principali tipologie sull
 \begin{quote}
 - Tipo IIIa: la limitazione è presente in diastole, ed è tipicamente associata alla cardiopatia reumatica o ad altre patologie infiammatorie della valvola.
 
-- Tipo IIIb: la limitazione interessa prevalentemente la sistole ed è generalmente secondaria al rimodellamento del ventricolo sinistro. {[}6, 9{]}
+- Tipo IIIb: la limitazione interessa prevalentemente la sistole ed è generalmente secondaria al rimodellamento del ventricolo sinistro. \cite{ref6,ref9}
 \end{quote}
 
-L'IM viene inoltre classificata in base alla sua gravità mediante una valutazione ecocardiografica che si avvale del color Doppler, eseguita inizialmente con ecocardiografia transtoracica (TTE) e, quando indicato, con ecocardiografia transesofagea (TEE). La risonanza magnetica cardiaca (CMR) rappresenta un valido strumento complementare nella fase preprocedurale qualora i risultati precedenti risultino discordanti o sia necessario un esame più approfondito. In particolare, costituisce una metodica utile per la valutazione funzionale dei ventricoli e per la misurazione del volume e della frazione rigurgitante. {[}6, 9, 10, 11{]}
+L'IM viene inoltre classificata in base alla sua gravità mediante una valutazione ecocardiografica che si avvale del color Doppler, eseguita inizialmente con ecocardiografia transtoracica (TTE) e, quando indicato, con ecocardiografia transesofagea (TEE). La risonanza magnetica cardiaca (CMR) rappresenta un valido strumento complementare nella fase preprocedurale qualora i risultati precedenti risultino discordanti o sia necessario un esame più approfondito. In particolare, costituisce una metodica utile per la valutazione funzionale dei ventricoli e per la misurazione del volume e della frazione rigurgitante. \cite{ref6,ref9,ref10,ref11}
 
-Prima di poter stabilire la gravità dell'IM, è necessario distinguere la forma primitiva, o organica, da quella secondaria, o funzionale, poiché l'interpretazione dei valori e alcune soglie di gravità possono variare in base all'eziologia. {[}8, 10{]}
+Prima di poter stabilire la gravità dell'IM, è necessario distinguere la forma primitiva, o organica, da quella secondaria, o funzionale, poiché l'interpretazione dei valori e alcune soglie di gravità possono variare in base all'eziologia. \cite{ref8,ref10}
 
-Attraverso l'integrazione dei parametri qualitativi, semiquantitativi e quantitativi raccomandati dalle linee guida, il rigurgito mitralico viene classificato come lieve, moderato e severo. Le forme severe sono associate a un rischio maggiore di rimodellamento delle camere cardiache, progressione dello scompenso cardiaco, fibrillazione atriale e mortalità. {[}6, 9, 10{]}
+Attraverso l'integrazione dei parametri qualitativi, semiquantitativi e quantitativi raccomandati dalle linee guida, il rigurgito mitralico viene classificato come lieve, moderato e severo. Le forme severe sono associate a un rischio maggiore di rimodellamento delle camere cardiache, progressione dello scompenso cardiaco, fibrillazione atriale e mortalità. \cite{ref6,ref9,ref10}
 
-I parametri qualitativi permettono di identificare visivamente il meccanismo e le alterazioni morfologiche responsabili del rigurgito, come la presenza di prolasso o flail di un lembo, e di valutare le caratteristiche e la direzione del jet rigurgitante. La vena contracta rappresenta invece un parametro semiquantitativo, mentre l'EROA (\emph{Effective Regurgitant Orifice Area}), il volume rigurgitante e la frazione rigurgitante costituiscono parametri quantitativi. {[}9{]}
+I parametri qualitativi permettono di identificare visivamente il meccanismo e le alterazioni morfologiche responsabili del rigurgito, come la presenza di prolasso o flail di un lembo, e di valutare le caratteristiche e la direzione del jet rigurgitante. La vena contracta rappresenta invece un parametro semiquantitativo, mentre l'EROA (\emph{Effective Regurgitant Orifice Area}), il volume rigurgitante e la frazione rigurgitante costituiscono parametri quantitativi. \cite{ref9}
 
-La vena contracta corrisponde alla porzione più stretta del flusso rigurgitante, localizzata in corrispondenza o immediatamente a valle dell'orifizio. Una larghezza ≥ 7 mm, o ≥ 8 mm nella valutazione biplanare, è indicativa di un'IM severa. {[}9, 10{]}
+La vena contracta corrisponde alla porzione più stretta del flusso rigurgitante, localizzata in corrispondenza o immediatamente a valle dell'orifizio. Una larghezza ≥ 7 mm, o ≥ 8 mm nella valutazione biplanare, è indicativa di un'IM severa. \cite{ref9,ref10}
 
-L'EROA rappresenta l\textquotesingle area effettiva dell'orifizio attraverso il quale passa il flusso rigurgitante. Nell'IM primaria, un valore ≥ 0,40 cm\textsuperscript{2} è indicativo di severità. Nell'IM secondaria a causa della frequente conformazione ellittica dell'orifizio un'EROA ≥ 0,30 cm\textsuperscript{2} può essere compatibile con un rigurgito severo. {[}8, 10{]}
+L'EROA rappresenta l\textquotesingle area effettiva dell'orifizio attraverso il quale passa il flusso rigurgitante. Nell'IM primaria, un valore ≥ 0,40 cm\textsuperscript{2} è indicativo di severità. Nell'IM secondaria a causa della frequente conformazione ellittica dell'orifizio un'EROA ≥ 0,30 cm\textsuperscript{2} può essere compatibile con un rigurgito severo. \cite{ref8,ref10}
 
-Un volume rigurgitante ≥ 60 ml è indicativo di IM severa, sebbene nell'IM secondaria possa assumere rilevanza anche un valore ≥ 45 ml. {[}8, 10{]}
+Un volume rigurgitante ≥ 60 ml è indicativo di IM severa, sebbene nell'IM secondaria possa assumere rilevanza anche un valore ≥ 45 ml. \cite{ref8,ref10}
 
-Infine, una frazione rigurgitante ≥ 50\% rappresenta un ulteriore criterio quantitativo di severità {[}7, 9, 10{]}. Questi parametri non devono essere considerati isolatamente, ma integrati con gli altri reperti ecocardiografici e con il contesto clinico ed emodinamico.
+Infine, una frazione rigurgitante ≥ 50\% rappresenta un ulteriore criterio quantitativo di severità \cite{ref7,ref9,ref10}. Questi parametri non devono essere considerati isolatamente, ma integrati con gli altri reperti ecocardiografici e con il contesto clinico ed emodinamico.
 
 \hypertarget{anatomia-della-valvola-tricuspide-e-dellapparato-sottovalvolare}{%
 \subsection*{1.3 Anatomia della valvola tricuspide e dell'apparato sottovalvolare}\label{anatomia-della-valvola-tricuspide-e-dellapparato-sottovalvolare}}
 
-La valvola tricuspide, costituita prevalentemente da tessuto connettivo, è posta tra l'atrio destro e il ventricolo destro e impedisce il reflusso del sangue dal ventricolo all'atrio durante la sistole. {[}12{]}
+La valvola tricuspide, costituita prevalentemente da tessuto connettivo, è posta tra l'atrio destro e il ventricolo destro e impedisce il reflusso del sangue dal ventricolo all'atrio durante la sistole. \cite{ref12}
 
 L'apparato valvolare comprende quattro componenti principali: l'anulus valvolare, i lembi, le corde tendinee e i muscoli papillari.
 
 L'anulus fibroso presenta una conformazione a forma di D, con il lato settale relativamente rettilineo.
 
-Normalmente, la valvola tricuspide viene descritta come costituita da tre lembi di differenti dimensioni, sebbene siano frequenti varianti anatomiche riguardanti il loro numero e la loro morfologia. In base alla loro disposizione spaziale, i lembi sono denominati anteriore, posteriore e settale. Il lembo anteriore, generalmente il più grande e il più mobile, è rivolto verso la parete anteriore del ventricolo destro e il tratto di efflusso ventricolare. Il lembo posteriore è solitamente più corto e può presentare diversi scallop, mentre il lembo settale è posto in prossimità del setto interventricolare, presenta una mobilità più limitata ed è collegato al setto mediante corde tendinee corte. {[}12{]}
+Normalmente, la valvola tricuspide viene descritta come costituita da tre lembi di differenti dimensioni, sebbene siano frequenti varianti anatomiche riguardanti il loro numero e la loro morfologia. In base alla loro disposizione spaziale, i lembi sono denominati anteriore, posteriore e settale. Il lembo anteriore, generalmente il più grande e il più mobile, è rivolto verso la parete anteriore del ventricolo destro e il tratto di efflusso ventricolare. Il lembo posteriore è solitamente più corto e può presentare diversi scallop, mentre il lembo settale è posto in prossimità del setto interventricolare, presenta una mobilità più limitata ed è collegato al setto mediante corde tendinee corte. \cite{ref12}
 
-L'ostio del seno coronarico è localizzato nell'atrio destro, in prossimità della commissura posterosettale, mentre la commissura anterosettale è adiacente al seno non coronarico di Valsalva. {[}12{]}
+L'ostio del seno coronarico è localizzato nell'atrio destro, in prossimità della commissura posterosettale, mentre la commissura anterosettale è adiacente al seno non coronarico di Valsalva. \cite{ref12}
 
 I muscoli papillari e le corde tendinee fanno parte del complesso sottovalvolare.
 
-Generalmente sono presenti due muscoli papillari principali: il muscolo papillare anteriore, più grande, e quello posteriore, che può presentare una conformazione biforcuta o triforcuta. Può inoltre essere presente un muscolo papillare settale, generalmente di piccole dimensioni e talvolta assente. {[}12{]}
+Generalmente sono presenti due muscoli papillari principali: il muscolo papillare anteriore, più grande, e quello posteriore, che può presentare una conformazione biforcuta o triforcuta. Può inoltre essere presente un muscolo papillare settale, generalmente di piccole dimensioni e talvolta assente. \cite{ref12}
 
-I muscoli papillari sono collegati ai lembi valvolari mediante le corde tendinee, costituite prevalentemente da collagene ed elastina e rivestite da cellule endoteliali. Possono inoltre essere presenti corde false che, pur non inserendosi sui lembi valvolari, possono collegare tra loro due muscoli papillari oppure unire i muscoli alla parete ventricolare. {[}12{]}
+I muscoli papillari sono collegati ai lembi valvolari mediante le corde tendinee, costituite prevalentemente da collagene ed elastina e rivestite da cellule endoteliali. Possono inoltre essere presenti corde false che, pur non inserendosi sui lembi valvolari, possono collegare tra loro due muscoli papillari oppure unire i muscoli alla parete ventricolare. \cite{ref12}
 
 \hypertarget{insufficienza-tricuspidale}{%
 \subsection*{1.4 Insufficienza tricuspidale}\label{insufficienza-tricuspidale}}
 
-L'insufficienza tricuspidale (IT) consiste nell'incompleta chiusura dei lembi valvolari durante la sistole, con conseguente reflusso di sangue dal ventricolo destro all'atrio destro. In base al meccanismo responsabile, può essere classificata in primaria, secondaria e isolata. {[}12{]}
+L'insufficienza tricuspidale (IT) consiste nell'incompleta chiusura dei lembi valvolari durante la sistole, con conseguente reflusso di sangue dal ventricolo destro all'atrio destro. In base al meccanismo responsabile, può essere classificata in primaria, secondaria e isolata. \cite{ref12}
 
-L'IT primaria è meno frequente ed è causata da una patologia congenita o acquisita che coinvolge direttamente una o più componenti dell'apparato valvolare, come i lembi, le corde tendinee o i muscoli papillari. Anche gli elettrocateteri dei dispositivi cardiaci impiantabili possono interferire con il movimento e la coaptazione dei lembi, determinando insufficienza valvolare. {[}12{]}
+L'IT primaria è meno frequente ed è causata da una patologia congenita o acquisita che coinvolge direttamente una o più componenti dell'apparato valvolare, come i lembi, le corde tendinee o i muscoli papillari. Anche gli elettrocateteri dei dispositivi cardiaci impiantabili possono interferire con il movimento e la coaptazione dei lembi, determinando insufficienza valvolare. \cite{ref12}
 
-L'IT secondaria, definita anche funzionale, rappresenta la forma più comune. In questo caso i lembi sono generalmente normali dal punto di vista anatomico, mentre il rigurgito è causato principalmente dalla dilatazione dell'anulus tricuspidale e dal tethering, ovvero un limitato movimento di chiusura dei lembi. Queste alterazioni possono essere conseguenti all'ipertensione polmonare o a patologie del cuore sinistro. {[}12{]}
+L'IT secondaria, definita anche funzionale, rappresenta la forma più comune. In questo caso i lembi sono generalmente normali dal punto di vista anatomico, mentre il rigurgito è causato principalmente dalla dilatazione dell'anulus tricuspidale e dal tethering, ovvero un limitato movimento di chiusura dei lembi. Queste alterazioni possono essere conseguenti all'ipertensione polmonare o a patologie del cuore sinistro. \cite{ref12}
 
-L'aumento delle pressioni polmonari determina un sovraccarico del ventricolo destro, che progressivamente si dilata e modifica la propria geometria. La dilatazione ventricolare provoca lo spostamento dei muscoli papillari e aumenta la trazione esercitata dalle corde tendinee sui lembi, limitandone il movimento e impedendone la corretta coaptazione. Allo stesso tempo, l'anulus tricuspidale si dilata, soprattutto lungo le sue porzioni anteriore e posteriore, e assume una conformazione più appiattita e circolare. {[}12{]}
+L'aumento delle pressioni polmonari determina un sovraccarico del ventricolo destro, che progressivamente si dilata e modifica la propria geometria. La dilatazione ventricolare provoca lo spostamento dei muscoli papillari e aumenta la trazione esercitata dalle corde tendinee sui lembi, limitandone il movimento e impedendone la corretta coaptazione. Allo stesso tempo, l'anulus tricuspidale si dilata, soprattutto lungo le sue porzioni anteriore e posteriore, e assume una conformazione più appiattita e circolare. \cite{ref12}
 
-L'IT isolata si sviluppa in assenza di ipertensione polmonare e di patologie del cuore sinistro ed è generalmente associata a una dilatazione atriale destra. {[}6{]}
+L'IT isolata si sviluppa in assenza di ipertensione polmonare e di patologie del cuore sinistro ed è generalmente associata a una dilatazione atriale destra. \cite{ref10,ref12}
 
-L'approccio diagnostico iniziale prevede una valutazione ecocardiografica, mediante la quale vengono analizzate l'eziologia e la severità dell'insufficienza tricuspidale, le eventuali patologie delle sezioni cardiache sinistre e le conseguenze del rigurgito sulle camere destre. In particolare, vengono valutate le dimensioni e la funzione dell'atrio e del ventricolo destro, la pressione venosa centrale stimata attraverso la vena cava inferiore e la pressione polmonare. Nei pazienti portatori di dispositivi elettronici cardiaci impiantabili vengono inoltre considerate la posizione degli elettrocateteri e la loro eventuale interazione con l'apparato valvolare. {[}10{]}
+L'approccio diagnostico iniziale prevede una valutazione ecocardiografica, mediante la quale vengono analizzate l'eziologia e la severità dell'insufficienza tricuspidale, le eventuali patologie delle sezioni cardiache sinistre e le conseguenze del rigurgito sulle camere destre. In particolare, vengono valutate le dimensioni e la funzione dell'atrio e del ventricolo destro, la pressione venosa centrale stimata attraverso la vena cava inferiore e la pressione polmonare. Nei pazienti portatori di dispositivi elettronici cardiaci impiantabili vengono inoltre considerate la posizione degli elettrocateteri e la loro eventuale interazione con l'apparato valvolare. \cite{ref10}
 
-Nella maggior parte dei pazienti l'ecocardiografia transtoracica è sufficiente per ottenere le principali informazioni diagnostiche. L'ecocardiografia transesofagea viene invece utilizzata quando è necessaria una valutazione più dettagliata dell'apparato valvolare tricuspidale, soprattutto nei pazienti candidati a un intervento. {[}10{]}
+Nella maggior parte dei pazienti l'ecocardiografia transtoracica è sufficiente per ottenere le principali informazioni diagnostiche. L'ecocardiografia transesofagea viene invece utilizzata quando è necessaria una valutazione più dettagliata dell'apparato valvolare tricuspidale, soprattutto nei pazienti candidati a un intervento. \cite{ref10}
 
-La severità dell'insufficienza tricuspidale può essere classificata in cinque gradi: lieve, moderata, severa, massiva e torrenziale. Gli ultimi due gradi sono stati introdotti principalmente negli studi sulle procedure transcatetere. {[}10{]}
+La severità dell'insufficienza tricuspidale può essere classificata in cinque gradi: lieve, moderata, severa, massiva e torrenziale. Gli ultimi due gradi sono stati introdotti principalmente negli studi sulle procedure transcatetere. \cite{ref10}
 
-Tra i parametri quantitativi per la valutazione ecocardiografica, una vena contracta ≥ 7 mm, un EROA ≥ 40 mm\textsuperscript{2} e un volume rigurgitante ≥ 45 ml sono indicativi di insufficienza tricuspidale severa. {[}13{]}
+Tra i parametri quantitativi per la valutazione ecocardiografica, una vena contracta ≥ 7 mm, un EROA ≥ 40 mm\textsuperscript{2} e un volume rigurgitante ≥ 45 ml sono indicativi di insufficienza tricuspidale severa. \cite{ref13}
 
-Può essere inoltre calcolato il rapporto TAPSE/sPAP (\emph{Tricuspid Annular Plane Systolic Excursion}/\emph{systolic Pulmonary Artery Pressure}) come stima dell'accoppiamento ventricolo-arterioso polmonare, ovvero della capacità del ventricolo destro di adattare la propria funzione sistolica alle variazioni del postcarico polmonare. {[}10{]}
+Può essere inoltre calcolato il rapporto TAPSE/sPAP (\emph{Tricuspid Annular Plane Systolic Excursion}/\emph{systolic Pulmonary Artery Pressure}) come stima dell'accoppiamento ventricolo-arterioso polmonare, ovvero della capacità del ventricolo destro di adattare la propria funzione sistolica alle variazioni del postcarico polmonare. \cite{ref10}
 
-Un valore ridotto indica un disaccoppiamento ventricolo-arterioso ed è associato a una prognosi meno favorevole. {[}10{]}
+Un valore ridotto indica un disaccoppiamento ventricolo-arterioso ed è associato a una prognosi meno favorevole. \cite{ref10}
 
-Nell'ambito della selezione dei pazienti candidati al trattamento transcatetere, valori di TAPSE ≥13 mm e FAC (\emph{Fractional Area Change}) ≥25\% suggeriscono una maggiore probabilità di ottenere beneficio dall'intervento. Al contrario, valori di TAPSE \textless10 mm o FAC \textless20\% indicano una disfunzione ventricolare destra avanzata e una minore possibilità di ottenere un rimodellamento inverso significativo. {[}13{]}
+Nell'ambito della selezione dei pazienti candidati al trattamento transcatetere, valori di TAPSE ≥13 mm e FAC (\emph{Fractional Area Change}) ≥25\% suggeriscono una maggiore probabilità di ottenere beneficio dall'intervento. Al contrario, valori di TAPSE \textless10 mm o FAC \textless20\% indicano una disfunzione ventricolare destra avanzata e una minore possibilità di ottenere un rimodellamento inverso significativo. \cite{ref13}
 
 Nei pazienti candidati ad alcune procedure transcatetere, la TC cardiaca sincronizzata con l'ECG può integrare la valutazione ecocardiografica, soprattutto nella pianificazione degli interventi di sostituzione valvolare o annuloplastica.
 
-Attraverso ricostruzioni multiplanari consente di studiare dettagliatamente l'anatomia dell'atrio e del ventricolo destro, dell'anulus tricuspidale e della vena cava inferiore, oltre ai rapporti dell'anulus con l'arteria coronaria destra e con eventuali elettrocateteri. Permette inoltre di valutare l'accesso vascolare, l'idoneità anatomica e, quando necessario, le dimensioni del dispositivo da impiantare. Nei pazienti con probabilità clinica bassa o intermedia di coronaropatia, la coronaro-TC può essere utilizzata anche per escludere una malattia coronarica significativa. {[}10, 13{]}
+Attraverso ricostruzioni multiplanari consente di studiare dettagliatamente l'anatomia dell'atrio e del ventricolo destro, dell'anulus tricuspidale e della vena cava inferiore, oltre ai rapporti dell'anulus con l'arteria coronaria destra e con eventuali elettrocateteri. Permette inoltre di valutare l'accesso vascolare, l'idoneità anatomica e, quando necessario, le dimensioni del dispositivo da impiantare. Nei pazienti con probabilità clinica bassa o intermedia di coronaropatia, la coronaro-TC può essere utilizzata anche per escludere una malattia coronarica significativa. \cite{ref10,ref13}
 
-Infine, il TRI-SCORE e il calcolatore del rischio STS possono contribuire alla valutazione del rischio periprocedurale. I pazienti con un TRI-SCORE basso o intermedio sembrano beneficiare maggiormente di un intervento precoce, mentre nei pazienti con un valore elevato l'intervento potrebbe non determinare un beneficio rispetto al trattamento conservativo. {[}10{]}
+Infine, il TRI-SCORE e il calcolatore del rischio STS possono contribuire alla valutazione del rischio periprocedurale. I pazienti con un TRI-SCORE basso o intermedio sembrano beneficiare maggiormente di un intervento precoce, mentre nei pazienti con un valore elevato l'intervento potrebbe non determinare un beneficio rispetto al trattamento conservativo. \cite{ref10}
 
-La risonanza magnetica cardiaca rappresenta un'ottima metodica complementare per misurare con maggiore accuratezza e riproducibilità le dimensioni, i volumi e la funzione del ventricolo destro. {[}10{]}
+La risonanza magnetica cardiaca rappresenta un'ottima metodica complementare per misurare con maggiore accuratezza e riproducibilità le dimensioni, i volumi e la funzione del ventricolo destro. \cite{ref10}
 
 \hypertarget{procedure-transcatetere-di-riparazione-e-sostituzione-delle-valvole-atrioventricolari}{%
 \subsection*{\texorpdfstring{1.5 Procedure transcatetere di riparazione e sostituzione delle valvole atrioventricolari }{1.5 Procedure transcatetere di riparazione e sostituzione delle valvole atrioventricolari }}\label{procedure-transcatetere-di-riparazione-e-sostituzione-delle-valvole-atrioventricolari}}
 
-Nei pazienti con insufficienza mitralica o tricuspidale severa e sintomatica, la possibilità di eseguire una procedura transcatetere viene valutata dall'Heart Team sulla base del rischio chirurgico, delle caratteristiche anatomiche della valvola, della funzione ventricolare e della probabilità di ottenere un beneficio clinico e procedurale. Le principali tecniche comprendono la riparazione transcatetere edge-to-edge e la sostituzione valvolare transcatetere. {[}10{]}
+Nei pazienti con insufficienza mitralica o tricuspidale severa e sintomatica, la possibilità di eseguire una procedura transcatetere viene valutata dall'Heart Team sulla base del rischio chirurgico, delle caratteristiche anatomiche della valvola, della funzione ventricolare e della probabilità di ottenere un beneficio clinico e procedurale. Le principali tecniche comprendono la riparazione transcatetere edge-to-edge e la sostituzione valvolare transcatetere. \cite{ref10}
 
-Nel 2024, nei centri italiani di cardiologia interventistica partecipanti alla rilevazione GISE, sono state eseguite 1.934 riparazioni transcatetere della valvola mitrale e 481 procedure transcatetere della tricuspide. {[}33{]}
+Nel 2024, nei centri italiani di cardiologia interventistica partecipanti alla rilevazione GISE, sono state eseguite 1.934 riparazioni transcatetere della valvola mitrale e 481 procedure transcatetere della tricuspide. \cite{ref33}
 
 \hypertarget{sistema-mitraclip-e-pascal-per-la-riparazione-transcatetere-edge-to-edge-della-valvola-mitrale}{%
 \subsubsection*{\texorpdfstring{1.5.1 Sistema MitraClip e PASCAL per la riparazione transcatetere edge-to-edge della valvola mitrale}{1.5.1 Sistema MitraClip e PASCAL per la riparazione transcatetere edge-to-edge della valvola mitrale}}\label{sistema-mitraclip-e-pascal-per-la-riparazione-transcatetere-edge-to-edge-della-valvola-mitrale}}
 
-MitraClip (Abbott) e PASCAL (Edwards Lifesciences) sono due dispositivi utilizzati nella riparazione transcatetere edge-to-edge dell'insufficienza mitralica. Pur presentando caratteristiche costruttive e modalità di impiego differenti, entrambi consentono di avvicinare e stabilizzare i lembi valvolari per ridurre il rigurgito. {[}14, 15{]}
+MitraClip (Abbott) e PASCAL (Edwards Lifesciences) sono due dispositivi utilizzati nella riparazione transcatetere edge-to-edge dell'insufficienza mitralica. Pur presentando caratteristiche costruttive e modalità di impiego differenti, entrambi consentono di avvicinare e stabilizzare i lembi valvolari per ridurre il rigurgito. \cite{ref14,ref15}
 
-La procedura viene eseguita mediante accesso venoso femorale e puntura transettale, attraverso cui il sistema raggiunge l'atrio sinistro. Sotto guida ecocardiografica e fluoroscopica, il dispositivo viene posizionato in corrispondenza della zona da trattare e utilizzato per la cattura dei lembi. Prima del rilascio definitivo vengono verificati la stabilità del dispositivo, l'adeguato inserimento dei lembi e il risultato emodinamico, valutando la riduzione del rigurgito e l'eventuale comparsa di un'ostruzione al flusso transmitralico. {[}14, 15, 16{]}
+La procedura viene eseguita mediante accesso venoso femorale e puntura transettale, attraverso cui il sistema raggiunge l'atrio sinistro. Sotto guida ecocardiografica e fluoroscopica, il dispositivo viene posizionato in corrispondenza della zona da trattare e utilizzato per la cattura dei lembi. Prima del rilascio definitivo vengono verificati la stabilità del dispositivo, l'adeguato inserimento dei lembi e il risultato emodinamico, valutando la riduzione del rigurgito e l'eventuale comparsa di un'ostruzione al flusso transmitralico. \cite{ref14,ref15,ref16}
 
 \hypertarget{sistema-triclip-e-pascal-per-la-riparazione-transcatetere-edge-to-edge-della-valvola-tricuspide}{%
 \subsubsection*{\texorpdfstring{1.5.2 Sistema TriClip e PASCAL per la riparazione transcatetere edge-to-edge della valvola tricuspide}{1.5.2 Sistema TriClip e PASCAL per la riparazione transcatetere edge-to-edge della valvola tricuspide}}\label{sistema-triclip-e-pascal-per-la-riparazione-transcatetere-edge-to-edge-della-valvola-tricuspide}}
 
-Nel trattamento dell'insufficienza tricuspidale possono essere impiegati i sistemi TriClip e PASCAL, entrambi basati sulla tecnica transcatetere edge-to-edge. {[}10, 13{]}
+Nel trattamento dell'insufficienza tricuspidale possono essere impiegati i sistemi TriClip e PASCAL, entrambi basati sulla tecnica transcatetere edge-to-edge. \cite{ref10,ref13}
 
-La procedura inizia mediante accesso venoso femorale. Nel caso del dispositivo TriClip, il catetere guida orientabile viene avanzato attraverso la vena cava inferiore fino all'atrio destro; al suo interno viene quindi introdotto il sistema di rilascio. Sotto guida ecocardiografica e fluoroscopica, il dispositivo viene direzionato perpendicolarmente al piano valvolare. I bracci della clip vengono successivamente orientati perpendicolarmente alla linea di coaptazione dei lembi da trattare, generalmente tra quello settale e anteriore oppure, in alternativa, tra il lembo settale e quello posteriore. {[}13{]}
+La procedura inizia mediante accesso venoso femorale. Nel caso del dispositivo TriClip, il catetere guida orientabile viene avanzato attraverso la vena cava inferiore fino all'atrio destro; al suo interno viene quindi introdotto il sistema di rilascio. Sotto guida ecocardiografica e fluoroscopica, il dispositivo viene direzionato perpendicolarmente al piano valvolare. I bracci della clip vengono successivamente orientati perpendicolarmente alla linea di coaptazione dei lembi da trattare, generalmente tra quello settale e anteriore oppure, in alternativa, tra il lembo settale e quello posteriore. \cite{ref13}
 
-Dopo la cattura dei lembi e prima del rilascio del dispositivo, mediante ecocardiografia bidimensionale si verifica il loro corretto inserimento, mentre con il color Doppler si valuta la riduzione del rigurgito. Viene misurato anche il gradiente transvalvolare tricuspidale medio, che dovrebbe rimanere inferiore a 5 mmHg. Dopo il rilascio della clip vengono nuovamente valutate la sede e l'entità del rigurgito residuo; qualora questo risulti ancora significativo e il gradiente transvalvolare lo consenta, può essere impiantata un'ulteriore clip. {[}13{]}
+Dopo la cattura dei lembi e prima del rilascio del dispositivo, mediante ecocardiografia bidimensionale si verifica il loro corretto inserimento, mentre con il color Doppler si valuta la riduzione del rigurgito. Viene misurato anche il gradiente transvalvolare tricuspidale medio, che dovrebbe rimanere inferiore a 5 mmHg. Dopo il rilascio della clip vengono nuovamente valutate la sede e l'entità del rigurgito residuo; qualora questo risulti ancora significativo e il gradiente transvalvolare lo consenta, può essere impiantata un'ulteriore clip. \cite{ref13}
 
 \hypertarget{sistema-evoque-per-la-sostituzione-transcatetere-della-valvola-tricuspide-e-mitrale}{%
 \subsubsection*{\texorpdfstring{1.5.3 Sistema EVOQUE per la sostituzione transcatetere della valvola tricuspide e mitrale}{1.5.3 Sistema EVOQUE per la sostituzione transcatetere della valvola tricuspide e mitrale}}\label{sistema-evoque-per-la-sostituzione-transcatetere-della-valvola-tricuspide-e-mitrale}}
 
-Il sistema EVOQUE autoespandibile (Edwards Lifesciences), viene utilizzato per la sostituzione transcatetere della valvola tricuspide e mitrale. È costituito da una bioprotesi con lembi in tessuto pericardico bovino. {[}6, 17, 18{]}
+Il sistema EVOQUE autoespandibile (Edwards Lifesciences), viene utilizzato per la sostituzione transcatetere della valvola tricuspide e mitrale. È costituito da una bioprotesi con lembi in tessuto pericardico bovino. \cite{ref6,ref17,ref18}
 
-La procedura inizia con l\textquotesingle esecuzione dell'accesso venoso femorale; successivamente si raggiunge l'atrio destro attraverso la vena cava inferiore. {[}17{]}
+La procedura inizia con l\textquotesingle esecuzione dell'accesso venoso femorale; successivamente si raggiunge l'atrio destro attraverso la vena cava inferiore. \cite{ref17}
 
-Nel trattamento della valvola tricuspide, una guida di supporto preformata a pigtail viene avanzata nel ventricolo destro attraverso l'anulus tricuspidale, sotto guida ecocardiografica e fluoroscopica. Su questa guida viene poi introdotto il sistema di rilascio. Dopo aver verificato la corretta profondità, il dispositivo viene posizionato catturando i lembi valvolari nativi sotto guida ecocardiografica e fluoroscopica. {[}17{]}
+Nel trattamento della valvola tricuspide, una guida di supporto preformata a pigtail viene avanzata nel ventricolo destro attraverso l'anulus tricuspidale, sotto guida ecocardiografica e fluoroscopica. Su questa guida viene poi introdotto il sistema di rilascio. Dopo aver verificato la corretta profondità, il dispositivo viene posizionato catturando i lembi valvolari nativi sotto guida ecocardiografica e fluoroscopica. \cite{ref17}
 
-Nel trattamento dell'insufficienza mitralica, si esegue la puntura transettale per raggiungere l'atrio sinistro, si dilata il setto mediante un palloncino e si avanza il sistema EVOQUE. Sotto guida ecocardiografica e fluoroscopica, il dispositivo viene posizionato coassialmente alla valvola e rilasciato, facendolo aderire all'anulus valvolare. {[}18{]}
+Nel trattamento dell'insufficienza mitralica, si esegue la puntura transettale per raggiungere l'atrio sinistro, si dilata il setto mediante un palloncino e si avanza il sistema EVOQUE. Sotto guida ecocardiografica e fluoroscopica, il dispositivo viene posizionato coassialmente alla valvola e rilasciato, facendolo aderire all'anulus valvolare. \cite{ref18}
 
 Questa bioprotesi è di recente introduzione nella pratica clinica e rappresenta quindi un'assoluta innovazione nel trattamento della patologia tricuspidale, per questo al momento non vi è ancora un numero elevato di impianti e non tutti i pazienti sono candidabili.
 
@@ -405,109 +436,113 @@ Questa bioprotesi è di recente introduzione nella pratica clinica e rappresenta
 \subsubsection*{\texorpdfstring{1.5.4 Sistema Intrepid per la sostituzione transcatetere della valvola mitrale}{1.5.4 Sistema Intrepid per la sostituzione transcatetere della valvola mitrale}}\label{sistema-intrepid-per-la-sostituzione-transcatetere-della-valvola-mitrale}}
 
 Il sistema Intrepid (Medtronic) è una bioprotesi impiegata per la sostituzione transcatetere della valvola mitrale, costituita da una valvola a tre lembi in pericardio bovino inserita in una struttura autoespandibile in nitinol.\\
-La protesi presenta una configurazione a doppio stent: la componente interna circolare sostiene i lembi valvolari, mentre la struttura esterna conformabile è progettata per adattarsi all'anello mitralico nativo, favorendo l'ancoraggio e la stabilità del dispositivo. {[}19{]}
+La protesi presenta una configurazione a doppio stent: la componente interna circolare sostiene i lembi valvolari, mentre la struttura esterna conformabile è progettata per adattarsi all'anello mitralico nativo, favorendo l'ancoraggio e la stabilità del dispositivo. \cite{ref19}
 
-La configurazione originariamente descritta nel 2016 prevedeva un sistema di rilascio esclusivamente transapicale e successivo rilascio in sede mitralica con un meccanismo ad attivazione idraulica. {[}19{]}
+La configurazione originariamente descritta nel 2016 prevedeva un sistema di rilascio esclusivamente transapicale e successivo rilascio in sede mitralica con un meccanismo ad attivazione idraulica. \cite{ref19}
 
-Successivamente è stata sviluppata una versione destinata all'impianto mediante accesso transfemorale-transettale, che consente di raggiungere l'atrio sinistro attraverso la vena femorale e la puntura del setto interatriale, evitando l'accesso diretto all'apice ventricolare. Uno studio prospettico multicentrico, non randomizzato e di fattibilità iniziale ha valutato gli esiti a 30 giorni fornendo dati preliminari sulla fattibilità tecnica, sulle prestazioni della protesi e sugli esiti clinici. Tuttavia, la numerosità limitata e la natura non comparativa dello studio non consentono di ritenere definitivamente dimostrate la sicurezza e l'efficacia del sistema. {[}20{]}
+Successivamente è stata sviluppata una versione destinata all'impianto mediante accesso transfemorale-transettale, che consente di raggiungere l'atrio sinistro attraverso la vena femorale e la puntura del setto interatriale, evitando l'accesso diretto all'apice ventricolare. Uno studio prospettico multicentrico, non randomizzato e di fattibilità iniziale ha valutato gli esiti a 30 giorni fornendo dati preliminari sulla fattibilità tecnica, sulle prestazioni della protesi e sugli esiti clinici. Tuttavia, la numerosità limitata e la natura non comparativa dello studio non consentono di ritenere definitivamente dimostrate la sicurezza e l'efficacia del sistema. \cite{ref20}
 
 \clearpage
 \hypertarget{fusion-imaging-ecocardiografico-fluoroscopico}{%
 \section*{2. Fusion imaging ecocardiografico-fluoroscopico}\label{fusion-imaging-ecocardiografico-fluoroscopico}}
 
-Il fusion imaging ecocardiografico-fluoroscopico è una tecnologia software e hardware di imaging multimodale che permette di co-registrare nello spazio e nel tempo le immagini ecocardiografiche e fluoroscopiche. Il sistema consente di sovrapporre le immagini ecografiche alle immagini fluoroscopiche di un medesimo distretto corporeo mediante una co-registrazione live. Questo fornisce agli operatori una rappresentazione integrata in continuum durante le procedure transcatetere. {[}1, 2{]}
+Il fusion imaging ecocardiografico-fluoroscopico è una tecnologia software e hardware di imaging multimodale che permette di co-registrare nello spazio e nel tempo le immagini ecocardiografiche e fluoroscopiche. Il sistema consente di sovrapporre le immagini ecografiche alle immagini fluoroscopiche di un medesimo distretto corporeo mediante una co-registrazione live. Questo fornisce agli operatori una rappresentazione integrata in continuum durante le procedure transcatetere. \cite{ref1,ref2}
 
 \hypertarget{principi-generali-del-fusion-imaging}{%
 \subsection*{2.1 Principi generali del fusion imaging}\label{principi-generali-del-fusion-imaging}}
 
-Il fusion imaging si basa sulla co-registrazione dei dati acquisiti mediante differenti metodiche, affinché possano essere rappresentati all'interno dello stesso sistema di riferimento spaziale. Per ottenere tale allineamento viene utilizzato un software dedicato, che identifica punti di riferimento comuni alle diverse immagini oppure utilizza informazioni relative alla loro posizione nello spazio. {[}1{]}
+Il fusion imaging si basa sulla co-registrazione dei dati acquisiti mediante differenti metodiche, affinché possano essere rappresentati all'interno dello stesso sistema di riferimento spaziale. Per ottenere tale allineamento viene utilizzato un software dedicato, che identifica punti di riferimento comuni alle diverse immagini oppure utilizza informazioni relative alla loro posizione nello spazio. \cite{ref1}
 
 In base alle metodiche integrate e alla modalità di acquisizione delle immagini, il fusion imaging può essere distinto in statico e dinamico.
 
 Nel fusion imaging statico, un dataset acquisito precedentemente mediante TC, Cone Beam CT (CBCT) o risonanza magnetica o PET-TC viene segmentato e viene co-registrato con le immagini fluoroscopiche acquisite durante la procedura.\\
-Poiché il dataset di riferimento è stato ottenuto in un momento precedente, eventuali modificazioni anatomiche o variazioni della posizione del paziente possono determinare una riduzione dell'accuratezza della sovrapposizione. {[}1{]}
+Poiché il dataset di riferimento è stato ottenuto in un momento precedente, eventuali modificazioni anatomiche o variazioni della posizione del paziente possono determinare una riduzione dell'accuratezza della sovrapposizione. \cite{ref1}
 
-Diversamente, il fusion imaging dinamico integra immagini acquisite in tempo reale durante la procedura. Nell'ambito dell'interventistica cardiaca strutturale, il sistema EchoNavigator (Philips Healthcare) permette di co-registrare nello spazio e nel tempo le immagini ottenute mediante ecocardiografia transesofagea (TEE) con quelle fluoroscopiche. {[}1, 2{]} Il software di co-registrazione individua la posizione e l'orientamento della sonda TEE all'interno del campo di vista fluoroscopico (FOV), confrontando l'immagine fluoroscopica della sonda con un modello tridimensionale fornito dal costruttore. A questo scopo, vengono acquisite due proiezioni fluoroscopiche, una obliqua anteriore destra (RAO) a 30° e una obliqua anteriore sinistra (LAO) a 30°, per aumentare l'accuratezza del calcolo matematico necessario all'allineamento delle immagini. {[}1, 2{]}
+Diversamente, il fusion imaging dinamico integra immagini acquisite in tempo reale durante la procedura. Nell'ambito dell'interventistica cardiaca strutturale, il sistema EchoNavigator (Philips Healthcare) permette di co-registrare nello spazio e nel tempo le immagini ottenute mediante ecocardiografia transesofagea (TEE) con quelle fluoroscopiche. \cite{ref1,ref2} Il software di co-registrazione individua la posizione e l'orientamento della sonda TEE all'interno del campo di vista fluoroscopico (FOV), confrontando l'immagine fluoroscopica della sonda con un modello tridimensionale fornito dal costruttore. A questo scopo, vengono acquisite due proiezioni fluoroscopiche, una obliqua anteriore destra (RAO) a 30° e una obliqua anteriore sinistra (LAO) a 30°, per aumentare l'accuratezza del calcolo matematico necessario all'allineamento delle immagini. \cite{ref1,ref2}
 
-Quando la co-registrazione è corretta, il contorno della sonda visualizzato sul monitor appare verde. {[}2{]}
+Quando la co-registrazione è corretta, il contorno della sonda visualizzato sul monitor appare verde. \cite{ref2}
 
 Durante la procedura, il medico ecografista può posizionare marker sulle immagini ecocardiografiche, che vengono poi riportati sulle immagini fluoroscopiche.\\
 \strut \\
-Questi marker aiutano a individuare punti anatomici utili alla navigazione dei dispositivi o, nel caso della puntura transettale, il sito selezionato per la sua esecuzione in sicurezza. {[}2, 21{]}
+Questi marker aiutano a individuare punti anatomici utili alla navigazione dei dispositivi o, nel caso della puntura transettale, il sito selezionato per la sua esecuzione in sicurezza. \cite{ref2,ref21}
 
 \begin{center}
-\includegraphics[width=6.30221in,height=2.25in]{immagini/image5.jpg}
+\begin{minipage}{\linewidth}
+\centering
+\includegraphics[width=\linewidth,height=2.25in,keepaspectratio]{immagini/image5.jpg}\par\smallskip
+{\fontsize{10}{12}\selectfont\raggedright\textbf{Figura 2. Co-registrazione eco-fluoroscopica: modello tridimensionale della sonda TEE (A), allineamento nelle proiezioni fluoroscopiche (B-C) e settore di acquisizione ecocardiografica (D). Riprodotta da Clegg et al. \cite{ref22}, fig. 1. © 2015 American College of Cardiology Foundation, con autorizzazione tramite Elsevier.}\ThesisFigureFootnoteMark}
+\end{minipage}
 \end{center}
-
-{\fontsize{10}{12}\selectfont\textbf{Figura 2. Co-registrazione eco-fluoroscopica: modello tridimensionale della sonda TEE (A), allineamento nelle proiezioni fluoroscopiche (B-C) e settore di acquisizione ecocardiografica (D). Riprodotta da Clegg et al. {[}22{]}, fig. 1. © 2015 American College of Cardiology Foundation, con autorizzazione tramite Elsevier.}\footnote{Reprinted from JACC: Cardiovascular Imaging, Vol. 8, Clegg SD, Chen SJ, Nijhof N, Kim MS, Salcedo EE, Quaife RA, Messenger JC, Bracken J, Carroll JD, ``Integrated 3D Echo-X Ray to Optimize Image Guidance for Structural Heart Intervention'', pp. 371--374, Copyright (2015), with permission from the American College of Cardiology Foundation.}}
+\ThesisFigureFootnoteText{Reprinted from JACC: Cardiovascular Imaging, Vol. 8, Clegg SD, Chen SJ, Nijhof N, Kim MS, Salcedo EE, Quaife RA, Messenger JC, Bracken J, Carroll JD, ``Integrated 3D Echo-X Ray to Optimize Image Guidance for Structural Heart Intervention'', pp. 371--374, Copyright (2015), with permission from the American College of Cardiology Foundation.}
 
 \hypertarget{riparazione-transcatetere-edge-to-edge-della-valvola-mitrale}{%
 \subsection*{2.2 Riparazione transcatetere edge-to-edge della valvola mitrale}\label{riparazione-transcatetere-edge-to-edge-della-valvola-mitrale}}
 
-Il fusion imaging può fornire un supporto in diverse fasi delle procedure transcatetere edge-to-edge delle valvole atrioventricolari, dall'individuazione dei reperi anatomici alla navigazione e al posizionamento del dispositivo. Le sue modalità di applicazione variano in base alla valvola trattata e al dispositivo impiegato. {[}1{]}
+Il fusion imaging può fornire un supporto in diverse fasi delle procedure transcatetere edge-to-edge delle valvole atrioventricolari, dall'individuazione dei reperi anatomici alla navigazione e al posizionamento del dispositivo. Le sue modalità di applicazione variano in base alla valvola trattata e al dispositivo impiegato. \cite{ref1}
 
 Poiché tutti gli studi inclusi nella presente revisione comprendevano pazienti sottoposti a riparazione transcatetere edge-to-edge della valvola mitrale mediante MitraClip, si è scelto di approfondire le principali fasi di questa procedura.
 
-Nei sottoparagrafi successivi vengono pertanto descritte le viste ecocardiografiche e le proiezioni fluoroscopiche utilizzate durante la guida convenzionale. Queste costituiscono la base anche per l'impiego del fusion imaging, che ne consente la co-registrazione e la visualizzazione integrata. {[}1, 23{]}
+Nei sottoparagrafi successivi vengono pertanto descritte le viste ecocardiografiche e le proiezioni fluoroscopiche utilizzate durante la guida convenzionale. Queste costituiscono la base anche per l'impiego del fusion imaging, che ne consente la co-registrazione e la visualizzazione integrata. \cite{ref1,ref23}
 
 \hypertarget{puntura-transettale-e-marker}{%
 \subsubsection*{\texorpdfstring{2.2.1 Puntura transettale e marker }{2.2.1 Puntura transettale e marker }}\label{puntura-transettale-e-marker}}
 
-La puntura transettale rappresenta una fase fondamentale nelle procedure mitraliche eseguite mediante accesso transvenoso, poiché permette il passaggio dall'atrio destro all'atrio sinistro attraverso il setto interatriale. {[}16, 23{]}
+La puntura transettale rappresenta una fase fondamentale nelle procedure mitraliche eseguite mediante accesso transvenoso, poiché permette il passaggio dall'atrio destro all'atrio sinistro attraverso il setto interatriale. \cite{ref16,ref23}
 
-Le principali viste ottenute mediante ecocardiografia transesofagea per guidare la puntura transettale sono la vista bicavale, la vista medio-esofagea in asse corto a livello della valvola aortica e la vista medio-esofagea a quattro camere. {[}16, 23{]}
+Le principali viste ottenute mediante ecocardiografia transesofagea per guidare la puntura transettale sono la vista bicavale, la vista medio-esofagea in asse corto a livello della valvola aortica e la vista medio-esofagea a quattro camere. \cite{ref16,ref23}
 
 La vista bi-cavale permette di valutare l'orientamento superiore-inferiore, mostrando contemporaneamente la vena cava inferiore, la vena cava superiore, i due atri e il setto interatriale.
 
 La vista in asse corto a livello della base consente invece di stabilire la posizione anteriore o posteriore del punto di puntura, utilizzando la radice aortica come riferimento anteriore.
 
-Infine, la vista quattro camere mostra entrambi gli atri e i ventricoli e permette di valutare l'altezza del punto di puntura rispetto al piano della valvola mitrale. Le diverse viste permettono inoltre di controllare la posizione e l'avanzamento delle guide e dei cateteri e di valutarne i rapporti con le strutture cardiache. {[}16{]}
+Infine, la vista quattro camere mostra entrambi gli atri e i ventricoli e permette di valutare l'altezza del punto di puntura rispetto al piano della valvola mitrale. Le diverse viste permettono inoltre di controllare la posizione e l'avanzamento delle guide e dei cateteri e di valutarne i rapporti con le strutture cardiache. \cite{ref16}
 
-È utile sovrapporre una ricostruzione 3D del setto interatriale all'immagine fluoroscopica in proiezione RAO, per ottenere una vista \emph{en face} della fossa ovale e individuare un punto per la puntura nella sua porzione postero-superiore. {[}2{]}
+È utile sovrapporre una ricostruzione 3D del setto interatriale all'immagine fluoroscopica in proiezione RAO, per ottenere una vista \emph{en face} della fossa ovale e individuare un punto per la puntura nella sua porzione postero-superiore. \cite{ref2}
 
-Durante questa fase possono essere utilizzate le proiezioni fluoroscopiche antero-posteriore (AP) e obliqua anteriore sinistra (LAO). In quest'ultima, il fusion imaging consente di sovrapporre la corrispondente vista TEE bicavale. {[}2, 23{]}
+Durante questa fase possono essere utilizzate le proiezioni fluoroscopiche antero-posteriore (AP) e obliqua anteriore sinistra (LAO). In quest'ultima, il fusion imaging consente di sovrapporre la corrispondente vista TEE bicavale. \cite{ref2,ref23}
 
 \hypertarget{navigazione-dei-cateteri-e-dei-sistemi-di-rilascio}{%
 \subsubsection*{\texorpdfstring{2.2.2 Navigazione dei cateteri e dei sistemi di rilascio}{2.2.2 Navigazione dei cateteri e dei sistemi di rilascio}}\label{navigazione-dei-cateteri-e-dei-sistemi-di-rilascio}}
 
-Durante l'introduzione e l'avanzamento del catetere guida orientabile nell'atrio sinistro, la fluoroscopia viene generalmente acquisita nelle proiezioni antero-posteriore (AP) e RAO craniale. {[}2, 23{]}
+Durante l'introduzione e l'avanzamento del catetere guida orientabile nell'atrio sinistro, la fluoroscopia viene generalmente acquisita nelle proiezioni antero-posteriore (AP) e RAO craniale. \cite{ref2,ref23}
 
-Contemporaneamente, la TEE utilizza le viste medio-esofagee in asse corto, in asse lungo e a quattro camere, insieme alle ricostruzioni tridimensionali dell'atrio sinistro per valutare i rapporti spaziali del catetere con il setto interatriale, la parete atriale e il piano della valvola mitrale. {[}23{]}
+Contemporaneamente, la TEE utilizza le viste medio-esofagee in asse corto, in asse lungo e a quattro camere, insieme alle ricostruzioni tridimensionali dell'atrio sinistro per valutare i rapporti spaziali del catetere con il setto interatriale, la parete atriale e il piano della valvola mitrale. \cite{ref23}
 
-Sulle immagini ecocardiografiche possono essere posizionati tre marker anatomici che, una volta trasferiti sull'immagine fluoroscopica, delimitano un triangolo virtuale utile alla navigazione del sistema. I marker identificano il sito ideale della puntura transettale, la cresta dell'atrio sinistro (\emph{left atrial ridge}), che separa l'auricola sinistra dalla vena polmonare superiore sinistra, e il centro della valvola mitrale. In questo modo, durante la navigazione nell'atrio sinistro, l'operatore dispone di riferimenti anatomici direttamente visibili sull'immagine fluoroscopica. {[}21{]}
+Sulle immagini ecocardiografiche possono essere posizionati tre marker anatomici che, una volta trasferiti sull'immagine fluoroscopica, delimitano un triangolo virtuale utile alla navigazione del sistema. I marker identificano il sito ideale della puntura transettale, la cresta dell'atrio sinistro (\emph{left atrial ridge}), che separa l'auricola sinistra dalla vena polmonare superiore sinistra, e il centro della valvola mitrale. In questo modo, durante la navigazione nell'atrio sinistro, l'operatore dispone di riferimenti anatomici direttamente visibili sull'immagine fluoroscopica. \cite{ref21}
 
 \hypertarget{allineamento-e-posizionamento-del-dispositivo}{%
 \subsubsection*{\texorpdfstring{2.2.3 Allineamento e posizionamento del dispositivo}{2.2.3 Allineamento e posizionamento del dispositivo}}\label{allineamento-e-posizionamento-del-dispositivo}}
 
 Durante la navigazione verso la valvola mitrale, il sistema di rilascio viene posizionato al di sopra della sede del rigurgito. Le immagini fluoroscopiche vengono acquisite in proiezione obliqua anteriore destra (RAO) con angolazione craniale, mentre la TEE utilizza
 
-la ricostruzione tridimensionale dell'atrio sinistro per seguire gli spostamenti principali del sistema e l'acquisizione biplanare, definita ``vista di traiettoria 2D'' per effettuare regolazioni più precise. Quest'ultima associa la vista intercommissurale, nella quale si visualizzano distintamente tre segmenti, alla corrispondente vista ortogonale in asse lungo, permettendo di controllare rispettivamente gli spostamenti medio-laterali e antero-posteriori. {[}23{]}
+la ricostruzione tridimensionale dell'atrio sinistro per seguire gli spostamenti principali del sistema e l'acquisizione biplanare, definita ``vista di traiettoria 2D'' per effettuare regolazioni più precise. Quest'ultima associa la vista intercommissurale, nella quale si visualizzano distintamente tre segmenti, alla corrispondente vista ortogonale in asse lungo, permettendo di controllare rispettivamente gli spostamenti medio-laterali e antero-posteriori. \cite{ref23}
 
-Prima dell'avanzamento nel ventricolo sinistro, il sistema di rilascio deve essere allineato perpendicolarmente al piano della valvola mitrale. Successivamente, i bracci della clip vengono orientati perpendicolarmente alla linea di coaptazione mediante la vista tridimensionale \emph{en face} e l'acquisizione biplanare. Nel posizionamento centrale, il corretto orientamento è confermato quando i bracci non sono visibili nella vista intercommissurale e nella proiezione RAO craniale, mentre risultano evidenti nella loro completa estensione nella vista in asse lungo del tratto di efflusso del ventricolo sinistro (\emph{left ventricular outflow tract}, LVOT). {[}23{]}
+Prima dell'avanzamento nel ventricolo sinistro, il sistema di rilascio deve essere allineato perpendicolarmente al piano della valvola mitrale. Successivamente, i bracci della clip vengono orientati perpendicolarmente alla linea di coaptazione mediante la vista tridimensionale \emph{en face} e l'acquisizione biplanare. Nel posizionamento centrale, il corretto orientamento è confermato quando i bracci non sono visibili nella vista intercommissurale e nella proiezione RAO craniale, mentre risultano evidenti nella loro completa estensione nella vista in asse lungo del tratto di efflusso del ventricolo sinistro (\emph{left ventricular outflow tract}, LVOT). \cite{ref23}
 
 \hypertarget{cattura-dei-lembi-rilascio-e-controllo-finale}{%
 \subsubsection*{\texorpdfstring{2.2.4 Cattura dei lembi, rilascio e controllo finale}{2.2.4 Cattura dei lembi, rilascio e controllo finale}}\label{cattura-dei-lembi-rilascio-e-controllo-finale}}
 
-Il \emph{grasping} viene controllato in tempo reale mediante acquisizione TEE biplanare e fluoroscopia in proiezione RAO craniale. {[}23{]}
+Il \emph{grasping} viene controllato in tempo reale mediante acquisizione TEE biplanare e fluoroscopia in proiezione RAO craniale. \cite{ref23}
 
-Dopo la cattura dei lembi, vengono verificati l'adeguato inserimento dei lembi e la stabilità del dispositivo mediante diverse viste bidimensionali e ricostruzioni tridimensionali. {[}23{]}
+Dopo la cattura dei lembi, vengono verificati l'adeguato inserimento dei lembi e la stabilità del dispositivo mediante diverse viste bidimensionali e ricostruzioni tridimensionali. \cite{ref23}
 
-Prima del rilascio definitivo, il risultato viene valutato attraverso la stima del rigurgito residuo mediante color Doppler e la misurazione del gradiente transmitralico mediante Doppler continuo per identificare un'eventuale stenosi mitralica iatrogena. {[}23{]}
+Prima del rilascio definitivo, il risultato viene valutato attraverso la stima del rigurgito residuo mediante color Doppler e la misurazione del gradiente transmitralico mediante Doppler continuo per identificare un'eventuale stenosi mitralica iatrogena. \cite{ref23}
 
-Dopo il rilascio vengono nuovamente valutati la stabilità del dispositivo e il risultato complessivo della riparazione. {[}23{]}
+Dopo il rilascio vengono nuovamente valutati la stabilità del dispositivo e il risultato complessivo della riparazione. \cite{ref23}
 
 \begin{center}
 \begin{minipage}{\linewidth}
 \centering
 \includegraphics[width=4.59281in,height=3.58304in]{immagini/image4.jpg}\par\smallskip
-{\fontsize{10}{12}\selectfont\raggedright\textbf{Figura 3. Sovrapposizione delle immagini ecocardiografiche e fluoroscopiche durante il cateterismo transettale (A) e il posizionamento della MitraClip (B). Riprodotta da Clegg et al. {[}22{]}, fig. 3. © 2015 American College of Cardiology Foundation, con autorizzazione tramite Elsevier.}\footnote{Reprinted from JACC: Cardiovascular Imaging, Vol. 8, Clegg SD, Chen SJ, Nijhof N, Kim MS, Salcedo EE, Quaife RA, Messenger JC, Bracken J, Carroll JD, ``Integrated 3D Echo-X Ray to Optimize Image Guidance for Structural Heart Intervention'', pp. 371--374, Copyright (2015), with permission from the American College of Cardiology Foundation.}}
+{\fontsize{10}{12}\selectfont\raggedright\textbf{Figura 3. Sovrapposizione delle immagini ecocardiografiche e fluoroscopiche durante il cateterismo transettale (A) e il posizionamento della MitraClip (B). Riprodotta da Clegg et al. \cite{ref22}, fig. 3. © 2015 American College of Cardiology Foundation, con autorizzazione tramite Elsevier.}\ThesisFigureFootnoteMark}
 \end{minipage}
 \end{center}
+\ThesisFigureFootnoteText{Reprinted from JACC: Cardiovascular Imaging, Vol. 8, Clegg SD, Chen SJ, Nijhof N, Kim MS, Salcedo EE, Quaife RA, Messenger JC, Bracken J, Carroll JD, ``Integrated 3D Echo-X Ray to Optimize Image Guidance for Structural Heart Intervention'', pp. 371--374, Copyright (2015), with permission from the American College of Cardiology Foundation.}
 
 \hypertarget{ruolo-del-tsrm}{%
 \subsection*{2.3 Ruolo del TSRM}\label{ruolo-del-tsrm}}
 
-La conoscenza dell'anatomia nelle immagini fluoroscopiche ed ecocardiografiche favorisce una comunicazione efficace tra i componenti del team di emodinamica. {[}2{]}
+La conoscenza dell'anatomia nelle immagini fluoroscopiche ed ecocardiografiche favorisce una comunicazione efficace tra i componenti del team di emodinamica. \cite{ref2}
 
 Sulla base di questi aspetti, si può ipotizzare che il TSRM, nell'ambito delle proprie competenze e in collaborazione con l'équipe, possa contribuire alla verifica del corretto allineamento tra le immagini ecocardiografiche e fluoroscopiche durante l\textquotesingle intervento. A questo scopo può controllare il colore del contorno della sonda sul monitor e prestare attenzione ai movimenti verticali del tavolo e agli spostamenti del paziente, che potrebbero rendere necessarie la verifica o la ripetizione della co-registrazione. Può inoltre collaborare con l'ecografista nel controllo della corrispondenza dei marker tra le due immagini prima che vengano confermati.
 
@@ -517,11 +552,11 @@ Una formazione specifica in anatomia ecocardiografica potrebbe valorizzare il co
 \hypertarget{materiali-e-metodi-della-revisione-sistematica}{%
 \section*{3. Materiali e metodi della revisione sistematica}\label{materiali-e-metodi-della-revisione-sistematica}}
 
-La visualizzazione integrata delle due metodiche su un unico monitor può facilitare l'individuazione dei punti anatomici di interesse, la navigazione e l'orientamento dei dispositivi e il controllo delle principali fasi procedurali. Inoltre, semplificando alcune fasi dell'intervento, il fusion imaging potrebbe contribuire alla riduzione dei tempi di fluoroscopia e dell'esposizione alle radiazioni ionizzanti del paziente e degli operatori. {[}1, 2{]}
+La visualizzazione integrata delle due metodiche su un unico monitor può facilitare l'individuazione dei punti anatomici di interesse, la navigazione e l'orientamento dei dispositivi e il controllo delle principali fasi procedurali. Inoltre, semplificando alcune fasi dell'intervento, il fusion imaging potrebbe contribuire alla riduzione dei tempi di fluoroscopia e dell'esposizione alle radiazioni ionizzanti del paziente e degli operatori. \cite{ref1,ref2}
 
 Pertanto, nei pazienti adulti sottoposti a procedure transcatetere sulle valvole atrioventricolari, l'impiego del fusion imaging ecocardiografico-fluoroscopico, rispetto alla guida convenzionale basata sulla visualizzazione separata, è associato a una riduzione dell'esposizione alle radiazioni ionizzanti e dei tempi procedurali, nonché a un miglioramento del successo procedurale e della sicurezza?
 
-La presente revisione sistematica è stata condotta secondo le raccomandazioni PRISMA 2020 (Preferred Reporting Items for Systematic Reviews and Meta-Analyses), al fine di garantire trasparenza e completezza nella descrizione del processo metodologico e di favorire la riproducibilità. {[}29{]}
+La presente revisione sistematica è stata condotta secondo le raccomandazioni PRISMA 2020 (Preferred Reporting Items for Systematic Reviews and Meta-Analyses), al fine di garantire trasparenza e completezza nella descrizione del processo metodologico e di favorire la riproducibilità. \cite{ref29}
 
 Per definire in modo strutturato la domanda di ricerca è stato utilizzato il modello PICO. \hl{}
 
@@ -530,35 +565,35 @@ Per definire in modo strutturato la domanda di ricerca è stato utilizzato il mo
 \begin{longtable}[]{@{}|
   >{\raggedright\arraybackslash}m{(\columnwidth - 2\tabcolsep) * \real{0.1882}}|
   >{\raggedright\arraybackslash}m{(\columnwidth - 2\tabcolsep) * \real{0.8118}}|@{}}
-\toprule\noalign{}
-\begin{minipage}[b]{\linewidth}\raggedright
+\ThesisTableFooter{2}{Tabella 1. Formulazione del quesito di ricerca secondo il modello PICO (Population, Intervention, Comparison e Outcome).}
+\endlastfoot
+\hline
+\begin{minipage}[b]{\linewidth}\ThesisTableCell\ThesisTableHeader
 \textbf{Popolazione}
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\end{minipage} & \begin{minipage}[b]{\linewidth}\ThesisTableCell\raggedright
 Pazienti adulti sottoposti a procedure valvolari transcatetere per patologia della valvola mitrale o tricuspide.
 \end{minipage} \\
-\begin{minipage}[b]{\linewidth}\raggedright
+\hline
+\begin{minipage}[b]{\linewidth}\ThesisTableCell\ThesisTableHeader
 \textbf{Intervento}
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\end{minipage} & \begin{minipage}[b]{\linewidth}\ThesisTableCell\raggedright
 Guida mediante fusion imaging ecocardiografico-fluoroscopico.
 \end{minipage} \\
-\begin{minipage}[b]{\linewidth}\raggedright
+\hline
+\begin{minipage}[b]{\linewidth}\ThesisTableCell\ThesisTableHeader
 \textbf{Confronto}
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\end{minipage} & \begin{minipage}[b]{\linewidth}\ThesisTableCell\raggedright
 Procedura guidata con fluoroscopia ed ecocardiografia transesofagea convenzionali senza software di fusion imaging.
 \end{minipage} \\
-\begin{minipage}[b]{\linewidth}\raggedright
+\hline
+\begin{minipage}[b]{\linewidth}\ThesisTableCell\ThesisTableHeader
 \textbf{Outcome}
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\end{minipage} & \begin{minipage}[b]{\linewidth}\ThesisTableCell\raggedright
 Tempo procedurale, tempo di fluoroscopia, esposizione alle radiazioni ionizzanti, successo procedurale, complicanze, sicurezza e indicatori di efficienza del workflow.
 \end{minipage} \\
-\midrule\noalign{}
-\endhead
-\bottomrule\noalign{}
-\endlastfoot
+\hline
 \end{longtable}
 }
-
-\textbf{Tabella 1. Formulazione del quesito di ricerca secondo il modello PICO (Population, Intervention, Comparison e Outcome).}
 
 \hypertarget{ricerca-bibliografica}{%
 \subsection*{3.1 Ricerca bibliografica}\label{ricerca-bibliografica}}
@@ -579,40 +614,41 @@ Al fine di procedere a una prima selezione dei risultati ottenuti, sono stati ap
 \begin{longtable}[]{@{}|
   >{\raggedright\arraybackslash}m{(\columnwidth - 2\tabcolsep) * \real{0.3250}}|
   >{\raggedright\arraybackslash}m{(\columnwidth - 2\tabcolsep) * \real{0.6750}}|@{}}
-\toprule\noalign{}
-\begin{minipage}[b]{\linewidth}\raggedright
+\ThesisTableFooter{2}{Tabella 2. Applicazione dei filtri al momento della ricerca bibliografica.}
+\endlastfoot
+\hline
+\begin{minipage}[b]{\linewidth}\ThesisTableCell\ThesisTableHeader
 \textbf{Banca dati}
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\end{minipage} & \begin{minipage}[b]{\linewidth}\ThesisTableCell\ThesisTableHeader
 \textbf{Filtri applicati}
 \end{minipage} \\
-\begin{minipage}[b]{\linewidth}\raggedright
+\hline
+\begin{minipage}[b]{\linewidth}\ThesisTableCell\raggedright
 Web of Science
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\end{minipage} & \begin{minipage}[b]{\linewidth}\ThesisTableCell\raggedright
 Anni 2016-2026; esclusione dei \emph{Review Article}.
 \end{minipage} \\
-\begin{minipage}[b]{\linewidth}\raggedright
+\hline
+\begin{minipage}[b]{\linewidth}\ThesisTableCell\raggedright
 PubMed
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\end{minipage} & \begin{minipage}[b]{\linewidth}\ThesisTableCell\raggedright
 Anni 2016-2026; disponibilità del \emph{full text}.
 \end{minipage} \\
-\begin{minipage}[b]{\linewidth}\raggedright
+\hline
+\begin{minipage}[b]{\linewidth}\ThesisTableCell\raggedright
 Scopus
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\end{minipage} & \begin{minipage}[b]{\linewidth}\ThesisTableCell\raggedright
 Anni 2016-2026; articoli in lingua inglese; esclusione di \emph{review}, editoriali, capitoli di libro e \emph{short survey}.
 \end{minipage} \\
-\begin{minipage}[b]{\linewidth}\raggedright
+\hline
+\begin{minipage}[b]{\linewidth}\ThesisTableCell\raggedright
 Health \& Medical Collection
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\end{minipage} & \begin{minipage}[b]{\linewidth}\ThesisTableCell\raggedright
 Anni 2016-2026; disponibilità del testo completo.
 \end{minipage} \\
-\midrule\noalign{}
-\endhead
-\bottomrule\noalign{}
-\endlastfoot
+\hline
 \end{longtable}
 }
-
-\textbf{Tabella 2. Applicazione dei filtri al momento della ricerca bibliografica.}
 
 \hypertarget{criteri-di-eleggibilituxe0-inclusione-ed-esclusione}{%
 \subsubsection*{\texorpdfstring{3.2.1 Criteri di eleggibilità, inclusione ed esclusione }{3.2.1 Criteri di eleggibilità, inclusione ed esclusione }}\label{criteri-di-eleggibilituxe0-inclusione-ed-esclusione}}
@@ -635,55 +671,59 @@ Per quanto riguarda la tipologia di procedura, non sono stati considerati eleggi
 
 Infine, in relazione alla modalità di imaging, sono stati esclusi gli studi nei quali non fosse impiegato il fusion imaging ecocardiografico-fluoroscopico. Non sono state pertanto considerate pertinenti le pubblicazioni riguardanti tecniche di fusione tra modalità di imaging differenti, quali CT-fluoroscopia, CBCT-fluoroscopia o MRI-fluoroscopia, né quelle basate esclusivamente sull'impiego di roadmap tridimensionali, in assenza di un'integrazione dinamica e in tempo reale tra immagini ecocardiografiche e fluoroscopiche.
 
+% La tabella occupa quasi un'intera pagina: viene quindi avviata su una
+% pagina nuova, evitando che l'ultima riga passi alla pagina successiva.
+\clearpage
 {\fontsize{10}{12}\selectfont\setlength{\tabcolsep}{3pt}
 \addtolength{\columnwidth}{-2\tabcolsep-4\arrayrulewidth}
 \begin{longtable}[]{@{}|
   >{\raggedright\arraybackslash}m{(\columnwidth - 4\tabcolsep) * \real{0.2126}}|
   >{\raggedright\arraybackslash}m{(\columnwidth - 4\tabcolsep) * \real{0.3953}}|
   >{\raggedright\arraybackslash}m{(\columnwidth - 4\tabcolsep) * \real{0.3920}}|@{}}
-\toprule\noalign{}
-\begin{minipage}[b]{\linewidth}\raggedright
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\ThesisTableFooter{3}{Tabella 3. Criteri di inclusione e di esclusione adottati per la selezione degli studi.}
+\endlastfoot
+\hline
+\begin{minipage}[b]{\linewidth}\ThesisTableCell\raggedright
+\end{minipage} & \begin{minipage}[b]{\linewidth}\ThesisTableCell\ThesisTableHeader
 \textbf{Criteri di inclusione}
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\end{minipage} & \begin{minipage}[b]{\linewidth}\ThesisTableCell\ThesisTableHeader
 \textbf{Criteri di esclusione}
 \end{minipage} \\
-\begin{minipage}[b]{\linewidth}\raggedright
+\hline
+\begin{minipage}[b]{\linewidth}\ThesisTableCell\ThesisTableHeader
 \textbf{Tipo di pubblicazione e disegno dello studio.}
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\end{minipage} & \begin{minipage}[b]{\linewidth}\ThesisTableCell\raggedright
 Studi clinici originali.
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\end{minipage} & \begin{minipage}[b]{\linewidth}\ThesisTableCell\raggedright
 Revisioni narrative o sistematiche; meta-analisi; \emph{state-of-the-art review}; editoriali e commenti; linee guida e documenti di consenso; protocolli di studio\emph{; case report} e \emph{case series}; abstract congressuali e \emph{conference proceedings}; capitoli di libro; immagini cliniche; \emph{video article}; lettere e note prive di dati clinici comparativi originali; tesi e dissertazioni.
 \end{minipage} \\
-\begin{minipage}[b]{\linewidth}\raggedright
+\hline
+\begin{minipage}[b]{\linewidth}\ThesisTableCell\ThesisTableHeader
 \textbf{Popolazione}
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\end{minipage} & \begin{minipage}[b]{\linewidth}\ThesisTableCell\raggedright
 Pazienti adulti.
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\end{minipage} & \begin{minipage}[b]{\linewidth}\ThesisTableCell\raggedright
 Pazienti pediatrici, modelli animali e preclinici, nonché studi in vitro, ex vivo, su cadavere o phantom, su simulazioni, modelli computazionali o esclusivamente tecnici.
 \end{minipage} \\
-\begin{minipage}[b]{\linewidth}\raggedright
+\hline
+\begin{minipage}[b]{\linewidth}\ThesisTableCell\ThesisTableHeader
 \textbf{Procedure}
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\end{minipage} & \begin{minipage}[b]{\linewidth}\ThesisTableCell\raggedright
 Riparazione transcatetere edge-to-edge (TEER) e riparazione o sostituzione transcatetere delle valvole mitrale o tricuspide con dispositivi quali MitraClip, TriClip, PASCAL, EVOQUE o Intrepid. La chiusura percutanea dell\textquotesingle auricola sinistra (LAAO/LAAC) e il trattamento dei leak paravalvolari sono eleggibili solo qualora la popolazione fosse mista e includesse anche le procedure transcatetere delle valvole atrioventricolari.
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\end{minipage} & \begin{minipage}[b]{\linewidth}\ThesisTableCell\raggedright
 Procedure transcatetere della valvola aortica (TAVI/TAVR), della valvola polmonare. Interventi coronarici o elettrofisiologici, per il trattamento di cardiopatie congenite e cardiochirurgici. Studi esclusivamente incentrati sulla chiusura percutanea dell\textquotesingle auricola sinistra (LAAO/LAAC) o sul trattamento dei leak paravalvolari.
 \end{minipage} \\
-\begin{minipage}[b]{\linewidth}\raggedright
+\hline
+\begin{minipage}[b]{\linewidth}\ThesisTableCell\ThesisTableHeader
 \textbf{Intervento}
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\end{minipage} & \begin{minipage}[b]{\linewidth}\ThesisTableCell\raggedright
 Fusion imaging real-time ecocardiografico-fluoroscopico.
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\end{minipage} & \begin{minipage}[b]{\linewidth}\ThesisTableCell\raggedright
 Fusion imaging CT-fluoroscopia, CBCT-fluoroscopia o MRI-fluoroscopia. Impiego esclusivo di roadmap tridimensionali senza l\textquotesingle integrazione dinamica e in tempo reale tra le immagini ecocardiografiche-fluoroscopiche.
 \end{minipage} \\
-\midrule\noalign{}
-\endhead
-\bottomrule\noalign{}
-\endlastfoot
+\hline
 \end{longtable}
 }
-
-\textbf{Tabella 3. Criteri di inclusione e di esclusione adottati per la selezione degli studi.}
 
 \hypertarget{estrazione-dati}{%
 \subsubsection*{\texorpdfstring{3.2.2 Estrazione dati}{3.2.2 Estrazione dati}}\label{estrazione-dati}}
@@ -713,140 +753,148 @@ Al termine di questa fase, quattro articoli sono stati considerati potenzialment
 
 In seguito alla lettura del testo completo dei quattro articoli rimasti, uno è stato escluso perché presentava un disegno non comparativo e non prevedeva, quindi, un gruppo di controllo sottoposto a guida convenzionale con cui confrontare gli outcome associati all'impiego del fusion imaging.
 
-Al termine del processo di selezione sono stati inclusi tre studi, successivamente sottoposti all'estrazione e all'analisi dei dati. {[}24, 25, 26{]}
-
-{\fontsize{10}{12}\selectfont\setlength{\tabcolsep}{3pt}
+Al termine del processo di selezione sono stati inclusi tre studi, successivamente sottoposti all'estrazione e all'analisi dei dati. \cite{ref24,ref25,ref26}
+\vspace*{24pt}
+% Pagina 36: nessuno spazio automatico sopra la Tabella 4.
+{\setlength{\LTpre}{0pt}\setlength{\LTpost}{0pt}\fontsize{10}{12}\selectfont\setlength{\tabcolsep}{3pt}
 \addtolength{\columnwidth}{-2\tabcolsep-4\arrayrulewidth}
 \begin{longtable}[]{@{}|
   >{\raggedright\arraybackslash}m{(\columnwidth - 4\tabcolsep) * \real{0.2027}}|
   >{\raggedright\arraybackslash}m{(\columnwidth - 4\tabcolsep) * \real{0.3467}}|
   >{\raggedright\arraybackslash}m{(\columnwidth - 4\tabcolsep) * \real{0.4506}}|@{}}
-\toprule\noalign{}
-\begin{minipage}[b]{\linewidth}\raggedright
+\ThesisTableFooter{3}{Tabella 4. Numero di record identificati e rimasti dopo l'eliminazione dei duplicati.}
+\endlastfoot
+\hline
+\begin{minipage}[b]{\linewidth}\ThesisTableCell\ThesisTableHeader
 \textbf{Record totali ricerca}
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\end{minipage} & \begin{minipage}[b]{\linewidth}\ThesisTableCell\ThesisTableHeader
 \textbf{Duplicati rimossi}
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\end{minipage} & \begin{minipage}[b]{\linewidth}\ThesisTableCell\ThesisTableHeader
 \textbf{Record rimasti dopo eliminazione duplicati}
 \end{minipage} \\
-\begin{minipage}[b]{\linewidth}\raggedright
+\hline
+\begin{minipage}[b]{\linewidth}\ThesisTableCell\ThesisTableData
 435
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\end{minipage} & \begin{minipage}[b]{\linewidth}\ThesisTableCell\ThesisTableData
 79
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\end{minipage} & \begin{minipage}[b]{\linewidth}\ThesisTableCell\ThesisTableData
 356
 \end{minipage} \\
-\midrule\noalign{}
-\endhead
-\bottomrule\noalign{}
-\endlastfoot
+\hline
 \end{longtable}
 }
 
-\textbf{Tabella 4. Numero di record identificati e rimasti dopo l'eliminazione dei duplicati.}
-
-{\fontsize{10}{12}\selectfont\setlength{\tabcolsep}{3pt}
+% Una riga di separazione fra Tabella 4 e Tabella 5.
+\vspace*{24pt}
+{\setlength{\LTpre}{0pt}\fontsize{10}{12}\selectfont\setlength{\tabcolsep}{3pt}
 \addtolength{\columnwidth}{-2\tabcolsep-4\arrayrulewidth}
 \begin{longtable}[]{@{}|
   >{\raggedright\arraybackslash}m{(\columnwidth - 4\tabcolsep) * \real{0.2140}}|
   >{\raggedright\arraybackslash}m{(\columnwidth - 4\tabcolsep) * \real{0.3729}}|
   >{\raggedright\arraybackslash}m{(\columnwidth - 4\tabcolsep) * \real{0.4130}}|@{}}
-\toprule\noalign{}
-\begin{minipage}[b]{\linewidth}\raggedright
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\ThesisTableFooter{3}{Tabella 5. Distribuzione dei record esclusi durante lo screening del titolo e dell'abstract e durante la lettura del testo completo, suddivisi in base alla motivazione dell'esclusione.}
+\endlastfoot
+\hline
+\begin{minipage}[b]{\linewidth}\ThesisTableCell\raggedright
+\end{minipage} & \begin{minipage}[b]{\linewidth}\ThesisTableCell\ThesisTableHeader
 \textbf{Record esclusi mediante screening titolo/abstract}
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\end{minipage} & \begin{minipage}[b]{\linewidth}\ThesisTableCell\ThesisTableHeader
 \textbf{Record esclusi mediante screening lettura full text}
 \end{minipage} \\
-\begin{minipage}[b]{\linewidth}\raggedright
+\hline
+\begin{minipage}[b]{\linewidth}\ThesisTableCell\ThesisTableHeader
 \textbf{Tipo di pubblicazione o disegno di studio non eleggibile}
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\end{minipage} & \begin{minipage}[b]{\linewidth}\ThesisTableCell\ThesisTableData
 283
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\end{minipage} & \begin{minipage}[b]{\linewidth}\ThesisTableCell\ThesisTableData
 1
 \end{minipage} \\
-\begin{minipage}[b]{\linewidth}\raggedright
+\hline
+\begin{minipage}[b]{\linewidth}\ThesisTableCell\ThesisTableHeader
 \textbf{Popolazione o modello non eleggibile}
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\end{minipage} & \begin{minipage}[b]{\linewidth}\ThesisTableCell\ThesisTableData
 9
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\end{minipage} & \begin{minipage}[b]{\linewidth}\ThesisTableCell\raggedright
 \end{minipage} \\
-\begin{minipage}[b]{\linewidth}\raggedright
+\hline
+\begin{minipage}[b]{\linewidth}\ThesisTableCell\ThesisTableHeader
 \textbf{Valvola in studio o procedura non pertinenti}
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\end{minipage} & \begin{minipage}[b]{\linewidth}\ThesisTableCell\ThesisTableData
 34
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\end{minipage} & \begin{minipage}[b]{\linewidth}\ThesisTableCell\raggedright
 \end{minipage} \\
-\begin{minipage}[b]{\linewidth}\raggedright
+\hline
+\begin{minipage}[b]{\linewidth}\ThesisTableCell\ThesisTableHeader
 \textbf{Intervento non pertinente}
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\end{minipage} & \begin{minipage}[b]{\linewidth}\ThesisTableCell\ThesisTableData
 26
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\end{minipage} & \begin{minipage}[b]{\linewidth}\ThesisTableCell\raggedright
 \end{minipage} \\
-\begin{minipage}[b]{\linewidth}\raggedright
+\hline
+\begin{minipage}[b]{\linewidth}\ThesisTableCell\ThesisTableHeader
 \textbf{Totale}
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\end{minipage} & \begin{minipage}[b]{\linewidth}\ThesisTableCell\ThesisTableData
 352
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\end{minipage} & \begin{minipage}[b]{\linewidth}\ThesisTableCell\ThesisTableData
 1
 \end{minipage} \\
-\midrule\noalign{}
-\endhead
-\bottomrule\noalign{}
-\endlastfoot
+\hline
 \end{longtable}
 }
 
-\textbf{Tabella 5. Distribuzione dei record esclusi durante lo screening del titolo e dell'abstract e durante la lettura del testo completo, suddivisi in base alla motivazione dell'esclusione.}
-
 \begin{center}
-\includegraphics[width=\linewidth,height=.83\textheight,keepaspectratio]{immagini/image2.png}
+\begin{minipage}{\linewidth}
+\centering
+\includegraphics[width=\linewidth,height=.78\textheight,keepaspectratio]{immagini/image2.png}\par\smallskip
+{\fontsize{10}{12}\selectfont\raggedright\textbf{Figura 4. Diagramma di flusso PRISMA 2020 relativo al processo di selezione degli studi. Tradotto e adattato da Page et al. (2021), licenza CC BY 4.0. \cite{ref29}}}
+\end{minipage}
 \end{center}
 
-{\fontsize{10}{12}\selectfont\textbf{Figura 4. Diagramma di flusso PRISMA 2020 relativo al processo di selezione degli studi. Tradotto e adattato da Page et al. (2021), licenza CC BY 4.0. {[}29{]}}}
-
+% La sezione degli studi inclusi inizia dopo la Figura 4.
+\clearpage
 \hypertarget{studi-inclusi}{%
 \subsection*{4.2 Studi inclusi}\label{studi-inclusi}}
 
-Tutti gli studi presentavano un disegno osservazionale, retrospettivo, monocentrico e comparativo di tipo before-after, con una coorte storica di controllo. {[}24, 25, 26{]}
+Tutti gli studi presentavano un disegno osservazionale, retrospettivo, monocentrico e comparativo di tipo before-after, con una coorte storica di controllo. \cite{ref24,ref25,ref26}
 
-Lo studio comparativo di Afzal et al. (2017) ha incluso retrospettivamente 88 pazienti adulti, sottoposti a procedure di interventistica cardiaca strutturale per impianto di MitraClip o per la chiusura dell'auricola sinistra (LAAO), e li ha suddivisi in due gruppi da 44 pazienti ciascuno. Un gruppo, denominato -EchoNav, è stato trattato mediante la tecnica di imaging tradizionale, nella quale le immagini fluoroscopiche ed ecocardiografiche venivano visualizzate separatamente. Il secondo gruppo, denominato +EchoNav, è stato trattato mediante fusion imaging in seguito all'introduzione nella pratica clinica del sistema EchoNavigator Release II (EchoNav II, Philips Healthcare, Andover, Massachusetts, USA). {[}24{]}
+Lo studio comparativo di Afzal et al. (2017) ha incluso retrospettivamente 88 pazienti adulti, sottoposti a procedure di interventistica cardiaca strutturale per impianto di MitraClip o per la chiusura dell'auricola sinistra (LAAO), e li ha suddivisi in due gruppi da 44 pazienti ciascuno. Un gruppo, denominato -EchoNav, è stato trattato mediante la tecnica di imaging tradizionale, nella quale le immagini fluoroscopiche ed ecocardiografiche venivano visualizzate separatamente. Il secondo gruppo, denominato +EchoNav, è stato trattato mediante fusion imaging in seguito all'introduzione nella pratica clinica del sistema EchoNavigator Release II (EchoNav II, Philips Healthcare, Andover, Massachusetts, USA). \cite{ref24}
 
-Ciascun gruppo comprendeva 16 procedure di impianto di MitraClip e 28 procedure di chiusura dell'auricola sinistra; i risultati relativi alle due tipologie di intervento sono pertanto riportati in forma aggregata. {[}24{]}
+Ciascun gruppo comprendeva 16 procedure di impianto di MitraClip e 28 procedure di chiusura dell'auricola sinistra; i risultati relativi alle due tipologie di intervento sono pertanto riportati in forma aggregata. \cite{ref24}
 
-È stata osservata una riduzione statisticamente significativa del tempo compreso tra l'accesso vascolare femorale e l'esecuzione con successo della puntura transettale (FI+ = 18,48 ± 5,62 min; FI− = 23,20 ± 9,61 min; p = 0,006). {[}24{]}
+È stata osservata una riduzione statisticamente significativa del tempo compreso tra l'accesso vascolare femorale e l'esecuzione con successo della puntura transettale (FI+ = 18,48 ± 5,62 min; FI− = 23,20 ± 9,61 min; p = 0,006). \cite{ref24}
 
-La fattibilità tecnica del sistema di fusion imaging durante l'operazione di puntura transettale è stata valutata considerando il successo di tutte le TSP in entrambi i gruppi. {[}24{]}
+La fattibilità tecnica del sistema di fusion imaging durante l'operazione di puntura transettale è stata valutata considerando il successo di tutte le TSP in entrambi i gruppi. \cite{ref24}
 
-La sicurezza è sostenuta dall'assenza di complicanze correlate alla puntura transettale. I due eventi avversi osservati si sono verificati successivamente e sono risultati indipendenti da essa. Entrambi si sono verificati durante la procedura di chiusura dell'auricola sinistra (LAAO): dislocazione occluder (FI+) e blocco atrioventricolare (BAV) III grado intermittente (FI−). {[}24{]}
+La sicurezza è sostenuta dall'assenza di complicanze correlate alla puntura transettale. I due eventi avversi osservati si sono verificati successivamente e sono risultati indipendenti da essa. Entrambi si sono verificati durante la procedura di chiusura dell'auricola sinistra (LAAO): dislocazione occluder (FI+) e blocco atrioventricolare (BAV) III grado intermittente (FI−). \cite{ref24}
 
 Lo studio di Afzal et al. (2020) è un'analisi retrospettiva condotta su 194 pazienti consecutivi sottoposti a riparazione transcatetere edge-to-edge della valvola mitrale (M-TEER), successivamente suddivisi in due gruppi di studio.\\
-Le procedure del primo gruppo (FI-), comprendente 99 pazienti, sono state eseguite con tecnica di imaging tradizionale, nella quale le immagini ecocardiografiche e fluoroscopiche venivano visualizzate separatamente. Il secondo gruppo, composto da 95 pazienti (FI+), è stato invece sottoposto alla procedura dopo l'installazione del sistema di fusion imaging EchoNavigator (Philips Healthcare, Best, the Netherlands). {[}25{]}
+Le procedure del primo gruppo (FI-), comprendente 99 pazienti, sono state eseguite con tecnica di imaging tradizionale, nella quale le immagini ecocardiografiche e fluoroscopiche venivano visualizzate separatamente. Il secondo gruppo, composto da 95 pazienti (FI+), è stato invece sottoposto alla procedura dopo l'installazione del sistema di fusion imaging EchoNavigator (Philips Healthcare, Best, the Netherlands). \cite{ref25}
 
-Il tempo necessario per completare con successo la puntura transettale con l'impiego del fusion imaging è risultato significativamente inferiore (FI+ = 26,1 ± 12,0 min; FI− = 35,2 ± 16,9 min; p \textless{} 0,001). {[}25{]}
+Il tempo necessario per completare con successo la puntura transettale con l'impiego del fusion imaging è risultato significativamente inferiore (FI+ = 26,1 ± 12,0 min; FI− = 35,2 ± 16,9 min; p \textless{} 0,001). \cite{ref25}
 
-Il tempo procedurale totale è risultato lievemente inferiore nel gruppo FI+, ma la differenza non è risultata statisticamente significativa (FI+ = 92,5 ± 32,3 min; FI− = 95,6 ± 36,2 min; p = 0,524). {[}25{]}
+Il tempo procedurale totale è risultato lievemente inferiore nel gruppo FI+, ma la differenza non è risultata statisticamente significativa (FI+ = 92,5 ± 32,3 min; FI− = 95,6 ± 36,2 min; p = 0,524). \cite{ref25}
 
-Anche la riduzione del tempo di fluoroscopia osservata nel gruppo FI+ non ha raggiunto la significatività statistica. {[}25{]}
+Anche la riduzione del tempo di fluoroscopia osservata nel gruppo FI+ non ha raggiunto la significatività statistica. \cite{ref25}
 
-Il kerma-area product (KAP), indicato nello studio come dose-area product (DAP), è risultato numericamente più elevato nel gruppo FI+, senza tuttavia evidenziare una differenza statisticamente significativa rispetto al gruppo FI-. {[}25{]}
+Il kerma-area product (KAP), indicato nello studio come dose-area product (DAP), è risultato numericamente più elevato nel gruppo FI+, senza tuttavia evidenziare una differenza statisticamente significativa rispetto al gruppo FI-. \cite{ref25}
 
-Non sono state rilevate differenze statisticamente significative nell'incidenza delle complicanze, né nella mortalità a 30 giorni tra i due gruppi. {[}25{]}
+Non sono state rilevate differenze statisticamente significative nell'incidenza delle complicanze, né nella mortalità a 30 giorni tra i due gruppi. \cite{ref25}
 
-Infine, l'analisi condotta sui pazienti che hanno richiesto l'impianto di più dispositivi non ha evidenziato differenze significative nei tempi procedurali tra i due gruppi. {[}25{]}
+Infine, l'analisi condotta sui pazienti che hanno richiesto l'impianto di più dispositivi non ha evidenziato differenze significative nei tempi procedurali tra i due gruppi. \cite{ref25}
 
-Lo studio di Melillo et al. (2021) ha incluso 160 pazienti affetti da insufficienza mitralica di grado da moderato a severo. Di questi ne furono analizzati 158 e di conseguenza 79 per gruppo. {[}26{]}
+Lo studio di Melillo et al. (2021) ha incluso 160 pazienti affetti da insufficienza mitralica di grado da moderato a severo. Di questi ne furono analizzati 158 e di conseguenza 79 per gruppo. \cite{ref26}
 
-Per valutare la rilevanza del fusion imaging sul successo della riparazione transcatetere, sono stati costituiti due gruppi, FI- e FI+. I pazienti sono stati trattati dallo stesso team di cardiologi interventisti ed ecografisti esperti, rispettivamente prima e dopo l'installazione del sistema EchoNavigator versione 2 (Philips Medical System, Best, the Netherlands). {[}26{]}
+Per valutare la rilevanza del fusion imaging sul successo della riparazione transcatetere, sono stati costituiti due gruppi, FI- e FI+. I pazienti sono stati trattati dallo stesso team di cardiologi interventisti ed ecografisti esperti, rispettivamente prima e dopo l'installazione del sistema EchoNavigator versione 2 (Philips Medical System, Best, the Netherlands). \cite{ref26}
 
-Nella maggior parte dei casi è stata impiantata una sola clip, mentre nel 43,2\% dei pazienti è stato necessario impiantarne due; la distribuzione è risultata simile nei due gruppi. {[}26{]}
+Nella maggior parte dei casi è stata impiantata una sola clip, mentre nel 43,2\% dei pazienti è stato necessario impiantarne due; la distribuzione è risultata simile nei due gruppi. \cite{ref26}
 
-Dall'analisi del tempo necessario per completare la procedura è emersa una riduzione nel gruppo FI+, che tuttavia non ha raggiunto la significatività statistica. Al contrario, la riduzione del tempo di fluoroscopia osservata nel gruppo FI+ è risultata statisticamente significativa (FI+ = 37,3 ± 14,6 min; FI− = 48,3 ± 28,3 min; p = 0,003). {[}26{]}
+Dall'analisi del tempo necessario per completare la procedura è emersa una riduzione nel gruppo FI+, che tuttavia non ha raggiunto la significatività statistica. Al contrario, la riduzione del tempo di fluoroscopia osservata nel gruppo FI+ è risultata statisticamente significativa (FI+ = 37,3 ± 14,6 min; FI− = 48,3 ± 28,3 min; p = 0,003). \cite{ref26}
 
-Inoltre, il maggior successo procedurale riscontrato nel gruppo con fusion imaging è risultato statisticamente significativo sia al termine della procedura sia al momento della dimissione (fine procedura: FI+ = 91,1\% vs FI− = 79,7\%; p = 0,042; alla dimissione: FI+ = 77,2\% vs FI− = 61,5\%; p = 0,033). {[}26{]}
+Inoltre, il maggior successo procedurale riscontrato nel gruppo con fusion imaging è risultato statisticamente significativo sia al termine della procedura sia al momento della dimissione (fine procedura: FI+ = 91,1\% vs FI− = 79,7\%; p = 0,042; alla dimissione: FI+ = 77,2\% vs FI− = 61,5\%; p = 0,033). \cite{ref26}
 
-Il KAP registrato nei due gruppi non ha mostrato differenze statisticamente significative. Analogamente, non sono emerse differenze statisticamente significative nell'incidenza delle complicanze tra i due gruppi. {[}26{]}
+Il KAP registrato nei due gruppi non ha mostrato differenze statisticamente significative. Analogamente, non sono emerse differenze statisticamente significative nell'incidenza delle complicanze tra i due gruppi. \cite{ref26}
 
+\clearpage
 {\fontsize{10}{12}\selectfont\setlength{\tabcolsep}{3pt}
 \addtolength{\columnwidth}{-2\tabcolsep-7\arrayrulewidth}
 \begin{longtable}[]{@{}|
@@ -856,25 +904,28 @@ Il KAP registrato nei due gruppi non ha mostrato differenze statisticamente sign
   >{\raggedright\arraybackslash}m{(\columnwidth - 10\tabcolsep) * \real{0.1773}}|
   >{\raggedright\arraybackslash}m{(\columnwidth - 10\tabcolsep) * \real{0.1672}}|
   >{\raggedright\arraybackslash}m{(\columnwidth - 10\tabcolsep) * \real{0.1823}}|@{}}
-\toprule\noalign{}
-\begin{minipage}[b]{\linewidth}\raggedright
+\ThesisTableFooter{6}{Tabella 6. Sintesi delle principali caratteristiche metodologiche e cliniche degli studi inclusi secondo il modello PICO. \cite{ref24,ref25,ref26}}
+\endlastfoot
+\hline
+\begin{minipage}[b]{\linewidth}\ThesisTableCell\ThesisTableHeader
 \textbf{Studio}
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\end{minipage} & \begin{minipage}[b]{\linewidth}\ThesisTableCell\ThesisTableHeader
 \textbf{Disegno di studio}
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\end{minipage} & \begin{minipage}[b]{\linewidth}\ThesisTableCell\ThesisTableHeader
 \textbf{Procedura e campione}
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\end{minipage} & \begin{minipage}[b]{\linewidth}\ThesisTableCell\ThesisTableHeader
 \textbf{Intervento}
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\end{minipage} & \begin{minipage}[b]{\linewidth}\ThesisTableCell\ThesisTableHeader
 \textbf{Controllo}
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\end{minipage} & \begin{minipage}[b]{\linewidth}\ThesisTableCell\ThesisTableHeader
 \textbf{Outcome}
 \end{minipage} \\
-\begin{minipage}[b]{\linewidth}\raggedright
-Afzal et al. (2017), Germania {[}24{]}
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\hline
+\begin{minipage}[b]{\linewidth}\ThesisTableCell\raggedright
+Afzal et al. (2017), Germania \cite{ref24}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\ThesisTableCell\raggedright
 Studio osservazionale, retrospettivo, monocentrico e comparativo con disegno before-after e coorte storica di controllo.
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\end{minipage} & \begin{minipage}[b]{\linewidth}\ThesisTableCell\raggedright
 Popolazione mista MitraClip/LAAO.
 
 Totale di 88 pazienti:
@@ -882,53 +933,52 @@ Totale di 88 pazienti:
 FI- (before) = 44 e FI+ (after) = 44.
 
 In ciascun gruppo: 16 procedure MitraClip e 28 LAAO.
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\end{minipage} & \begin{minipage}[b]{\linewidth}\ThesisTableCell\raggedright
 Fusion imaging real-time con EchoNavigator system Release II (EchoNav II, Philips Healthcare, Andover, Massachusetts, USA).
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\end{minipage} & \begin{minipage}[b]{\linewidth}\ThesisTableCell\raggedright
 Guida convenzionale con TEE e fluoroscopia visualizzate separatamente.
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\end{minipage} & \begin{minipage}[b]{\linewidth}\ThesisTableCell\raggedright
 Eventi avversi correlati alla puntura transettale; successo della puntura nel sito prespecificato; tempo fino alla puntura transettale.
 \end{minipage} \\
-\begin{minipage}[b]{\linewidth}\raggedright
-Afzal et al. (2020), Germania \hl{}{[}25{]}
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\hline
+\begin{minipage}[b]{\linewidth}\ThesisTableCell\raggedright
+Afzal et al. (2020), Germania \hl{}\cite{ref25}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\ThesisTableCell\raggedright
 Studio osservazionale, retrospettivo, monocentrico e comparativo con disegno before-after e coorte storica di controllo.
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\end{minipage} & \begin{minipage}[b]{\linewidth}\ThesisTableCell\raggedright
 Riparazione mitralica transcatetere edge-to-edge con MitraClip.
 
 Totale di 194 pazienti consecutivi: FI- (before) = 99 e FI+ (after) = 95.
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\end{minipage} & \begin{minipage}[b]{\linewidth}\ThesisTableCell\raggedright
 Fusion imaging real-time con EchoNavigator (EchoNavigator System, Philips Healthcare, Best, the Netherlands).
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\end{minipage} & \begin{minipage}[b]{\linewidth}\ThesisTableCell\raggedright
 Guida convenzionale con TEE e fluoroscopia visualizzate separatamente.
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\end{minipage} & \begin{minipage}[b]{\linewidth}\ThesisTableCell\raggedright
 Tempo fino alla puntura transettale; tempo procedurale totale; tempo di fluoroscopia; dose-area product (DAP); eventi avversi.
 \end{minipage} \\
-\begin{minipage}[b]{\linewidth}\raggedright
-Melillo et al. (2021), Italia {[}26{]}
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\hline
+\begin{minipage}[b]{\linewidth}\ThesisTableCell\raggedright
+Melillo et al. (2021), Italia \cite{ref26}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\ThesisTableCell\raggedright
 Studio osservazionale, retrospettivo, monocentrico e comparativo con disegno before-after e coorte storica di controllo.
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\end{minipage} & \begin{minipage}[b]{\linewidth}\ThesisTableCell\raggedright
 Riparazione mitralica transcatetere edge-to-edge con MitraClip.
 
 Totale di 160 pazienti consecutivi inclusi ma 158 analizzati: FI- (before) = 79 e FI+ (after) = 79.
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\end{minipage} & \begin{minipage}[b]{\linewidth}\ThesisTableCell\raggedright
 Fusion imaging real-time con EchoNavigator version 2 (Philips Medical System, Best, the Netherlands).
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\end{minipage} & \begin{minipage}[b]{\linewidth}\ThesisTableCell\raggedright
 Guida convenzionale con TEE e fluoroscopia visualizzate separatamente.
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\end{minipage} & \begin{minipage}[b]{\linewidth}\ThesisTableCell\raggedright
 Tempo di fluoroscopia; kerma-area product (KAP); tempo procedurale totale; successo procedurale; complicanze.
 \end{minipage} \\
-\midrule\noalign{}
-\endhead
-\bottomrule\noalign{}
-\endlastfoot
+\hline
 \end{longtable}
 }
 
-\textbf{Tabella 6. Sintesi delle principali caratteristiche metodologiche e cliniche degli studi inclusi secondo il modello PICO. {[}24, 25, 26{]}}
-
-{\fontsize{10}{12}\selectfont\setlength{\tabcolsep}{3pt}
+% La tabella 7 deve rimanere interamente su una singola pagina.
+\clearpage
+{\fontsize{10}{12}\selectfont\setlength{\tabcolsep}{2.5pt}
 \addtolength{\columnwidth}{-2\tabcolsep-7\arrayrulewidth}
 \begin{longtable}[]{@{}|
   >{\raggedright\arraybackslash}m{(\columnwidth - 10\tabcolsep) * \real{0.1080}}|
@@ -937,23 +987,26 @@ Tempo di fluoroscopia; kerma-area product (KAP); tempo procedurale totale; succe
   >{\raggedright\arraybackslash}m{(\columnwidth - 10\tabcolsep) * \real{0.1495}}|
   >{\raggedright\arraybackslash}m{(\columnwidth - 10\tabcolsep) * \real{0.1578}}|
   >{\raggedright\arraybackslash}m{(\columnwidth - 10\tabcolsep) * \real{0.1993}}|@{}}
-\toprule\noalign{}
-\begin{minipage}[b]{\linewidth}\raggedright
+\ThesisTableFooterWithNote{6}{Tabella 7. Outcome procedurali, dosimetrici e di sicurezza negli studi inclusi. \cite{ref24,ref25,ref26}}{Abbreviazioni: FI, fusion imaging; FI−, gruppo senza fusion imaging; FI+, gruppo con fusion imaging; LAAO, occlusione dell'auricola atriale sinistra; TEE, ecocardiografia transesofagea; DAP, dose-area product; KAP, kerma-area product; TSP, puntura transettale; NR, dato non riportato. Ai fini dell'interpretazione dei risultati riportati, valori di p \textless{} 0,05 sono stati considerati statisticamente significativi; valori di p ≥ 0,05 sono stati considerati non statisticamente significativi.}
+\endlastfoot
+\hline
+\begin{minipage}[b]{\linewidth}\ThesisTableCell\ThesisTableHeader
 \textbf{Studio}
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\end{minipage} & \begin{minipage}[b]{\linewidth}\ThesisTableCell\ThesisTableHeader
 \textbf{Tempo fino a TSP/procedurale}
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\end{minipage} & \begin{minipage}[b]{\linewidth}\ThesisTableCell\ThesisTableHeader
 \textbf{Fluoroscopia}
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\end{minipage} & \begin{minipage}[b]{\linewidth}\ThesisTableCell\ThesisTableHeader
 \textbf{DAP/KAP}
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\end{minipage} & \begin{minipage}[b]{\linewidth}\ThesisTableCell\ThesisTableHeader
 \textbf{Successo}
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\end{minipage} & \begin{minipage}[b]{\linewidth}\ThesisTableCell\ThesisTableHeader
 \textbf{Complicanze}
 \end{minipage} \\
-\begin{minipage}[b]{\linewidth}\raggedright
-Afzal et al. (2017) {[}24{]}
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\hline
+\begin{minipage}[b]{\linewidth}\ThesisTableCell\raggedright
+Afzal et al. (2017) \cite{ref24}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\ThesisTableCell\raggedright
 Tempo fino a TSP:
 
 FI+ = 18,48 ± 5,62 min;
@@ -963,22 +1016,23 @@ FI− = 23,20 ± 9,61 min;
 p = 0,006.
 
 Tempo procedurale totale: NR.
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\end{minipage} & \begin{minipage}[b]{\linewidth}\ThesisTableCell\ThesisTableData
 NR
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\end{minipage} & \begin{minipage}[b]{\linewidth}\ThesisTableCell\ThesisTableData
 NR
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\end{minipage} & \begin{minipage}[b]{\linewidth}\ThesisTableCell\raggedright
 Successo TSP nel sito prespecificato: FI+ = 44/44 (100\%);
 
 FI− = 44/44 (100\%).
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\end{minipage} & \begin{minipage}[b]{\linewidth}\ThesisTableCell\raggedright
 Nessun evento avverso correlato alla TSP.
 
 Due eventi successivi e indipendenti dalla TSP.
 \end{minipage} \\
-\begin{minipage}[b]{\linewidth}\raggedright
-Afzal et al. (2020) {[}25{]}
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\hline
+\begin{minipage}[b]{\linewidth}\ThesisTableCell\raggedright
+Afzal et al. (2020) \cite{ref25}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\ThesisTableCell\raggedright
 Tempo fino a TSP:
 
 FI+ = 26,1 ± 12,0 min;
@@ -994,13 +1048,13 @@ FI+ = 92,5 ± 32,3 min;
 FI− = 95,6 ± 36,2 min;
 
 p = 0,524.
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\end{minipage} & \begin{minipage}[b]{\linewidth}\ThesisTableCell\raggedright
 FI+ = 27,7 ± 13,1 min;
 
 FI− = 30,1 ± 16,1 min;
 
 p = 0,269.
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\end{minipage} & \begin{minipage}[b]{\linewidth}\ThesisTableCell\raggedright
 DAP:
 
 FI+ = 7.521,0 ± 5.221,26 cGy·cm²;
@@ -1008,9 +1062,9 @@ FI+ = 7.521,0 ± 5.221,26 cGy·cm²;
 FI− = 6.351,6 ± 5.783,2 cGy·cm²;
 
 p = 0,146.
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\end{minipage} & \begin{minipage}[b]{\linewidth}\ThesisTableCell\ThesisTableData
 NR
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\end{minipage} & \begin{minipage}[b]{\linewidth}\ThesisTableCell\raggedright
 Mortalità a 30 giorni:
 
 FI+ = 1\% vs
@@ -1035,9 +1089,10 @@ FI− = 1,0\%;
 
 p = 0,977.
 \end{minipage} \\
-\begin{minipage}[b]{\linewidth}\raggedright
-Melillo et al. (2021) {[}26{]}
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\hline
+\begin{minipage}[b]{\linewidth}\ThesisTableCell\raggedright
+Melillo et al. (2021) \cite{ref26}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\ThesisTableCell\raggedright
 Tempo TSP: NR.
 
 Tempo procedurale totale:
@@ -1047,19 +1102,19 @@ FI+ = 92,2 ± 36,1 min;
 FI− = 103,1 ± 42,7 min;
 
 p = 0,086.
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\end{minipage} & \begin{minipage}[b]{\linewidth}\ThesisTableCell\raggedright
 FI+ = 37,3 ± 14,6 min;
 
 FI− = 48,3 ± 28,3 min;
 
 p = 0,003.
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\end{minipage} & \begin{minipage}[b]{\linewidth}\ThesisTableCell\raggedright
 KAP:
 
 FI+ = 91,5 ± 74,1 Gy·cm²; FI− = 108,8 ± 105,0 Gy·cm²;
 
 p = 0,23.
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\end{minipage} & \begin{minipage}[b]{\linewidth}\ThesisTableCell\raggedright
 Fine procedura: FI+ = 91,1\% vs FI− = 79,7\%;
 
 p = 0,042;
@@ -1067,7 +1122,7 @@ p = 0,042;
 Alla dimissione: FI+ = 77,2\% vs FI− = 61,5\%;
 
 p = 0,033.
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\end{minipage} & \begin{minipage}[b]{\linewidth}\ThesisTableCell\raggedright
 Complicanze periprocedurali complessive:
 
 FI+ = 8,9\% vs
@@ -1076,35 +1131,30 @@ FI− = 13,0\%
 
 (p = 0,40).
 \end{minipage} \\
-\midrule\noalign{}
-\endhead
-\bottomrule\noalign{}
-\endlastfoot
+\hline
 \end{longtable}
 }
 
-\textbf{Tabella 7. Sintesi comparativa degli outcome procedurali, dosimetrici e di sicurezza riportati negli studi inclusi. {[}24, 25, 26{]}}
-
-Abbreviazioni: FI, fusion imaging; FI−, gruppo senza fusion imaging; FI+, gruppo con fusion imaging; LAAO, occlusione dell'auricola atriale sinistra; TEE, ecocardiografia transesofagea; DAP, dose-area product; KAP, kerma-area product; TSP, puntura transettale; NR, dato non riportato. Nota: Ai fini dell'interpretazione dei risultati riportati, valori di p \textless{} 0,05 sono stati considerati statisticamente significativi; valori di p ≥ 0,05 sono stati considerati non statisticamente significativi.
-
+% La valutazione ROBINS-I segue la tabella 7 in una pagina nuova.
+\clearpage
 \hypertarget{valutazione-del-rischio-di-bias---robins-i-risk-of-bias-in-non-randomized-studies-of-interventions}{%
 \subsection*{4.3 Valutazione del rischio di bias - ROBINS-I (Risk Of Bias In Non-randomized Studies of Interventions)}\label{valutazione-del-rischio-di-bias---robins-i-risk-of-bias-in-non-randomized-studies-of-interventions}}
 
-Poiché tutti gli studi inclusi presentavano un disegno osservazionale non randomizzato, il rischio di bias è stato valutato mediante lo strumento ROBINS-I, versione 2016. {[}30{]}
+Poiché tutti gli studi inclusi presentavano un disegno osservazionale non randomizzato, il rischio di bias è stato valutato mediante lo strumento ROBINS-I, versione 2016. \cite{ref30}
 
 Per ciascuno studio sono stati esaminati i sette domini relativi al confondimento, alla selezione dei partecipanti, alla classificazione degli interventi, alle deviazioni dagli interventi previsti, ai dati mancanti, alla misurazione degli outcome e alla selezione dei risultati riportati.
 
 La criticità comune ai tre studi è il disegno comparativo before-after, che confronta pazienti trattati prima e dopo l'introduzione del fusion imaging. Tale disegno espone gli studi a un possibile confondimento temporale, dovuto all'esperienza progressivamente acquisita dall'équipe e agli eventuali cambiamenti nell'organizzazione della procedura. Le differenze osservate negli outcome non possono pertanto essere attribuite con certezza alla sola introduzione della tecnologia. Il possibile contributo della curva di apprendimento è stato affrontato con modalità differenti nei tre studi.
 
-Lo studio di Afzal et al. (2017) non ha valutato direttamente l'effetto della curva di apprendimento. Gli autori hanno tuttavia ritenuto che gli operatori avessero già raggiunto una fase piatta della curva di apprendimento, sulla base dell'elevato numero di punture transettali eseguite prima dell'introduzione del fusion imaging. Tale considerazione non consente comunque di escludere un possibile confondimento temporale. {[}24{]}
+Lo studio di Afzal et al. (2017) non ha valutato direttamente l'effetto della curva di apprendimento. Gli autori hanno tuttavia ritenuto che gli operatori avessero già raggiunto una fase piatta della curva di apprendimento, sulla base dell'elevato numero di punture transettali eseguite prima dell'introduzione del fusion imaging. Tale considerazione non consente comunque di escludere un possibile confondimento temporale. \cite{ref24}
 
-Nello studio di Afzal et al. (2020) gli autori hanno invece eseguito un'analisi di covarianza per ogni parametro procedurale, al fine di valutare il possibile effetto della curva di apprendimento, considerando la data della procedura come covariata. Anche dopo l'aggiustamento statistico, la riduzione del tempo necessario per eseguire con successo la puntura transettale nel gruppo FI+ è rimasta statisticamente significativa. {[}25{]}
+Nello studio di Afzal et al. (2020) gli autori hanno invece eseguito un'analisi di covarianza per ogni parametro procedurale, al fine di valutare il possibile effetto della curva di apprendimento, considerando la data della procedura come covariata. Anche dopo l'aggiustamento statistico, la riduzione del tempo necessario per eseguire con successo la puntura transettale nel gruppo FI+ è rimasta statisticamente significativa. \cite{ref25}
 
-L'analisi di regressione lineare e il test non parametrico di Mann-Kendall per trend monotoni, condotti dagli autori dello studio di Melillo et al. (2021) per valutare la presenza di una possibile learning curve, non hanno evidenziato una riduzione statisticamente significativa del tempo procedurale e del kerma-area product con il susseguirsi delle procedure. Queste analisi non hanno rilevato un andamento temporale statisticamente significativo dei parametri considerati, ma non consentono di escludere completamente l'influenza dell'esperienza degli operatori. {[}26{]}
+L'analisi di regressione lineare e il test non parametrico di Mann-Kendall per trend monotoni, condotti dagli autori dello studio di Melillo et al. (2021) per valutare la presenza di una possibile learning curve, non hanno evidenziato una riduzione statisticamente significativa del tempo procedurale e del kerma-area product con il susseguirsi delle procedure. Queste analisi non hanno rilevato un andamento temporale statisticamente significativo dei parametri considerati, ma non consentono di escludere completamente l'influenza dell'esperienza degli operatori. \cite{ref26}
 
 I co-interventi meritano altrettanta attenzione, considerando il loro possibile impatto sui risultati.
 
-Nello studio di Melillo et al. (2021) era presente uno sbilanciamento tra i due gruppi relativo al tipo di dispositivo MitraClip impiegato: tutti i pazienti del gruppo FI- sono stati trattati con MitraClip NT, mentre nel gruppo FI+ 65 pazienti hanno ricevuto il dispositivo NT e 15 il MitraClip XT, caratterizzato da bracci più lunghi. Questa differenza non indica necessariamente una maggiore gravità del rigurgito mitralico, ma potrebbe riflettere la maggiore prevalenza di anatomie mitraliche complesse osservata nel gruppo FI+. Sia la complessità anatomica sia l'impiego del dispositivo XT potrebbero aver influenzato la difficoltà e la durata della procedura, agendo quindi come potenziali fattori confondenti. Per valutare l'effetto di tale sbilanciamento, gli autori hanno condotto un'analisi di sensibilità e un'analisi di regressione multivariata, nelle quali il dispositivo XT e la complessità anatomica sono stati considerati come covariate. In seguito all'aggiustamento statistico, è emerso che l'associazione tra il fusion imaging e la riduzione del tempo di fluoroscopia si è mantenuta anche tenendo conto delle differenze anatomiche e dei dispositivi impiegati nei due gruppi. {[}26{]}
+Nello studio di Melillo et al. (2021) era presente uno sbilanciamento tra i due gruppi relativo al tipo di dispositivo MitraClip impiegato: tutti i pazienti del gruppo FI- sono stati trattati con MitraClip NT, mentre nel gruppo FI+ 65 pazienti hanno ricevuto il dispositivo NT e 15 il MitraClip XT, caratterizzato da bracci più lunghi. Questa differenza non indica necessariamente una maggiore gravità del rigurgito mitralico, ma potrebbe riflettere la maggiore prevalenza di anatomie mitraliche complesse osservata nel gruppo FI+. Sia la complessità anatomica sia l'impiego del dispositivo XT potrebbero aver influenzato la difficoltà e la durata della procedura, agendo quindi come potenziali fattori confondenti. Per valutare l'effetto di tale sbilanciamento, gli autori hanno condotto un'analisi di sensibilità e un'analisi di regressione multivariata, nelle quali il dispositivo XT e la complessità anatomica sono stati considerati come covariate. In seguito all'aggiustamento statistico, è emerso che l'associazione tra il fusion imaging e la riduzione del tempo di fluoroscopia si è mantenuta anche tenendo conto delle differenze anatomiche e dei dispositivi impiegati nei due gruppi. \cite{ref26}
 
 Il bias relativo alla selezione dei pazienti è considerato basso in tutti e tre gli studi, in quanto l'inclusione dei partecipanti non risulta basata su caratteristiche rilevate dopo l'inizio dell'intervento e l'osservazione è iniziata per tutti nello stesso momento, ovvero all'inizio della procedura transcatetere.
 
@@ -1130,7 +1180,10 @@ Il giudizio complessivo corrisponde al livello di rischio più elevato riscontra
 \fi
 \begin{landscape}
 \begingroup
-\fontsize{9}{11}\selectfont
+\fontsize{10}{12}\selectfont
+% Nei titoli delle colonne non dividere le parole con sillabazione.
+\hyphenpenalty=10000
+\exhyphenpenalty=10000
 \addtolength{\columnwidth}{-2\tabcolsep-10\arrayrulewidth}
 \begin{longtable}[]{@{}|
   >{\raggedright\arraybackslash}m{(\columnwidth - 16\tabcolsep) * \real{0.0708}}|
@@ -1142,92 +1195,92 @@ Il giudizio complessivo corrisponde al livello di rischio più elevato riscontra
   >{\raggedright\arraybackslash}m{(\columnwidth - 16\tabcolsep) * \real{0.1133}}|
   >{\raggedright\arraybackslash}m{(\columnwidth - 16\tabcolsep) * \real{0.1122}}|
   >{\raggedright\arraybackslash}m{(\columnwidth - 16\tabcolsep) * \real{0.0959}}|@{}}
-\toprule\noalign{}
-\begin{minipage}[b]{\linewidth}\raggedright
+\ThesisTableFooter{9}{Tabella 8. Valutazione del rischio di bias per ciascun dominio e giudizio complessivo degli studi inclusi mediante lo strumento ROBINS-I, versione 2016. \cite{ref30}}
+\endlastfoot
+\hline
+\begin{minipage}[b]{\linewidth}\ThesisTableCell\ThesisTableHeader
 \textbf{Articolo}
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\end{minipage} & \begin{minipage}[b]{\linewidth}\ThesisTableCell\ThesisTableHeader
 \textbf{Bias per confondenti}
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\end{minipage} & \begin{minipage}[b]{\linewidth}\ThesisTableCell\ThesisTableHeader
 \textbf{Bias nella selezione pazienti}
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\end{minipage} & \begin{minipage}[b]{\linewidth}\ThesisTableCell\ThesisTableHeader
 \textbf{Bias nella classificazione interventi}
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\end{minipage} & \begin{minipage}[b]{\linewidth}\ThesisTableCell\ThesisTableHeader
 \textbf{Bias dovuto a deviazioni degli interventi}
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\end{minipage} & \begin{minipage}[b]{\linewidth}\ThesisTableCell\ThesisTableHeader
 \textbf{Bias dovuto a dati mancanti}
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\end{minipage} & \begin{minipage}[b]{\linewidth}\ThesisTableCell\ThesisTableHeader
 \textbf{Bias nella misurazione degli outcome}
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\end{minipage} & \begin{minipage}[b]{\linewidth}\ThesisTableCell\ThesisTableHeader
 \textbf{Bias nella selezione dei risultati}
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\end{minipage} & \begin{minipage}[b]{\linewidth}\ThesisTableCell\ThesisTableHeader
 \textbf{Valutazione complessiva}
 \end{minipage} \\
-\begin{minipage}[b]{\linewidth}\raggedright
-Afzal et al. (2017) {[}24{]}
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\hline
+\begin{minipage}[b]{\linewidth}\ThesisTableCell\raggedright
+Afzal et al. (2017) \cite{ref24}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\ThesisTableCell\raggedright
 Moderato: fase plateau della curva di apprendimento; confondimento temporale residuo; pazienti FI+ non consecutivi.
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\end{minipage} & \begin{minipage}[b]{\linewidth}\ThesisTableCell\ThesisTableData
 Basso.
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\end{minipage} & \begin{minipage}[b]{\linewidth}\ThesisTableCell\raggedright
 Basso: intervento ben definito.
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\end{minipage} & \begin{minipage}[b]{\linewidth}\ThesisTableCell\raggedright
 Basso: nessuna deviazione.
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\end{minipage} & \begin{minipage}[b]{\linewidth}\ThesisTableCell\raggedright
 Basso: outcome completi.
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\end{minipage} & \begin{minipage}[b]{\linewidth}\ThesisTableCell\raggedright
 Moderato: outcome oggettivi in studio non cieco.
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\end{minipage} & \begin{minipage}[b]{\linewidth}\ThesisTableCell\raggedright
 Basso: endpoint dichiarati e riportati.
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\end{minipage} & \begin{minipage}[b]{\linewidth}\ThesisTableCell\ThesisTableData
 Moderato.
 \end{minipage} \\
-\begin{minipage}[b]{\linewidth}\raggedright
-Afzal et al. (2020) {[}25{]}
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\hline
+\begin{minipage}[b]{\linewidth}\ThesisTableCell\raggedright
+Afzal et al. (2020) \cite{ref25}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\ThesisTableCell\raggedright
 Moderato: ANCOVA per correggere l\textquotesingle effetto learning curve; possibile confondimento temporale residuo.
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\end{minipage} & \begin{minipage}[b]{\linewidth}\ThesisTableCell\ThesisTableData
 Basso.
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\end{minipage} & \begin{minipage}[b]{\linewidth}\ThesisTableCell\raggedright
 Basso: intervento ben definito.
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\end{minipage} & \begin{minipage}[b]{\linewidth}\ThesisTableCell\raggedright
 Basso: nessuna deviazione.
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\end{minipage} & \begin{minipage}[b]{\linewidth}\ThesisTableCell\raggedright
 Basso: nessun partecipante escluso e outcome completi.
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\end{minipage} & \begin{minipage}[b]{\linewidth}\ThesisTableCell\raggedright
 Moderato: gli outcome sono oggettivi in uno studio non cieco.
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\end{minipage} & \begin{minipage}[b]{\linewidth}\ThesisTableCell\raggedright
 Basso: endpoint dichiarati e riportati.
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\end{minipage} & \begin{minipage}[b]{\linewidth}\ThesisTableCell\ThesisTableData
 Moderato.
 \end{minipage} \\
-\begin{minipage}[b]{\linewidth}\raggedright
-Melillo et al. (2021) \hl{}{[}26{]}
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\hline
+\begin{minipage}[b]{\linewidth}\ThesisTableCell\raggedright
+Melillo et al. (2021) \hl{}\cite{ref26}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\ThesisTableCell\raggedright
 Moderato: aggiustamento per learning curve, dispositivo XT e anatomia complessa;
 
 confondimento temporale residuo.
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\end{minipage} & \begin{minipage}[b]{\linewidth}\ThesisTableCell\ThesisTableData
 Basso.
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\end{minipage} & \begin{minipage}[b]{\linewidth}\ThesisTableCell\raggedright
 Basso: intervento ben definito.
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\end{minipage} & \begin{minipage}[b]{\linewidth}\ThesisTableCell\raggedright
 Moderato: dispositivi Mitraclip (NT e XT) e apparecchiature ecocardiografiche non bilanciati nei due gruppi.
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\end{minipage} & \begin{minipage}[b]{\linewidth}\ThesisTableCell\raggedright
 Basso: outcome completi.
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\end{minipage} & \begin{minipage}[b]{\linewidth}\ThesisTableCell\raggedright
 Moderato: gli outcome sono oggettivi; valutazione non cieca.
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\end{minipage} & \begin{minipage}[b]{\linewidth}\ThesisTableCell\raggedright
 Basso: endpoint dichiarati e riportati.
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\end{minipage} & \begin{minipage}[b]{\linewidth}\ThesisTableCell\ThesisTableData
 Moderato.
 \end{minipage} \\
-\midrule\noalign{}
-\endhead
-\bottomrule\noalign{}
-\endlastfoot
+\hline
 \end{longtable}
-
-\textbf{Tabella 8. Valutazione del rischio di bias per ciascun dominio e giudizio complessivo degli studi inclusi mediante lo strumento ROBINS-I, versione 2016. {[}30{]}}
 \endgroup
 \end{landscape}
 
@@ -1236,18 +1289,18 @@ Moderato.
 \hypertarget{discussione}{%
 \section*{\texorpdfstring{5. Discussione }{5. Discussione }}\label{discussione}}
 
-La presente revisione ha analizzato i potenziali benefici del fusion imaging ecocardiografico-fluoroscopico. Sebbene la domanda di ricerca fosse indirizzata a tutte le procedure transcatetere delle valvole atrioventricolari, la ridotta disponibilità di studi originali in grado di fornire dati pertinenti e compatibili ha ristretto le evidenze principalmente alle procedure transcatetere edge-to-edge della valvola mitrale con il dispositivo MitraClip. Inoltre, lo studio di Afzal et al. (2017) comprendeva una popolazione mista di pazienti sottoposti a MitraClip e a chiusura dell'auricola sinistra, i cui risultati sono stati riportati in forma aggregata. {[}24, 25, 26{]}
+La presente revisione ha analizzato i potenziali benefici del fusion imaging ecocardiografico-fluoroscopico. Sebbene la domanda di ricerca fosse indirizzata a tutte le procedure transcatetere delle valvole atrioventricolari, la ridotta disponibilità di studi originali in grado di fornire dati pertinenti e compatibili ha ristretto le evidenze principalmente alle procedure transcatetere edge-to-edge della valvola mitrale con il dispositivo MitraClip. Inoltre, lo studio di Afzal et al. (2017) comprendeva una popolazione mista di pazienti sottoposti a MitraClip e a chiusura dell'auricola sinistra, i cui risultati sono stati riportati in forma aggregata. \cite{ref24,ref25,ref26}
 
 \hypertarget{effetto-del-fusion-imaging-sui-tempi-procedurali}{%
 \subsection*{5.1 Effetto del fusion imaging sui tempi procedurali}\label{effetto-del-fusion-imaging-sui-tempi-procedurali}}
 
-I risultati degli studi inclusi suggeriscono che il principale beneficio del fusion imaging sui tempi procedurali riguardi soprattutto alcune fasi specifiche della procedura, piuttosto che la sua durata complessiva. In particolare, gli studi condotti da Afzal et al. (2017, 2020) hanno evidenziato una riduzione statisticamente significativa del tempo necessario per eseguire con successo la puntura transettale. {[}24, 25{]}
+I risultati degli studi inclusi suggeriscono che il principale beneficio del fusion imaging sui tempi procedurali riguardi soprattutto alcune fasi specifiche della procedura, piuttosto che la sua durata complessiva. In particolare, gli studi condotti da Afzal et al. (2017, 2020) hanno evidenziato una riduzione statisticamente significativa del tempo necessario per eseguire con successo la puntura transettale. \cite{ref24,ref25}
 
-Afzal et al. (2020) sottolineano che l'utilità della tecnologia appare più limitata nelle fasi successive alla puntura transettale, durante le quali la guida del dispositivo si basa principalmente sulle immagini ecocardiografiche. Gli autori hanno infatti tentato di verificare la fattibilità dell'utilizzo di EchoNavigator anche durante la fase di grasping dei lembi valvolari, ma non hanno osservato alcun beneficio aggiuntivo rispetto alla sola guida TEE. {[}25{]}
+Afzal et al. (2020) sottolineano che l'utilità della tecnologia appare più limitata nelle fasi successive alla puntura transettale, durante le quali la guida del dispositivo si basa principalmente sulle immagini ecocardiografiche. Gli autori hanno infatti tentato di verificare la fattibilità dell'utilizzo di EchoNavigator anche durante la fase di grasping dei lembi valvolari, ma non hanno osservato alcun beneficio aggiuntivo rispetto alla sola guida TEE. \cite{ref25}
 
-Anche Melillo et al. (2021) hanno rilevato una riduzione del tempo procedurale totale nel gruppo FI+, che tuttavia non ha raggiunto la significatività statistica. {[}26{]}
+Anche Melillo et al. (2021) hanno rilevato una riduzione del tempo procedurale totale nel gruppo FI+, che tuttavia non ha raggiunto la significatività statistica. \cite{ref26}
 
-Occorre considerare che la variabilità dei tempi procedurali può dipendere da diversi fattori, quali la complessità anatomica, il numero di dispositivi impiantati, la difficoltà della cattura dei lembi valvolari e la necessità di riposizionare i dispositivi. {[}23{]}
+Occorre considerare che la variabilità dei tempi procedurali può dipendere da diversi fattori, quali la complessità anatomica, il numero di dispositivi impiantati, la difficoltà della cattura dei lembi valvolari e la necessità di riposizionare i dispositivi. \cite{ref23}
 
 Alla luce di questi risultati, si può ritenere che la tecnologia di fusion imaging offra maggiori benefici nei passaggi procedurali che richiedono l'utilizzo simultaneo delle immagini ecocardiografiche e fluoroscopiche.
 
@@ -1256,9 +1309,9 @@ Alla luce di questi risultati, si può ritenere che la tecnologia di fusion imag
 
 L'esposizione alle radiazioni ionizzanti rappresenta un aspetto di particolare interesse per il tecnico sanitario di radiologia medica (TSRM), che, nell'ambito delle proprie competenze, contribuisce alla radioprotezione del paziente e dell'équipe sanitaria. Il TSRM partecipa quindi all'ottimizzazione dei parametri di esposizione, con l'obiettivo di ridurre il tempo di fluoroscopia e l'esposizione alle radiazioni ionizzanti al livello più basso ragionevolmente ottenibile, mantenendo una qualità delle immagini adeguata alla procedura.
 
-Lo studio di Melillo et al. (2021) ha evidenziato una riduzione statisticamente significativa del tempo di fluoroscopia nel gruppo FI+, superiore a dieci minuti. Il KAP è risultato numericamente inferiore nello stesso gruppo, ma la differenza non ha raggiunto la significatività statistica. {[}26{]}
+Lo studio di Melillo et al. (2021) ha evidenziato una riduzione statisticamente significativa del tempo di fluoroscopia nel gruppo FI+, superiore a dieci minuti. Il KAP è risultato numericamente inferiore nello stesso gruppo, ma la differenza non ha raggiunto la significatività statistica. \cite{ref26}
 
-Nello studio di Afzal et al. (2020), invece, il KAP, riportato dagli autori come DAP, è risultato numericamente superiore nel gruppo FI+, anche in questo caso senza una differenza statisticamente significativa. Nel complesso, questi risultati non consentono di confermare una riduzione dell'esposizione radiologica associata all'impiego del fusion imaging. {[}25, 26{]}
+Nello studio di Afzal et al. (2020), invece, il KAP, riportato dagli autori come DAP, è risultato numericamente superiore nel gruppo FI+, anche in questo caso senza una differenza statisticamente significativa. Nel complesso, questi risultati non consentono di confermare una riduzione dell'esposizione radiologica associata all'impiego del fusion imaging. \cite{ref25,ref26}
 
 La diminuzione del tempo di fluoroscopia non si traduce necessariamente in una riduzione proporzionale del KAP. Quest'ultimo dipende anche dalla collimazione del fascio, dalle proiezioni utilizzate, dall'ingrandimento fluoroscopico, dal \emph{frame rate} e dalle modalità di acquisizione, oltre che dalle caratteristiche fisiche del paziente.
 
@@ -1266,24 +1319,24 @@ Questi aspetti richiamano il principio ALARA (As Low As Reasonably Achievable), 
 
 Sono state proposte anche le formulazioni ALADA (As Low As Diagnostically Acceptable) e ALADAIP (As Low As Diagnostically Acceptable, being Indication-oriented and Patient-specific), che sottolineano l'adeguatezza diagnostica delle immagini e la personalizzazione dell'esposizione in funzione dell'indicazione e del paziente.
 
-Pur provenendo da un diverso contesto applicativo, tali formulazioni offrono uno spunto per ribadire l'importanza di adattare la qualità dell'immagine al compito clinico richiesto, senza ricercare un dettaglio superiore a quello necessario. {[}27, 28{]}
+Pur provenendo da un diverso contesto applicativo, tali formulazioni offrono uno spunto per ribadire l'importanza di adattare la qualità dell'immagine al compito clinico richiesto, senza ricercare un dettaglio superiore a quello necessario. \cite{ref27,ref28}
 
-In questo contesto, il TSRM contribuisce, in collaborazione con l'équipe, alla scelta e all'adattamento dei parametri di acquisizione alle esigenze delle singole fasi procedurali. Il fusion imaging va quindi considerato nell'ambito di una più ampia strategia di ottimizzazione, senza attribuirgli un beneficio dosimetrico che gli studi inclusi non hanno dimostrato. {[}25, 26{]}
+In questo contesto, il TSRM contribuisce, in collaborazione con l'équipe, alla scelta e all'adattamento dei parametri di acquisizione alle esigenze delle singole fasi procedurali. Il fusion imaging va quindi considerato nell'ambito di una più ampia strategia di ottimizzazione, senza attribuirgli un beneficio dosimetrico che gli studi inclusi non hanno dimostrato. \cite{ref25,ref26}
 
-Infine, nessuno degli studi inclusi ha misurato direttamente la dose ricevuta dagli operatori, impedendo di valutare gli eventuali benefici radioprotezionistici del fusion imaging per l'équipe. {[}24, 25, 26{]}
+Infine, nessuno degli studi inclusi ha misurato direttamente la dose ricevuta dagli operatori, impedendo di valutare gli eventuali benefici radioprotezionistici del fusion imaging per l'équipe. \cite{ref24,ref25,ref26}
 
 \hypertarget{limiti}{%
 \subsection*{5.3 Limiti}\label{limiti}}
 
 Per quanto riguarda il processo di selezione degli articoli, l'applicazione del filtro ``full text'' nella banca dati PubMed potrebbe aver escluso record potenzialmente eleggibili. Tale decisione è derivata dalla necessità di consultare il testo completo degli articoli per comprendere in maniera adeguata i risultati riportati; tuttavia, rappresenta un possibile limite della strategia di ricerca. Inoltre, l'inclusione esclusiva degli articoli pubblicati negli ultimi dieci anni potrebbe aver impedito l'identificazione di studi precedenti contenenti dati rilevanti alla ricerca.
 
-Nella ricerca non sono stati considerati altri sistemi per il trattamento transcatetere della valvola mitrale, quali Tendyne di Abbott Vascular, Tiara di Neovasc, Fortis, CardiAQ e Sapien XT di Edwards Lifesciences, Caisson di Caisson Interventional LLC, High-Life di High Life SAS e AccuCinch di ANCORA Heart. Questa scelta potrebbe aver comportato la mancata identificazione di alcuni studi pertinenti. {[}6{]}
+Nella ricerca non sono stati considerati altri sistemi per il trattamento transcatetere della valvola mitrale, quali Tendyne di Abbott Vascular, Tiara di Neovasc, Fortis, CardiAQ e Sapien XT di Edwards Lifesciences, Caisson di Caisson Interventional LLC, High-Life di High Life SAS e AccuCinch di ANCORA Heart. Questa scelta potrebbe aver comportato la mancata identificazione di alcuni studi pertinenti. \cite{ref6}
 
-La letteratura inclusa è limitata a soli tre studi comprendenti pazienti sottoposti a TEER mitralica mediante MitraClip, uno dei quali includeva anche procedure di chiusura dell'auricola sinistra. Tutti gli studi sono caratterizzati da un disegno before-after, che non permette di escludere completamente l'influenza di cambiamenti temporali nell'esperienza dell'équipe o nel workflow. {[}24, 25, 26{]}
+La letteratura inclusa è limitata a soli tre studi comprendenti pazienti sottoposti a TEER mitralica mediante MitraClip, uno dei quali includeva anche procedure di chiusura dell'auricola sinistra. Tutti gli studi sono caratterizzati da un disegno before-after, che non permette di escludere completamente l'influenza di cambiamenti temporali nell'esperienza dell'équipe o nel workflow. \cite{ref24,ref25,ref26}
 
-Nello studio di Afzal et al. (2017), l\textquotesingle impossibilità di distinguere i risultati relativi alle procedure MitraClip e quelli riguardanti la chiusura dell'auricola sinistra riduce la pertinenza dei dati rispetto alla domanda di ricerca. {[}24{]}
+Nello studio di Afzal et al. (2017), l\textquotesingle impossibilità di distinguere i risultati relativi alle procedure MitraClip e quelli riguardanti la chiusura dell'auricola sinistra riduce la pertinenza dei dati rispetto alla domanda di ricerca. \cite{ref24}
 
-Infine, non si può escludere una sovrapposizione dei pazienti tra gli studi di Afzal et al. (2017) e Afzal et al. (2020), poiché entrambi sono stati condotti nella medesima struttura e i rispettivi periodi di raccolta dei dati risultano parzialmente coincidenti. {[}24, 25{]}
+Infine, non si può escludere una sovrapposizione dei pazienti tra gli studi di Afzal et al. (2017) e Afzal et al. (2020), poiché entrambi sono stati condotti nella medesima struttura e i rispettivi periodi di raccolta dei dati risultano parzialmente coincidenti. \cite{ref24,ref25}
 
 \clearpage
 \hypertarget{conclusioni}{%
@@ -1291,11 +1344,11 @@ Infine, non si può escludere una sovrapposizione dei pazienti tra gli studi di 
 
 La presente revisione sistematica ha avuto l'obiettivo di analizzare i potenziali benefici del fusion imaging ecocardiografico-fluoroscopico nelle procedure transcatetere sulle valvole atrioventricolari, con particolare attenzione ai tempi procedurali, all'esposizione alle radiazioni ionizzanti, al successo procedurale e alla sicurezza.
 
-Le evidenze attualmente disponibili suggeriscono un possibile vantaggio in alcune fasi dell'intervento. Il risultato più coerente riguarda la riduzione del tempo necessario per completare con successo la puntura transettale, evidenziata da entrambi gli studi di Afzal et al. {[}24, 25{]}
+Le evidenze attualmente disponibili suggeriscono un possibile vantaggio in alcune fasi dell'intervento. Il risultato più coerente riguarda la riduzione del tempo necessario per completare con successo la puntura transettale, evidenziata da entrambi gli studi di Afzal et al. \cite{ref24,ref25}
 
 Tuttavia, nello studio del 2017 i risultati comprendono anche le procedure di chiusura dell'auricola sinistra e sono riportati in forma aggregata, limitandone l'applicabilità diretta alle sole procedure di MitraClip.
 
-Nel complesso, i risultati relativi al tempo procedurale totale, al tempo di fluoroscopia e all'esposizione radiologica non sono stati uniformi e non permettono di confermare un beneficio costante associato all'impiego del fusion imaging. {[}24, 25, 26{]}
+Nel complesso, i risultati relativi al tempo procedurale totale, al tempo di fluoroscopia e all'esposizione radiologica non sono stati uniformi e non permettono di confermare un beneficio costante associato all'impiego del fusion imaging. \cite{ref24,ref25,ref26}
 
 Gli studi inclusi non hanno valutato direttamente il contributo del tecnico sanitario di radiologia medica nelle procedure transcatetere guidate mediante fusion imaging. Un ulteriore ambito di ricerca potrebbe pertanto riguardare le modalità con cui il TSRM, nell'ambito delle proprie competenze e in collaborazione con l'équipe, può contribuire alla gestione dell'imaging intraprocedurale, valutandone il possibile impatto sull'ottimizzazione dell'esposizione e sulla radioprotezione del paziente e degli operatori.
 
@@ -1306,141 +1359,146 @@ Sono infatti necessari ulteriori studi prospettici e multicentrici, inclusi stud
 \hypertarget{bibliografia}{%
 \section*{7. Bibliografia}\label{bibliografia}}
 
-\begin{enumerate}
-\def\labelenumi{\arabic{enumi}.}
-\item
+% L'ambiente thebibliography aggiungerebbe una seconda intestazione
+% ("Bibliografia"). La si omette: resta il solo titolo del capitolo 7.
+\makeatletter
+\let\ThesisBibliographySection\section
+\def\section{\@ifstar\@gobble\ThesisBibliographySection}
+\begin{thebibliography}{99}
+\bibitem{ref1}
   \begin{quote}
   Pascual I, Pozzoli A, Taramasso M, Maisano F, Ho EC. Fusion imaging for transcatheter mitral and tricuspid interventions. Ann Transl Med. 2020;8(15):965. doi:10.21037/atm.2020.02.169.
   \end{quote}
-\item
+\bibitem{ref2}
   \begin{quote}
   Melillo F, Ancona F, Romano V, Ingallina G, Capogrosso C, Stella S, et al. Imaging di fusione nell'interventistica strutturale. G Ital Cardiol. 2020;21(4 Suppl 2):34S-41S. doi:10.1714/3336.33072.
   \end{quote}
-\item
+\bibitem{ref3}
   \begin{quote}
   Netter FH. Atlante di anatomia umana. 6a ed. Milano: Edra; 2021.
   \end{quote}
-\item
+\bibitem{ref4}
   \begin{quote}
   Martini FH, Tallitsch RB, Nath JL. Anatomia umana. 7a ed. Napoli: EdiSES; 2019.
   \end{quote}
-\item
+\bibitem{ref5}
   \begin{quote}
   Guarracino F. Ecocardiografia in area critica. Milano: Elsevier; 2013.
   \end{quote}
-\item
+\bibitem{ref6}
   \begin{quote}
   Karimov JH, Fukamachi K, Gillinov M, editors. Advances in cardiovascular technology: new devices and concepts. 1st ed. London: Academic Press; 2022. doi:10.1016/C2018-0-00396-5.
   \end{quote}
-\item
+\bibitem{ref7}
   \begin{quote}
   Armstrong GP. Insufficienza mitralica. Manuale MSD, versione per i professionisti {[}Internet{]}. Rahway (NJ): Merck \& Co., Inc.; 2025 {[}aggiornato giugno 2025; consultato 20 settembre 2026{]}. Disponibile su: \href{https://www.msdmanuals.com/it/professionale/disturbi-dell-apparato-cardiovascolare/disturbi-valvolari/insufficienza-mitralica}{\ul{https://www.msdmanuals.com/it/professionale/disturbi-dell-apparato-cardiovascolare/disturbi-valvolari/insufficienza-mitralica}}
   \end{quote}
-\item
+\bibitem{ref8}
   \begin{quote}
   Vahanian A, Beyersdorf F, Praz F, Milojevic M, Baldus S, Bauersachs J, et al. 2021 ESC/EACTS Guidelines for the management of valvular heart disease. Eur Heart J. 2022;43(7):561-632. doi:10.1093/eurheartj/ehab395.
   \end{quote}
-\item
+\bibitem{ref9}
   \begin{quote}
   Zoghbi WA, Adams D, Bonow RO, Enriquez-Sarano M, Foster E, Grayburn PA, et al. Recommendations for noninvasive evaluation of native valvular regurgitation: a report from the American Society of Echocardiography developed in collaboration with the Society for Cardiovascular Magnetic Resonance. J Am Soc Echocardiogr. 2017;30(4):303-371. doi:10.1016/j.echo.2017.01.007.
   \end{quote}
-\item
+\bibitem{ref10}
   \begin{quote}
   Praz F, Borger MA, Lanz J, Marin-Cuartas M, Abreu A, Adamo M, et al. 2025 ESC/EACTS Guidelines for the management of valvular heart disease. Eur Heart J. 2025;46(44):4635-4736. doi:10.1093/eurheartj/ehaf194.
   \end{quote}
-\item
+\bibitem{ref11}
   \begin{quote}
   Brugiatelli L, Rolando M, Lofiego C, Fogante M, Capodaglio I, Patani F, et al. Transcatheter mitral valve intervention: current and future role of multimodality imaging for device selection and periprocedural guidance. Medicina (Kaunas). 2024;60(7):1082. doi:10.3390/medicina60071082.
   \end{quote}
-\item
+\bibitem{ref12}
   \begin{quote}
   Dahou A, Levin D, Reisman M, Hahn RT. Anatomy and physiology of the tricuspid valve. JACC Cardiovasc Imaging. 2019;12(3):458-468. doi:10.1016/j.jcmg.2018.07.032.
   \end{quote}
-\item
+\bibitem{ref13}
   \begin{quote}
   Papadopoulos GE, Ninios I, Evangelou S, Ioannides A, Giamouzis G, Ninios V. Transcatheter Edge-to-Edge Repair of Tricuspid Regurgitation With TriClip: A Step-by-Step Guide. Rev Cardiovasc Med. 2025;26(11):44502. doi:10.31083/RCM44502.
   \end{quote}
-\item
+\bibitem{ref14}
   \begin{quote}
   Whisenant B, Zahr F. The PASCAL Transcatheter Valve Repair System: A User's Guide. Structural Heart. 2023;7(5):100204. doi:10.1016/j.shj.2023.100204.
   \end{quote}
-\item
+\bibitem{ref15}
   \begin{quote}
   Little SH, Quader N, Brady M, Dillenbeck A, Garcia-Sayan E, Jain R, et al. Guidelines for the intraprocedural imaging for mitral valve transcatheter edge-to-edge repair (M-TEER): recommendations from the American Society of Echocardiography. J Am Soc Echocardiogr. 2026;39(6):529-550. doi:10.1016/j.echo.2026.03.003.
   \end{quote}
-\item
+\bibitem{ref16}
   \begin{quote}
   Abbott Education Network, Structural Heart. MitraClip™ G4 TEER: therapy training {[}materiale didattico{]}. Abbott; 2024. Codice documento: TRN1001043, versione C.
   \end{quote}
-\item
+\bibitem{ref17}
   \begin{quote}
   Hahn RT, Makkar R, Makar M, et al. EVOQUE Tricuspid Valve Replacement System: State-of-the-Art Screening and Intraprocedural Guidance. JACC Cardiovasc Interv. 2024;17(18):2093-2112. doi:10.1016/j.jcin.2024.07.034.
   \end{quote}
-\item
+\bibitem{ref18}
   \begin{quote}
   Webb J, Hensey M, Fam N, Rodés-Cabau J, Daniels D, Smith R, et al. Transcatheter mitral valve replacement with the transseptal EVOQUE system. JACC Cardiovasc Interv. 2020;13(20):2418-2426. doi:10.1016/j.jcin.2020.06.040.
   \end{quote}
-\item
+\bibitem{ref19}
   \begin{quote}
   Meredith I, Bapat V, Morriss J, McLean M, Prendergast B. Intrepid transcatheter mitral valve replacement system: technical and product description. EuroIntervention. 2016;12(Suppl Y):Y78-Y80. doi:10.4244/EIJV12SYA21.
   \end{quote}
-\item
+\bibitem{ref20}
   \begin{quote}
   Zahr F, Song HK, Chadderdon SM, Gada H, Mumtaz M, Byrne T, et al. 30-day outcomes following transfemoral transseptal transcatheter mitral valve replacement: Intrepid TMVR early feasibility study results. JACC Cardiovasc Interv. 2022;15(1):80-89. doi:10.1016/j.jcin.2021.10.018.
   \end{quote}
-\item
+\bibitem{ref21}
   \begin{quote}
   Balzer J, Zeus T, Hellhammer K, Veulemans V, Eschenhagen S, Kehmeier E, et al. Initial clinical experience using the EchoNavigator®-system during structural heart disease interventions. World J Cardiol. 2015;7(9):562-570. doi:10.4330/wjc.v7.i9.562.
   \end{quote}
-\item
+\bibitem{ref22}
   \begin{quote}
   Clegg SD, Chen SJ, Nijhof N, Kim MS, Salcedo EE, Quaife RA, et al. Integrated 3D echo-X ray to optimize image guidance for structural heart intervention. JACC Cardiovasc Imaging. 2015;8(3):371--374. doi:10.1016/j.jcmg.2014.06.024.
   \end{quote}
-\item
+\bibitem{ref23}
   \begin{quote}
   Ancona F, Stella S, Capogrosso C, Melillo F, Ingallina G, Boccellino A, et al. Intraprocedural guidance in percutaneous mitral valve repair. Mini-invasive Surg. 2020;4:79. doi:10.20517/2574-1225.2020.80.
   \end{quote}
-\item
+\bibitem{ref24}
   \begin{quote}
   Afzal S, Veulemans V, Balzer J, Rassaf T, Hellhammer K, Polzin A, et al. Safety and efficacy of transseptal puncture guided by real-time fusion of echocardiography and fluoroscopy. Neth Heart J. 2017;25(2):131-136. doi:10.1007/s12471-016-0937-0.
   \end{quote}
-\item
+\bibitem{ref25}
   \begin{quote}
   Afzal S, Veulemans V, Piayda K, Schulz P, Horn P, Westenfeld R, et al. Real-time echocardiographic-fluoroscopic fusion imaging for transcatheter edge-to-edge mitral valve repair. J Am Soc Echocardiogr. 2020;33(5):635-636. doi:10.1016/j.echo.2020.01.018.
   \end{quote}
-\item
+\bibitem{ref26}
   \begin{quote}
   Melillo F, Fisicaro A, Stella S, Ancona F, Capogrosso C, Ingallina G, et al. Systematic fluoroscopic-echocardiographic fusion imaging protocol for transcatheter edge-to-edge mitral valve repair intraprocedural monitoring. J Am Soc Echocardiogr. 2021;34(6):604-613. doi:10.1016/j.echo.2021.01.010.
   \end{quote}
-\item
+\bibitem{ref27}
   \begin{quote}
   Jaju PP, Jaju SP. Cone-beam computed tomography: time to move from ALARA to ALADA. Imaging Sci Dent. 2015;45(4):263-265. doi:10.5624/isd.2015.45.4.263.
   \end{quote}
-\item
+\bibitem{ref28}
   \begin{quote}
   Oenning AC, Jacobs R, Salmon B; DIMITRA Research Group. ALADAIP, beyond ALARA and towards personalized optimization for paediatric cone-beam CT. Int J Paediatr Dent. 2021;31(5):676-678. doi:10.1111/ipd.12797.
   \end{quote}
-\item
+\bibitem{ref29}
   \begin{quote}
   Page MJ, McKenzie JE, Bossuyt PM, Boutron I, Hoffmann TC, Mulrow CD, et al. The PRISMA 2020 statement: an updated guideline for reporting systematic reviews. BMJ. 2021;372:n71. doi:10.1136/bmj.n71.
   \end{quote}
-\item
+\bibitem{ref30}
   \begin{quote}
   Risk of bias tools. ROBINS-I template (2016) {[}Internet{]}. Disponibile su: \href{https://www.riskofbias.info/welcome/home/original-2016-version-of-robins-i/robins-i-template-2016}{\ul{https://www.riskofbias.info/welcome/home/original-2016-version-of-robins-i/robins-i-template-2016}}
   \end{quote}
-\item
+\bibitem{ref31}
   \begin{quote}
   Salcedo EE, Quaife RA, Seres T, Carroll JD. A framework for systematic characterization of the mitral valve by real-time three-dimensional transesophageal echocardiography. J Am Soc Echocardiogr. 2009;22(10):1087-1099. doi:10.1016/j.echo.2009.07.007.
   \end{quote}
-\item
+\bibitem{ref32}
   \begin{quote}
   Figlioli G, Sticchi A, Christodoulou MN, Hadjidemetriou A, Amorim Moreira Alves G, De Carlo M, et al. Global prevalence of mitral regurgitation: a systematic review and meta-analysis of population-based studies. J Clin Med. 2025;14(8):2749. doi:10.3390/jcm14082749.
   \end{quote}
-\item
+\bibitem{ref33}
   \begin{quote}
   Cardiologia interventistica, TAVI in stallo. Il bilancio GISE 2024. Doctor33. 2025 Jun 12 {[}cited 2026 Oct 1{]}. Available from: \href{https://www.doctor33.it/articolo/64664/cardiologia-interventistica-tavi-in-stallo-il-bilancio-gise-2024}{\ul{https://www.doctor33.it/articolo/64664/cardiologia-interventistica-tavi-in-stallo-il-bilancio-gise-2024}}
   \end{quote}
-\end{enumerate}
+\end{thebibliography}
+\makeatother
 
 \endgroup
 \clearpage
