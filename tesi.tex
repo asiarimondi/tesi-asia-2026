@@ -56,7 +56,9 @@
 }
 \AtBeginEnvironment{longtable}{\ThesisTableSetup}
 \newcommand{\ThesisTableData}{\centering}
-\newcommand{\ThesisTableCell}{\setstretch{1.1}\fontsize{10}{12}\selectfont\sloppy}
+% Spazio interno minimo sopra il testo: evita che glifi alti (es. T) tocchino
+% la riga orizzontale, senza alterare le larghezze né far uscire i contenuti.
+\newcommand{\ThesisTableCell}{\setstretch{1.1}\fontsize{10}{12}\selectfont\sloppy\vspace*{1.2pt}}
 \newcommand{\TableCaption}[1]{\par\noindent{\fontsize{10}{12}\selectfont\textbf{#1}\par}}
 \newcommand{\TableNote}[1]{\noindent{\fontsize{10}{12}\selectfont\textit{Nota.} #1\par}}
 % Le didascalie delle figure sono in minipage per non separarle
@@ -563,10 +565,10 @@ La visualizzazione integrata delle due metodiche su un unico monitor può facili
 Pertanto, nei pazienti adulti sottoposti a procedure transcatetere sulle valvole atrioventricolari, l'impiego del fusion imaging ecocardiografico-fluoroscopico, rispetto alla guida convenzionale basata sulla visualizzazione separata, è associato a una riduzione dell'esposizione alle radiazioni ionizzanti e dei tempi procedurali, nonché a un miglioramento del successo procedurale e della sicurezza?
 
 La presente revisione sistematica è stata condotta secondo le raccomandazioni PRISMA 2020 (Preferred Reporting Items for Systematic Reviews and Meta-Analyses), al fine di garantire trasparenza e completezza nella descrizione del processo metodologico e di favorire la riproducibilità. \cite{ref29}
-
 Per definire in modo strutturato la domanda di ricerca è stato utilizzato il modello PICO. \hl{}
+\vspace*{24pt}
 
-{\fontsize{10}{12}\selectfont\setlength{\tabcolsep}{3pt}
+{\setlength{\LTpre}{0pt}\fontsize{10}{12}\selectfont\setlength{\tabcolsep}{3pt}
 \addtolength{\columnwidth}{-2\tabcolsep-3\arrayrulewidth}
 \begin{longtable}[]{@{}|
   >{\raggedright\arraybackslash}m{(\columnwidth - 2\tabcolsep) * \real{0.1882}}|
@@ -615,7 +617,9 @@ Per ognuna delle banche dati è stata inserita la medesima stringa: ("Fusion Ima
 
 Al fine di procedere a una prima selezione dei risultati ottenuti, sono stati applicati specifici filtri bibliografici, differenziati in relazione alle caratteristiche delle singole banche dati.
 
-{\fontsize{10}{12}\selectfont\setlength{\tabcolsep}{3pt}
+\vspace*{24pt}
+
+{\setlength{\LTpre}{0pt}\fontsize{10}{12}\selectfont\setlength{\tabcolsep}{3pt}
 \addtolength{\columnwidth}{-2\tabcolsep-3\arrayrulewidth}
 \begin{longtable}[]{@{}|
   >{\raggedright\arraybackslash}m{(\columnwidth - 2\tabcolsep) * \real{0.3250}}|
@@ -656,6 +660,8 @@ Anni 2016-2026; disponibilità del testo completo.
 \end{longtable}
 }
 
+% Mantiene l'inizio della sezione 3.2.1 alla pagina 31.
+\clearpage
 \hypertarget{criteri-di-eleggibilituxe0-inclusione-ed-esclusione}{%
 \subsubsection*{\texorpdfstring{3.2.1 Criteri di eleggibilità, inclusione ed esclusione }{3.2.1 Criteri di eleggibilità, inclusione ed esclusione }}\label{criteri-di-eleggibilituxe0-inclusione-ed-esclusione}}
 
@@ -1187,6 +1193,7 @@ Il giudizio complessivo corrisponde al livello di rischio più elevato riscontra
 \begin{landscape}
 \begingroup
 \fontsize{10}{12}\selectfont
+\setlength{\tabcolsep}{2.5pt}
 % Nei titoli delle colonne non dividere le parole con sillabazione.
 \hyphenpenalty=10000
 \exhyphenpenalty=10000
