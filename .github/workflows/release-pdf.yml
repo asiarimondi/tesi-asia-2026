@@ -1,0 +1,47 @@
+name: Compila e pubblica la tesi
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+# Necessario per creare tag e release nel repository.
+permissions:
+  contents: write
+
+jobs:
+  build-and-release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Scarica il sorgente
+        uses: actions/checkout@v4
+
+      - name: Installa XeLaTeX e le dipendenze
+        run: |
+          sudo apt-get update
+          sudo apt-get install --yes latexmk texlive-xetex texlive-lang-italian texlive-latex-extra texlive-fonts-recommended
+
+      - name: Compila il PDF
+        run: latexmk -xelatex -interaction=nonstopmode -halt-on-error -file-line-error -outdir=out tesi.tex
+
+      - name: Conserva il PDF come artefatto
+        uses: actions/upload-artifact@v4
+        with:
+          name: tesi-pdf
+          path: out/tesi.pdf
+          if-no-files-found: error
+
+      - name: Genera il tag della release
+        id: version
+        run: echo "tag=tesi-${{ github.run_number }}-${{ github.run_attempt }}" >> "$GITHUB_OUTPUT"
+
+      - name: Crea la release e allega il PDF
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release create "${{ steps.version.outputs.tag }}" out/tesi.pdf \
+            --target "${{ github.sha }}" \
+            --title "Tesi PDF – build ${{ github.run_number }}" \
+            --notes "PDF compilato automaticamente dal commit ${{ github.sha }}."

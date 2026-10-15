@@ -1,0 +1,19 @@
+# File generati dalla compilazione LaTeX (il PDF finale e' in out/).
+out/
+*.aux
+*.bbl
+*.bcf
+*.blg
+*.fdb_latexmk
+*.fls
+*.lof
+*.log
+*.lot
+*.out
+*.run.xml
+*.synctex.gz
+*.toc
+*.xdv
+
+# PDF prodotto dalla compilazione nella radice del progetto.
+/tesi.pdf
